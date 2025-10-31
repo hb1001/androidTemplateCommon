@@ -5,6 +5,7 @@ import com.template.data.network.apiservice.SolverApiService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,6 +36,8 @@ class SolverRepositoryImpl @Inject constructor(
         }
     }.catch { e ->
         // 捕获网络异常，比如超时、无法连接等
-        emit(Result.Error(exception = e, message = "Network request failed: ${e.message}"))
+        // 打印完整的异常堆栈信息，方便调试
+        Timber.e(e, "Full stack trace for network request failure")
+        emit(Result.Error(exception = e, message = "Network request failed: ${e.localizedMessage}"))
     }
 }

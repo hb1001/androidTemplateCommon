@@ -26,22 +26,23 @@ data class Message(
 
 @Serializable
 sealed interface ContentPart {
-    val type: String
+    // 我们可以从接口中移除 'type' 属性，让序列化器完全自动处理
+    // val type: String
 }
 
 @Serializable
-@SerialName("image_url")
+@SerialName("image_url") // 这个 SerialName 将作为辨别器 'type' 字段的值
 data class ImageContentPart(
     @SerialName("image_url")
-    val imageUrl: ImageUrl,
-    override val type: String = "image_url"
+    val imageUrl: ImageUrl
+    // 移除了冲突的 'type' 属性
 ) : ContentPart
 
 @Serializable
-@SerialName("text")
+@SerialName("text") // 这个 SerialName 将作为辨别器 'type' 字段的值
 data class TextContentPart(
-    val text: String,
-    override val type: String = "text"
+    val text: String
+    // 移除了冲突的 'type' 属性
 ) : ContentPart
 
 @Serializable
@@ -49,7 +50,6 @@ data class ImageUrl(
     val url: String,
     val detail: String = "auto"
 )
-
 // --- Response Models ---
 
 @Serializable
