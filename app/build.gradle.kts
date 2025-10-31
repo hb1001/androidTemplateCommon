@@ -61,7 +61,14 @@ dependencies {
     implementation(project(":core-model"))
     implementation(project(":core-ui"))
     implementation(project(":core-navigation"))
+
+    // 依赖数据层 (为了Hilt能找到所有绑定)
     implementation(project(":data-network"))
+    implementation(project(":data-repository"))
+
+
+    // 依赖功能模块
+    implementation(project(":feature-home"))
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
 
@@ -80,6 +87,11 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
+
+
+    // Navigation Compose
+//    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // 使用与之前相同的版本
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     // Test
     testImplementation(libs.junit)
