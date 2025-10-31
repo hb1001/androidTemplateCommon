@@ -8,9 +8,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,25 +24,40 @@ class HomeViewModel @Inject constructor(
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
 
     init {
-        getPosts()
-    }
-
-    private fun getPosts() {
+        // 1. 开始监听来自数据库的数据流
         postRepository.getPosts()
-            .onEach { result ->
-                val newState = when (result) {
-                    is Result.Loading -> {
-                        _uiState.value.copy(isLoading = true, error = null)
-                    }
-                    is Result.Success -> {
-                        _uiState.value.copy(isLoading = false, posts = result.data, error = null)
-                    }
-                    is Result.Error -> {
-                        _uiState.value.copy(isLoading = false, error = result.message ?: "An unknown error occurred")
-                    }
-                }
-                _uiState.value = newState // 在新版本的Kotlin中，可以用 _uiState.update { ... }
+            .onStart { _uiState.value = _uiState.value.copy(isLoading = true) } // 开始监听时，显示加载
+            .catch { e ->
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = e.message ?: "Database error"
+                )
+            }
+            .onEach { posts ->
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    posts = posts,
+                    error = null // 成功获取数据后，清除旧的错误信息
+                )
             }
             .launchIn(viewModelScope)
+
+        // 2. 触发一次网络数据同步
+        syncData()
+    }
+
+    private fun syncData() {
+        viewModelScope.launch {
+            // 我们不关心同步成功与否的返回值，因为UI已经通过监听数据库来更新了。
+            // 但我们可以根据返回结果更新一个同步状态的标志位，比如显示一个刷新失败的toast
+            val syncResult = postRepository.syncPosts()
+            if (syncResult is Result.Error && _uiState.value.posts.isEmpty()) {
+                // 只有当同步失败且没有任何缓存数据时，才显示错误
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = syncResult.message ?: "Failed to fetch data"
+                )
+            }
+        }
     }
 }

@@ -14,5 +14,6 @@ interface PostRepository {
      * 使用 Flow 来持续发射数据更新 (例如，先从缓存发射，再从网络发射).
      * @return 一个 Flow，它会发射 Result<List<Post>>.
      */
-    fun getPosts(): Flow<Result<List<Post>>>
+    fun getPosts(): Flow<List<Post>>
+    suspend fun syncPosts(): Result<Unit>
 }
