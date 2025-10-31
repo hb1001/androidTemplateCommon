@@ -3,6 +3,8 @@ package com.template.data.network.di
 import com.template.data.datastore.TokenManager
 import com.template.data.network.apiservice.PostApiService
 import com.template.data.network.apiservice.PostApiServiceImpl
+import com.template.data.network.apiservice.SolverApiService
+import com.template.data.network.apiservice.SolverApiServiceImpl
 import com.template.data.network.apiservice.UserService
 import com.template.data.network.apiservice.UserServiceImpl
 import dagger.Binds
@@ -39,6 +41,10 @@ abstract class NetworkModule {
     @Binds
     @Singleton
     abstract fun bindUserService(impl: UserServiceImpl): UserService
+
+    @Binds // <-- 新增
+    @Singleton
+    abstract fun bindSolverApiService(impl: SolverApiServiceImpl): SolverApiService
 
     companion object {
 
