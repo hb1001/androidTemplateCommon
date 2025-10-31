@@ -11,6 +11,9 @@ plugins {
 
 android {
     namespace = "com.template.core.common"
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {

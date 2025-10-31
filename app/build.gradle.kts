@@ -57,8 +57,13 @@ android {
 
 dependencies {
     // 依赖所有 core 模块
+    implementation(project(":core-common"))
     implementation(project(":core-model"))
+    implementation(project(":core-ui"))
+    implementation(project(":core-navigation"))
+    implementation(project(":data-network"))
 
+    implementation(libs.timber)
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
