@@ -1,3 +1,17 @@
 // File: build-logic/settings.gradle.kts
-// 这个文件可以为空，或者定义rootProject.name
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    // This block is the magic key!
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
+    }
+}
+
 rootProject.name = "build-logic"

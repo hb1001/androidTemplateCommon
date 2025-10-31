@@ -1,44 +1,34 @@
+// File: core-common/build.gradle.kts
+
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    // 应用我们的约定插件
+    id("android-library-convention")
+    // 应用 Hilt 插件
+    alias(libs.plugins.hilt)
+    // Hilt 需要 kapt
+    id("kotlin-kapt")
 }
 
 android {
     namespace = "com.template.core.common"
-    compileSdk {
-        version = release(36)
-    }
-
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
 }
 
 dependencies {
+    // 依赖 Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    // 依赖 Timber 日志库
+    implementation(libs.timber)
+
+    // 依赖协程核心库
+    implementation(libs.kotlinx.coroutines.core)
+
+    // 这个模块也可能需要 core-ktx
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+}
+
+// 允许 kapt 引用生成的代码
+kapt {
+    correctErrorTypes = true
 }

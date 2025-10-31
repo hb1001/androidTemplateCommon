@@ -1,9 +1,12 @@
 // File: build-logic/build.gradle.kts
+
+import org.gradle.api.artifacts.VersionCatalogsExtension
+import org.gradle.kotlin.dsl.getByType
+
 plugins {
     `kotlin-dsl`
 }
 
-// 配置Kotlin DSL插件，使其能找到我们定义的插件
 gradlePlugin {
     plugins {
         register("android-library-convention") {
@@ -11,4 +14,15 @@ gradlePlugin {
             implementationClass = "AndroidLibraryConventionPlugin"
         }
     }
+}
+
+val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
+// dependencies 块是唯一需要修改的地方
+dependencies {
+    // 为 implementation 提供 AGP 的完整库坐标
+    implementation("com.android.tools.build:gradle:${libs.findVersion("agp").get().requiredVersion}")
+
+    // 为 implementation 提供 Kotlin Gradle Plugin 的完整库坐标
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.findVersion("kotlin").get().requiredVersion}")
 }

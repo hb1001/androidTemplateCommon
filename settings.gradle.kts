@@ -19,9 +19,10 @@ dependencyResolutionManagement {
     }
 }
 
+includeBuild("build-logic")
 rootProject.name = "AndroidCommon"
 include(":app")
+include(":core-model")
 include(":core-ui")
 include(":core-common")
 include(":core-navigation")
-include(":core-model")

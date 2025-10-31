@@ -1,4 +1,4 @@
-package com.template.core_ui
+package com.template.core.ui
 
 import org.junit.Test
 

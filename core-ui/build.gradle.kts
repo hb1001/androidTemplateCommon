@@ -1,44 +1,36 @@
+// File: core-ui/build.gradle.kts
+
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    // 1. 应用我们自定义的约定插件，一行搞定大部分Android配置
+    id("android-library-convention")
 }
 
 android {
-    namespace = "com.template.core_ui"
-    compileSdk {
-        version = release(36)
+    // 2. 只需要声明本模块特有的配置
+    namespace = "com.template.core.ui"
+
+    // 3. 开启Compose功能
+    buildFeatures {
+        compose = true
     }
 
-    defaultConfig {
-        minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
+    // 4. 指定Compose编译器版本，使其与Kotlin版本兼容
+    //    这个版本号来自我们之前在 toml 文件中定义的 composeCompiler
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 }
 
 dependencies {
+    // 5. 添加Compose相关的核心依赖
+    // 使用BOM (Bill of Materials) 来统一管理Compose库的版本
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.material3)
+    // tooling-preview 依赖可以让我们在Android Studio中预览Compose UI
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    // tooling 依赖提供了额外的工具支持，只在debug构建时需要
+    debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+
 }

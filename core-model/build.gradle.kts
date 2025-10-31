@@ -1,13 +1,18 @@
+// File: core-model/build.gradle.kts
+
 plugins {
-    id("java-library")
-    alias(libs.plugins.jetbrains.kotlin.jvm)
+    // 使用统一的、更简洁的别名
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
 }
+
+// 统一Java版本为17
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
-kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11
-    }
+
+dependencies {
+    // 添加kotlinx.serialization的运行时库
+    implementation(libs.kotlinx.serialization.json)
 }
