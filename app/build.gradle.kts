@@ -62,6 +62,8 @@ dependencies {
     implementation(project(":core-ui"))
     implementation(project(":core-navigation"))
     implementation(project(":data-network"))
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
 
     implementation(libs.timber)
     // Hilt
