@@ -1,5 +1,7 @@
 package com.template.data.repository.di
 
+import com.template.data.repository.AuthRepository
+import com.template.data.repository.MockAuthRepositoryImpl
 import com.template.data.repository.PostRepository
 import com.template.data.repository.PostRepositoryImpl
 import dagger.Binds
@@ -17,4 +19,10 @@ abstract class RepositoryModule {
     abstract fun bindPostRepository(
         postRepositoryImpl: PostRepositoryImpl
     ): PostRepository
+
+
+
+    @Binds
+    @Singleton
+    abstract fun bindAuthRepository(impl: MockAuthRepositoryImpl): AuthRepository
 }

@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":core-common")) // 需要 Result 和 Dispatchers
     implementation(project(":data-network")) // 需要 PostApiService
     implementation(project(":data-database"))
+    implementation(project(":data-datastore"))
 
     implementation(libs.timber)
     // Hilt

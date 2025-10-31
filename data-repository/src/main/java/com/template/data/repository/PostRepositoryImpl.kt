@@ -34,7 +34,7 @@ class PostRepositoryImpl @Inject constructor(
      * 这个方法应该由ViewModel在适当的时候（例如，初始化、下拉刷新）调用。
      * @return 返回一个Result，表示同步操作是成功还是失败。
      */
-    suspend fun syncPosts(): Result<Unit> {
+    override suspend fun syncPosts(): Result<Unit> {
         return withContext(ioDispatcher) {
             try {
                 val networkPosts = postApiService.getPosts().posts
