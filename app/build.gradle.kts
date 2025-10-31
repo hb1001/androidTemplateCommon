@@ -65,10 +65,13 @@ dependencies {
     // 依赖数据层 (为了Hilt能找到所有绑定)
     implementation(project(":data-network"))
     implementation(project(":data-repository"))
+    implementation(project(":data-database")) // <-- 最好也加上，逻辑同上
+    implementation(project(":data-datastore")) // <-- 添加这一行，这是关键，否则hilt找不大
 
 
     // 依赖功能模块
     implementation(project(":feature-home"))
+    implementation(project(":feature-login"))
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
 
@@ -92,6 +95,10 @@ dependencies {
     // Navigation Compose
 //    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2") // 使用与之前相同的版本
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.core.splashscreen)
+
 
     // Test
     testImplementation(libs.junit)
