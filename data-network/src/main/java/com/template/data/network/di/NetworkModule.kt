@@ -15,6 +15,7 @@ import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.HttpRequestRetry
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
@@ -60,6 +61,18 @@ abstract class NetworkModule {
         @PublicClient
         fun providePublicHttpClient(): HttpClient {
             return HttpClient(CIO) {
+
+                install(HttpTimeout) {
+                    // 请求总超时，包括连接和读取
+                    requestTimeoutMillis = 60000 // 30 秒
+
+                    // 连接超时
+                    connectTimeoutMillis = 45000 // 15 秒
+
+                    // Socket (读取) 超时
+                    socketTimeoutMillis = 45000 // 15 秒
+                }
+
                 // 正确的 install 方式
                 install(ContentNegotiation) {
                     json(AppJson)

@@ -14,8 +14,7 @@ data class SiliconFlowRequest(
     val maxTokens: Int = 4096,
     val temperature: Double = 0.7,
     @SerialName("top_p")
-    val topP: Double = 0.7,
-    // 其他参数如果需要可以继续添加
+    val topP: Double = 0.7
 )
 
 @Serializable
@@ -24,25 +23,22 @@ data class Message(
     val content: List<ContentPart>
 )
 
-@Serializable
-sealed interface ContentPart {
-    // 我们可以从接口中移除 'type' 属性，让序列化器完全自动处理
-    // val type: String
-}
+// --- 修正部分开始 ---
 
 @Serializable
-@SerialName("image_url") // 这个 SerialName 将作为辨别器 'type' 字段的值
+sealed interface ContentPart // 密封接口本身不需要任何属性
+
+@Serializable
+@SerialName("image_url") // 这个名字会成为辨别器 "type" 字段的值
 data class ImageContentPart(
     @SerialName("image_url")
     val imageUrl: ImageUrl
-    // 移除了冲突的 'type' 属性
 ) : ContentPart
 
 @Serializable
-@SerialName("text") // 这个 SerialName 将作为辨别器 'type' 字段的值
+@SerialName("text") // 这个名字会成为辨别器 "type" 字段的值
 data class TextContentPart(
     val text: String
-    // 移除了冲突的 'type' 属性
 ) : ContentPart
 
 @Serializable

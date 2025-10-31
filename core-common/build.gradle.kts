@@ -29,6 +29,8 @@ dependencies {
 
     // 这个模块也可能需要 core-ktx
     implementation(libs.androidx.core.ktx)
+
+    implementation("androidx.exifinterface:exifinterface:1.3.7")
 }
 
 // 允许 kapt 引用生成的代码
