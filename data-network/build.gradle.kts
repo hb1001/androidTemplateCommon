@@ -13,7 +13,8 @@ dependencies {
     // 模块依赖
     implementation(project(":core-model"))
     implementation(project(":core-common")) // 需要 Timber
-
+    implementation(project(":data-datastore"))
+    implementation(libs.ktor.client.auth)
     // Hilt
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.android)
