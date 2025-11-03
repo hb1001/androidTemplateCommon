@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
         syncData()
     }
 
-    private fun syncData() {
+    fun syncData() {
         viewModelScope.launch {
             // 我们不关心同步成功与否的返回值，因为UI已经通过监听数据库来更新了。
             // 但我们可以根据返回结果更新一个同步状态的标志位，比如显示一个刷新失败的toast

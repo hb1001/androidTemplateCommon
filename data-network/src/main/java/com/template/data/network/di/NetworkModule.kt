@@ -14,6 +14,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.HttpRequestRetry
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.auth.Auth
@@ -60,7 +61,7 @@ abstract class NetworkModule {
         @Singleton
         @PublicClient
         fun providePublicHttpClient(): HttpClient {
-            return HttpClient(CIO) {
+            return HttpClient(OkHttp) {
 
                 install(HttpTimeout) {
                     // 请求总超时，包括连接和读取

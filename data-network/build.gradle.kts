@@ -22,6 +22,7 @@ dependencies {
     // Ktor
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.cio) // CIO 引擎，适用于协程
+    implementation(libs.ktor.client.okhttp) // CIO 引擎，适用于协程
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.serialization.kotlinx.json)

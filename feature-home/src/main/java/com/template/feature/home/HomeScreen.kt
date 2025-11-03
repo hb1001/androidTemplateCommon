@@ -3,6 +3,8 @@ package com.template.feature.home
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,13 +24,14 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    HomeScreenContent(uiState = uiState)
+    HomeScreenContent(uiState = uiState, onAdd = {viewModel.syncData()})
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreenContent(
-    uiState: HomeUiState
+    uiState: HomeUiState,
+    onAdd: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -47,6 +50,11 @@ private fun HomeScreenContent(
                 Text(text = "Error: ${uiState.error}", color = MaterialTheme.colorScheme.error)
             } else {
                 PostList(posts = uiState.posts)
+            }
+            FloatingActionButton(onClick = {
+                onAdd()
+            }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
             }
         }
     }
