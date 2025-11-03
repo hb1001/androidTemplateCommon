@@ -10,8 +10,16 @@ fun NavController.navigateToHome() {
     this.navigate(AppRoutes.HOME_ROUTE)
 }
 
-fun NavGraphBuilder.homeScreen() {
+fun NavGraphBuilder.homeScreen(
+    onNavigateToPagingAndRefresh: () -> Unit,
+    onNavigateToPagingOnly: () -> Unit,
+    onNavigateToPullRefreshOnly: () -> Unit,
+) {
     composable(route = AppRoutes.HOME_ROUTE) {
-        HomeScreen()
+        HomeScreen(
+            onNavigateToPagingAndRefresh = onNavigateToPagingAndRefresh,
+            onNavigateToPagingOnly = onNavigateToPagingOnly,
+            onNavigateToPullRefreshOnly = onNavigateToPullRefreshOnly
+        )
     }
 }

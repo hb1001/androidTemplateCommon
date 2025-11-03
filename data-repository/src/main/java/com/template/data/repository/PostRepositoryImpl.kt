@@ -1,5 +1,7 @@
 package com.template.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import com.template.core.common.coroutine.IoDispatcher
 import com.template.core.common.result.Result
 import com.template.core.model.Post
@@ -13,6 +15,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import javax.inject.Inject
+import androidx.paging.PagingData;
 
 class PostRepositoryImpl @Inject constructor(
     private val postApiService: PostApiService,
@@ -45,5 +48,15 @@ class PostRepositoryImpl @Inject constructor(
                 Result.Error(e, "Sync failed")
             }
         }
+    }
+
+    override fun getPostsStream(): Flow<PagingData<Post>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20, // 每页加载的数量
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { PostPagingSource() }
+        ).flow
     }
 }

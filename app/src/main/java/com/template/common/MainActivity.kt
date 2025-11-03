@@ -19,6 +19,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.template.core.ui.theme.AppTheme
+import com.template.feature.home.homelist.navigateToPagingAndRefresh
+import com.template.feature.home.homelist.navigateToPagingOnly
+import com.template.feature.home.homelist.navigateToPullRefreshOnly
+import com.template.feature.home.homelist.pagingListScreens
 import com.template.feature.home.navigation.homeScreen
 import com.template.feature.home.navigation.navigateToHome
 import com.template.feature.login.navigation.loginScreen
@@ -81,7 +85,13 @@ fun AppNavigation(startRoute: String) {
         )
 
         // 注册首页
-        homeScreen()
+        homeScreen(
+            onNavigateToPagingAndRefresh = { navController.navigateToPagingAndRefresh() },
+            onNavigateToPagingOnly = { navController.navigateToPagingOnly() },
+            onNavigateToPullRefreshOnly = { navController.navigateToPullRefreshOnly() }
+        )
+
+        pagingListScreens(navController)
 
         // 当有调试页面时，可以这样添加
         // debugScreen()

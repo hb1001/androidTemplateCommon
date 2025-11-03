@@ -1,5 +1,6 @@
 package com.template.data.repository
 
+import androidx.paging.PagingData
 import com.template.core.common.result.Result
 import com.template.core.model.Post
 import kotlinx.coroutines.flow.Flow
@@ -15,5 +16,8 @@ interface PostRepository {
      * @return 一个 Flow，它会发射 Result<List<Post>>.
      */
     fun getPosts(): Flow<List<Post>>
+
+    // 分页获取
+    fun getPostsStream(): Flow<PagingData<Post>>
     suspend fun syncPosts(): Result<Unit>
 }

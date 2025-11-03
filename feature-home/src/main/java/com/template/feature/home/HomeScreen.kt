@@ -21,10 +21,31 @@ import com.template.core.ui.theme.AppTheme
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    onNavigateToPagingAndRefresh: () -> Unit,
+    onNavigateToPagingOnly: () -> Unit,
+    onNavigateToPullRefreshOnly: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    HomeScreenContent(uiState = uiState, onAdd = {viewModel.syncData()})
+    Column {
+        Row(modifier = Modifier.weight(1.0f)) {
+
+            HomeScreenContent(uiState = uiState, onAdd = {viewModel.syncData()})
+        }
+        Row {
+            Button(onClick = onNavigateToPagingAndRefresh) {
+                Text(text = "分页刷新")
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(onClick = onNavigateToPagingOnly) {
+                Text(text = "分页")
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(onClick = onNavigateToPullRefreshOnly) {
+                Text(text = "刷新")
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
