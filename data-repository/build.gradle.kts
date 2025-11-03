@@ -23,6 +23,8 @@ dependencies {
 
     // Coroutines & Flow
     implementation(libs.kotlinx.coroutines.core)
+
+    implementation(libs.androidx.paging.compose)
 }
 
 kapt {

@@ -41,6 +41,13 @@ dependencies {
     // Navigation Compose
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
+
+
+    // 添加 Paging 3 for Compose
+    implementation(libs.androidx.paging.compose)
+
+    // 添加 Material 2 来使用 pull-refresh 组件
+    implementation(libs.androidx.compose.material)
 }
 
 kapt {

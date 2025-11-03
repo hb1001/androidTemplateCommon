@@ -33,4 +33,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.core.ktx)
 
+
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.compose.material)
+
 }
