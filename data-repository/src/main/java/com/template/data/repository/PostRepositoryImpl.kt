@@ -54,7 +54,9 @@ class PostRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = 20, // 每页加载的数量
-                enablePlaceholders = false
+                enablePlaceholders = false,
+                // 通过设置 initialLoadSize，可以防止 loadSize 动态变化
+                initialLoadSize = 20
             ),
             pagingSourceFactory = { PostPagingSource() }
         ).flow
