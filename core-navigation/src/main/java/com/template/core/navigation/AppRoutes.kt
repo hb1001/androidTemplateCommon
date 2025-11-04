@@ -7,6 +7,7 @@ object AppRoutes {
     const val DEBUG_ROUTE = "debug"
 
 
+    const val HOME_LIST_ROUTE = "home_list"
     const val PAGING_AND_REFRESH_ROUTE = "paging_and_refresh"
     const val PAGING_ONLY_ROUTE = "paging_only"
     const val PULL_REFRESH_ONLY_ROUTE = "pull_refresh_only"

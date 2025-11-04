@@ -19,6 +19,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.template.core.ui.theme.AppTheme
+import com.template.feature.home.homelist.homeListScreen
+import com.template.feature.home.homelist.navigateToHomeList
 import com.template.feature.home.homelist.navigateToPagingAndRefresh
 import com.template.feature.home.homelist.navigateToPagingOnly
 import com.template.feature.home.homelist.navigateToPullRefreshOnly
@@ -88,8 +90,11 @@ fun AppNavigation(startRoute: String) {
         homeScreen(
             onNavigateToPagingAndRefresh = { navController.navigateToPagingAndRefresh() },
             onNavigateToPagingOnly = { navController.navigateToPagingOnly() },
-            onNavigateToPullRefreshOnly = { navController.navigateToPullRefreshOnly() }
+            onNavigateToPullRefreshOnly = { navController.navigateToPullRefreshOnly() },
+            onNavigateToHomeList = { navController.navigateToHomeList() }
         )
+
+        homeListScreen()
 
         pagingListScreens(navController)
 

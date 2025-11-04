@@ -22,3 +22,14 @@ fun NavGraphBuilder.pagingListScreens(navController: NavController) {
         PullRefreshOnlyScreen()
     }
 }
+fun NavController.navigateToHomeList() {
+    this.navigate(AppRoutes.HOME_LIST_ROUTE)
+}
+
+fun NavGraphBuilder.homeListScreen(
+) {
+    composable(route = AppRoutes.HOME_LIST_ROUTE) {
+        HomeListScreen(
+        )
+    }
+}

@@ -19,40 +19,13 @@ import com.template.core.model.Post
 import com.template.core.model.Reactions
 import com.template.core.ui.theme.AppTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
     onNavigateToPagingAndRefresh: () -> Unit,
     onNavigateToPagingOnly: () -> Unit,
     onNavigateToPullRefreshOnly: () -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    Column {
-        Row(modifier = Modifier.weight(1.0f)) {
-
-            HomeScreenContent(uiState = uiState, onAdd = {viewModel.syncData()})
-        }
-        Row {
-            Button(onClick = onNavigateToPagingAndRefresh) {
-                Text(text = "分页刷新")
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(onClick = onNavigateToPagingOnly) {
-                Text(text = "分页")
-            }
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(onClick = onNavigateToPullRefreshOnly) {
-                Text(text = "刷新")
-            }
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun HomeScreenContent(
-    uiState: HomeUiState,
-    onAdd: () -> Unit = {}
+    onNavigateToHomeList: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -65,85 +38,23 @@ private fun HomeScreenContent(
                 .padding(paddingValues),
             contentAlignment = Alignment.Center
         ) {
-            if (uiState.isLoading) {
-                CircularProgressIndicator()
-            } else if (uiState.error != null) {
-                Text(text = "Error: ${uiState.error}", color = MaterialTheme.colorScheme.error)
-            } else {
-                PostList(posts = uiState.posts)
+            Column {
+                Button(onClick = onNavigateToPagingAndRefresh) {
+                    Text(text = "分页刷新")
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Button(onClick = onNavigateToPagingOnly) {
+                    Text(text = "分页")
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Button(onClick = onNavigateToPullRefreshOnly) {
+                    Text(text = "刷新")
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Button(onClick = onNavigateToHomeList) {
+                    Text(text = "list")
+                }
             }
-            FloatingActionButton(onClick = {
-                onAdd()
-            }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
-            }
         }
-    }
-}
-
-@Composable
-private fun PostList(posts: List<Post>) {
-    LazyColumn(
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(posts, key = { it.id }) { post ->
-            PostItem(post = post)
-        }
-    }
-}
-
-@Composable
-private fun PostItem(post: Post) {
-    Card(
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            Text(
-                text = post.title,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = post.body,
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis
-            )
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun HomeScreenContentPreview_Loading() {
-    AppTheme {
-        HomeScreenContent(uiState = HomeUiState(isLoading = true))
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun HomeScreenContentPreview_Error() {
-    AppTheme {
-        HomeScreenContent(uiState = HomeUiState(error = "Failed to load posts"))
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun HomeScreenContentPreview_Success() {
-    val samplePosts = listOf(
-        Post(1, "Post Title 1", "This is the body of post 1.", emptyList(), Reactions(5, 1), 100, 1),
-        Post(2, "Post Title 2", "This is the body of post 2.", emptyList(), Reactions(10, 2), 200, 2)
-    )
-    AppTheme {
-        HomeScreenContent(uiState = HomeUiState(posts = samplePosts))
     }
 }

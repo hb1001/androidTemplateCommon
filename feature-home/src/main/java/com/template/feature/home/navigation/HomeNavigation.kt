@@ -14,12 +14,14 @@ fun NavGraphBuilder.homeScreen(
     onNavigateToPagingAndRefresh: () -> Unit,
     onNavigateToPagingOnly: () -> Unit,
     onNavigateToPullRefreshOnly: () -> Unit,
+    onNavigateToHomeList:() -> Unit
 ) {
     composable(route = AppRoutes.HOME_ROUTE) {
         HomeScreen(
             onNavigateToPagingAndRefresh = onNavigateToPagingAndRefresh,
             onNavigateToPagingOnly = onNavigateToPagingOnly,
-            onNavigateToPullRefreshOnly = onNavigateToPullRefreshOnly
+            onNavigateToPullRefreshOnly = onNavigateToPullRefreshOnly,
+            onNavigateToHomeList = onNavigateToHomeList
         )
     }
 }
