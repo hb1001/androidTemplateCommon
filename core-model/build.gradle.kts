@@ -11,6 +11,9 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+kotlin {
+    jvmToolchain(17)
+}
 
 dependencies {
     // 添加kotlinx.serialization的运行时库
