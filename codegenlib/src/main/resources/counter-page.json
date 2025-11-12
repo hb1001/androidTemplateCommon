@@ -1,0 +1,55 @@
+{
+  "pageInfo": {
+    "fields": [
+      {
+        "name": "count",
+        "type": "number",
+        "initValue": "0"
+      }
+    ],
+    "methods": [
+      {
+        "name": "increment",
+        "body": "this.count.value++"
+      }
+    ]
+  },
+  "componentTree": {
+    "componentName": "Column",
+    "props": {
+      "modifier": "Modifier.fillMaxSize()",
+      "horizontalAlignment": "Alignment.CenterHorizontally",
+      "verticalArrangement": "Arrangement.Center"
+    },
+    "children": [
+      {
+        "componentName": "Text",
+        "props": {
+          "text": "'Current count: ' + page.count.value"
+        }
+      },
+      {
+        "componentName": "Button",
+        "events": [
+          {
+            "type": "onClick",
+            "actions": [
+              {
+                "type": "actionName",
+                "actionName": "increment"
+              }
+            ]
+          }
+        ],
+        "children": [
+          {
+            "componentName": "Text",
+            "props": {
+              "text": "'Increment'"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
