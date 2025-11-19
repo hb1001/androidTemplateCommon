@@ -1,5 +1,3 @@
-import com.android.tools.r8.kotlin.S
-
 // File: build.gradle.kts (Project Root)
 
 plugins {
@@ -11,6 +9,7 @@ plugins {
     alias(libs.plugins.room) apply false
     // Kotlin 序列化插件 (为 codegen 模块准备)
     alias(libs.plugins.kotlin.serialization) apply false
+//    alias(libs.plugins.kotlin.compose) apply false
 //    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.22" apply false
     // kotlin.serialization 插件是编译器插件，不需要在这里声明
 }

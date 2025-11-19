@@ -20,7 +20,7 @@ class MockAuthRepositoryImpl @Inject constructor(
 
     override suspend fun login(params: Map<String, Any>): Result<Unit> = withContext(ioDispatcher) {
         // 模拟网络延迟
-        delay(1500)
+        delay(500)
 
         val username = params["username"] as? String
         val password = params["password"] as? String

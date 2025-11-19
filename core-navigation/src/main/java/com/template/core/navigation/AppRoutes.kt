@@ -12,6 +12,9 @@ object AppRoutes {
     const val PAGING_ONLY_ROUTE = "paging_only"
     const val PULL_REFRESH_ONLY_ROUTE = "pull_refresh_only"
 
+
+    const val CUSTOM_ROUTER_ROUTE = "custom_router"
+
     // 还可以定义更复杂的路由，比如带参数的
     // const val POST_DETAIL_ROUTE = "post/{postId}"
     // fun postDetail(postId: Int) = "post/$postId"
