@@ -10,8 +10,17 @@ plugins {
 gradlePlugin {
     plugins {
         register("android-library-convention") {
-            id = "android-library-convention"
+            id = "your.project.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidCompose") {
+            id = "your.project.android.compose"
+            implementationClass = "AndroidComposeConventionPlugin"
+        }
+        // 新增：Feature (聚合插件)
+        register("androidFeature") {
+            id = "your.project.android.feature" // 给业务模块用的 ID
+            implementationClass = "AndroidFeatureConventionPlugin"
         }
     }
 }

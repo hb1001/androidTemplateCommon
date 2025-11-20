@@ -1,5 +1,5 @@
 plugins {
-    id("android-library-convention")
+    id("your.project.android.library")
     alias(libs.plugins.hilt)
     alias(libs.plugins.room) // <-- Room 插件
     id("kotlin-kapt")

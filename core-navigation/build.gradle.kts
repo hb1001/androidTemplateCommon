@@ -2,7 +2,7 @@
 
 plugins {
     // 应用我们的约定插件
-    id("android-library-convention")
+    id("your.project.android.library")
 }
 
 android {

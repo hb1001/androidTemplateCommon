@@ -1,37 +1,12 @@
 plugins {
-    id("android-library-convention")
-    alias(libs.plugins.hilt)
-    id("kotlin-kapt")
+    id("your.project.android.feature") // 只引入这一个插件
 }
 
 android {
+    // 唯一必须保留的是 namespace，因为它必须唯一
     namespace = "com.template.feature.login"
-    buildFeatures.compose = true
-    composeOptions.kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
 }
 
 dependencies {
-    // 模块依赖
-    implementation(project(":core-ui"))
-    implementation(project(":core-common"))
-    implementation(project(":core-navigation"))
-    implementation(project(":data-repository"))
 
-    // Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-    implementation(libs.hilt.navigation.compose)
-
-    // AndroidX & Compose
-    implementation(libs.androidx.core.ktx)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.ui.tooling.preview)
-
-    // Navigation
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.navigation.compose)
 }
-
-kapt { correctErrorTypes = true }

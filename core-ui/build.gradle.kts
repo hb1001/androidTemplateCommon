@@ -2,7 +2,7 @@
 
 plugins {
     // 1. 应用我们自定义的约定插件，一行搞定大部分Android配置
-    id("android-library-convention")
+    id("your.project.android.library")
 }
 
 android {

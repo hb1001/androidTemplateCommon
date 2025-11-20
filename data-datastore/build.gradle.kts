@@ -1,5 +1,5 @@
 plugins {
-    id("android-library-convention")
+    id("your.project.android.library")
     alias(libs.plugins.hilt) // <-- 1. 检查 hilt 插件
     id("kotlin-kapt") // <-- 2. 检查 kapt 插件
 }

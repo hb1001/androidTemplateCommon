@@ -1,5 +1,5 @@
 plugins {
-    id("android-library-convention")
+    id("your.project.android.library")
     alias(libs.plugins.hilt)
     id("kotlin-kapt")
     alias(libs.plugins.kotlin.serialization) // Ktor 需要序列化插件
