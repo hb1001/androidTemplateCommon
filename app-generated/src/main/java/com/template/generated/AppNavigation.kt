@@ -6,6 +6,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -25,7 +27,7 @@ import kotlin.OptIn
  *  MainApplication
  *  MainActivity
  *  component
-*  2. 部分页面是动态生成的
+ *  2. 部分页面是动态生成的
  *  page目录：每一个文件表示一个用户定义的页面。当然用户也可以直接用预设页面，比如login。这些页面不在本模块中，不是动态生成的。
  *  AppNavigation：列出本项目一共有哪几个页面，
  * 3. 其他模块也需要调整
@@ -46,20 +48,23 @@ val LocalNavController = staticCompositionLocalOf<NavController> {
 
 @Composable
 public fun AppNavigation() {
-  val navController = rememberNavController()
-  NavHost(navController = navController, startDestination = AppRoutes.LOGIN_ROUTE) {
-    loginScreen(
-      onLoginSuccess = {
-        navController.navigateToCustom()
-      }
-    )
+    val navController = rememberNavController()
+    CompositionLocalProvider(LocalNavController provides navController) {
+        NavHost(navController = navController, startDestination = AppRoutes.LOGIN_ROUTE) {
+            loginScreen(
+                onLoginSuccess = {
+                    navController.navigateToCustom()
+                }
+            )
 
-    customScreen()
-  }
+            customScreen()
+        }
+    }
+
 }
 
 public fun NavController.navigateToCustom() {
-  this.navigate(AppRoutes.CUSTOM_ROUTER_ROUTE)
+    this.navigate(AppRoutes.CUSTOM_ROUTER_ROUTE)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,9 +72,9 @@ public fun NavGraphBuilder.customScreen(
 
 ) {
 
-  composable(route = AppRoutes.CUSTOM_ROUTER_ROUTE) {
-      AppMainEntryScreen()
-  }
+    composable(route = AppRoutes.CUSTOM_ROUTER_ROUTE) {
+        AppMainEntryScreen()
+    }
     composable(route = AppRoutes.CUSTOM_POST_DETAIL_ROUTE) {
         PostEditScreen()
     }

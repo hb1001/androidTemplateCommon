@@ -35,7 +35,8 @@ coreSplash = "1.0.1"
 lifecycleRuntimeKtx = "2.6.1"
 monitor = "1.8.0"
 paging = "3.2.1"  # 使用一个最新的稳定版本
-compose-material = "1.6.7" # 这个版本包含了 pull-refresh
+compose-material = "1.6.7"
+runtime = "1.7.0" # 这个版本包含了 pull-refresh
 
 [libraries]
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
@@ -95,6 +96,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-monitor = { group = "androidx.test", name = "monitor", version.ref = "monitor" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

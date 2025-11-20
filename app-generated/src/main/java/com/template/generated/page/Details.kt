@@ -44,27 +44,27 @@ fun PostEditScreen() {
         listOf(
             // ID 通常是只读的
             NumberFormField(
-                label = "Post ID",
+                label = "id",
                 key = "id",
                 value = currentPost.id,
                 onValueChange = {},
                 isReadOnly = true
             ),
             TextFormField(
-                label = "Title",
+                label = "标题",
                 key = "title",
                 value = currentPost.title,
                 onValueChange = { currentPost = currentPost.copy(title = it) }
             ),
             TextFormField(
-                label = "Content Body",
+                label = "内容",
                 key = "body",
                 value = currentPost.body,
                 onValueChange = { currentPost = currentPost.copy(body = it) },
                 isMultiline = true
             ),
             TagsFormField(
-                label = "Tags",
+                label = "标签",
                 key = "tags",
                 tags = currentPost.tags,
                 onTagsChange = { currentPost = currentPost.copy(tags = it) }
@@ -72,14 +72,14 @@ fun PostEditScreen() {
             // Reactions 比较复杂，这里演示将其作为只读信息展示，
             // 或者你可以专门写一个 ReactionFormField 类型
             NumberFormField(
-                label = "Likes (Read Only)",
+                label = "点赞数",
                 key = "likes",
                 value = currentPost.reactions.likes,
                 onValueChange = {},
                 isReadOnly = true
             ),
             NumberFormField(
-                label = "Views",
+                label = "阅读数量",
                 key = "views",
                 value = currentPost.views,
                 onValueChange = { str ->
@@ -90,7 +90,7 @@ fun PostEditScreen() {
                 }
             ),
             NumberFormField(
-                label = "User ID",
+                label = "用户id",
                 key = "userId",
                 value = currentPost.userId,
                 onValueChange = { /* 假设不允许修改作者 */ },
@@ -101,7 +101,7 @@ fun PostEditScreen() {
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Edit Post") })
+            TopAppBar(title = { Text("编辑") })
         },
         bottomBar = {
             Button(

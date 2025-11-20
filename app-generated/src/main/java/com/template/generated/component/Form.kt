@@ -123,7 +123,7 @@ private fun RenderTagsField(field: TagsFormField) {
             OutlinedTextField(
                 value = tempTag,
                 onValueChange = { tempTag = it },
-                placeholder = { Text("Add tag...") },
+                placeholder = { Text("输入标签") },
                 modifier = Modifier.weight(1f),
                 singleLine = true
             )
@@ -136,7 +136,7 @@ private fun RenderTagsField(field: TagsFormField) {
                 },
                 modifier = Modifier.padding(start = 8.dp)
             ) {
-                Text("Add")
+                Text("添加")
             }
         }
 
