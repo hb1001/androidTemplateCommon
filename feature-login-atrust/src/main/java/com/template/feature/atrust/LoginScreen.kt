@@ -52,7 +52,7 @@ fun LoginContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text("使用vpn登录", style = MaterialTheme.typography.headlineLarge)
+            Text("本应用支持vpn登录", style = MaterialTheme.typography.headlineLarge)
 
             OutlinedTextField(
                 value = username,

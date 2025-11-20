@@ -43,9 +43,6 @@ import kotlin.OptIn
  *
  *
  */
-val LocalNavController = staticCompositionLocalOf<NavController> {
-    error("No NavController provided")
-}
 
 @Composable
 public fun AppNavigation() {
@@ -69,14 +66,13 @@ public fun AppNavigation() {
 }
 
 public fun NavController.navigateToCustom() {
-    this.navigate(AppRoutes.CUSTOM_ROUTER_ROUTE)
+    this.navigate(AppRoutes.CUSTOM_ROUTER_ROUTE) {
+        popUpTo(0)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-public fun NavGraphBuilder.customScreen(
-
-) {
-
+public fun NavGraphBuilder.customScreen() {
     composable(route = AppRoutes.CUSTOM_ROUTER_ROUTE) {
         AppMainEntryScreen()
     }

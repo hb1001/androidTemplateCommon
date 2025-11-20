@@ -39,6 +39,7 @@ import androidx.navigation.compose.rememberNavController
 import com.template.core.model.Post
 import com.template.core.model.Reactions
 import com.template.core.navigation.AppRoutes
+import com.template.feature.atrust.navigation.navigateToLoginWithVpn
 import com.template.feature.map.MapScreen
 import com.template.generated.LocalNavController
 import com.template.generated.base.CardItem
@@ -95,7 +96,7 @@ fun AppMainEntryScreen() {
     BottomTabScreen(
         tabs = listOf(
             TabItem("首页", Icons.Filled.Home) { MapScreen() },
-            TabItem("设置", Icons.Filled.Settings) {
+            TabItem("列表", Icons.Filled.Settings) {
                 Scaffold(
                     topBar = { TopAppBar(title = { Text("列表") }) }
                 ) { paddingValues ->
@@ -134,8 +135,8 @@ fun AppMainEntryScreen() {
                 ) {
                     // --- 头部区域 ---
                     ProfileHeader(
-                        name = "Android 开发者",
-                        email = "developer@example.com",
+                        name = "张三",
+                        email = "03931",
                         onClick = {}
                     )
 
@@ -170,7 +171,7 @@ fun AppMainEntryScreen() {
 
                     // --- 退出登录按钮 ---
                     Button(
-                        onClick = { /* 处理登出 */ },
+                        onClick = { navController.navigateToLoginWithVpn() },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.errorContainer,
                             contentColor = MaterialTheme.colorScheme.onErrorContainer
