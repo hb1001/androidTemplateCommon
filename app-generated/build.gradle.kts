@@ -72,6 +72,7 @@ dependencies {
     // 依赖功能模块
     implementation(project(":feature-home"))
     implementation(project(":feature-login"))
+    implementation(project(":feature-map"))
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
 
@@ -108,6 +109,13 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+
+    // 添加 Paging 3 for Compose
+    implementation(libs.androidx.paging.compose)
+
+    // 添加 Material 2 来使用 pull-refresh 组件
+    implementation(libs.androidx.compose.material)
 }
 
 // Allow references to generated code
