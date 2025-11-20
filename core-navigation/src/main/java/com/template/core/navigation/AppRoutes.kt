@@ -3,6 +3,7 @@ package com.template.core.navigation
 
 object AppRoutes {
     const val LOGIN_ROUTE = "login"
+    const val LOGIN_WITH_VPN_ROUTE = "LOGIN_WITH_VPN_ROUTE"
     const val HOME_ROUTE = "home"
     const val DEBUG_ROUTE = "debug"
 

@@ -72,6 +72,7 @@ dependencies {
     // 依赖功能模块
     implementation(project(":feature-home"))
     implementation(project(":feature-login"))
+    implementation(project(":feature-login-atrust"))
     implementation(project(":feature-map"))
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 

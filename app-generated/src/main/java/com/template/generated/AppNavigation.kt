@@ -16,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.template.core.navigation.AppRoutes
+import com.template.feature.atrust.navigation.loginWithVpnScreen
 import com.template.feature.login.navigation.loginScreen
 import com.template.generated.page.AppMainEntryScreen
 import com.template.generated.page.PostEditScreen
@@ -50,12 +51,16 @@ val LocalNavController = staticCompositionLocalOf<NavController> {
 public fun AppNavigation() {
     val navController = rememberNavController()
     CompositionLocalProvider(LocalNavController provides navController) {
-        NavHost(navController = navController, startDestination = AppRoutes.LOGIN_ROUTE) {
+        NavHost(navController = navController, startDestination = AppRoutes.LOGIN_WITH_VPN_ROUTE) {
             loginScreen(
                 onLoginSuccess = {
                     navController.navigateToCustom()
                 }
             )
+
+            loginWithVpnScreen(onLoginSuccess = {
+                navController.navigateToCustom()
+            })
 
             customScreen()
         }
