@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
 
@@ -27,7 +28,9 @@ fun BottomTabScreen(
         // 2. 关键修改：使用 bottomBar 放置在底部
         bottomBar = {
             // 使用 NavigationBar 组件 (Material3 底部导航栏)
-            NavigationBar {
+            NavigationBar(
+                tonalElevation = 1.dp
+            ) {
                 tabs.forEachIndexed { index, item ->
                     // 判断当前项是否被选中
                     val isSelected = pagerState.currentPage == index

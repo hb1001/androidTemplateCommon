@@ -1,5 +1,7 @@
 package com.template.generated
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -48,7 +50,19 @@ import kotlin.OptIn
 public fun AppNavigation() {
     val navController = rememberNavController()
     CompositionLocalProvider(LocalNavController provides navController) {
-        NavHost(navController = navController, startDestination = AppRoutes.LOGIN_WITH_VPN_ROUTE) {
+        NavHost(
+            navController = navController,
+            startDestination = AppRoutes.LOGIN_WITH_VPN_ROUTE,
+
+            // 直接禁止入场动画
+            enterTransition = { EnterTransition.None },
+            // 直接禁止出场动画
+            exitTransition = { ExitTransition.None },
+            // 同样禁止 Pop 动画
+            popEnterTransition = { EnterTransition.None },
+            popExitTransition = { ExitTransition.None }
+
+        ) {
             loginScreen(
                 onLoginSuccess = {
                     navController.navigateToCustom()
