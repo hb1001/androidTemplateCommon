@@ -41,6 +41,8 @@ import com.template.generated.LocalNavController
 import com.template.core.ui.uimodel.CardItem
 import com.template.core.ui.uimodel.UiState
 import com.template.core.ui.components.BottomTabScreen
+import com.template.core.ui.components.CommonTitleBar
+import com.template.core.ui.components.MaxWidthCard
 import com.template.core.ui.components.ProfileHeader
 import com.template.core.ui.components.ProfileMenuItem
 import com.template.core.ui.components.PullRefreshOnlyList
@@ -93,7 +95,7 @@ fun AppMainEntryScreen() {
             TabItem("首页", Icons.Filled.Home) { MapScreen() },
             TabItem("列表", Icons.Filled.Settings) {
                 Scaffold(
-                    topBar = { TopAppBar(title = { Text("列表") }) }
+                    topBar = { CommonTitleBar(title = "列表", showBack = false) }
                 ) { paddingValues ->
                     Column(modifier = Modifier.padding(paddingValues)) {
                         PullRefreshOnlyList(
@@ -106,7 +108,7 @@ fun AppMainEntryScreen() {
                                 }
                             },
                             content = {
-                                SimpleCard(
+                                MaxWidthCard(
                                     CardItem(
                                         id = it.id.toString(),
                                         title = it.title,

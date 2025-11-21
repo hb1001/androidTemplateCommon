@@ -1,5 +1,7 @@
 package com.template.core.ui.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -61,6 +63,49 @@ fun SimpleCard(item: CardItem, onClick: () -> Unit = {}) {
 
             Text(
                 text = item.value ?: "",
+                maxLines = 1,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
+
+@Composable
+fun MaxWidthCard(item: CardItem, onClick: () -> Unit = {}) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .background(
+                MaterialTheme.colorScheme.surface
+            )
+            .padding(16.dp)
+    ) {
+        Text(
+            text = item.title ?: "",
+            maxLines = 1,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        if (item.description != null) {
+            // 增加一点间距
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = item.description,
+                maxLines = 3,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+
+
+        if (item.value != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = item.value,
                 maxLines = 1,
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.primary

@@ -35,6 +35,7 @@ private val LightColorScheme = lightColorScheme(
     background = PageBackground,
     onBackground = TextBlack,
     surface = Color.White,
+//    surface = PageBackground,
     onSurface = TextBlack,
 
     // Card 想要的灰色背景
@@ -82,8 +83,18 @@ fun AppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.background.toArgb()
-            // 状态栏图标颜色自适应
+//            window.statusBarColor = colorScheme.background.toArgb()
+//            // 状态栏图标颜色自适应
+//            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+
+            //
+            // [关键修改 1] 设置状态栏为透明，这样首页地图才能透上来
+            window.statusBarColor = Color.Transparent.toArgb()
+
+            // [关键修改 2] 开启 Edge-to-Edge (让内容延伸到状态栏背后)
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+
+            // 默认状态栏图标颜色（深色模式下文字变白，浅色模式下文字变黑）
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }

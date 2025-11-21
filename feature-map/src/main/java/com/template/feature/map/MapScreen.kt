@@ -1,5 +1,7 @@
 package com.template.feature.map
 
+import android.graphics.Color
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,7 +23,9 @@ fun MapScreen(
 fun MapContent() {
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().background(
+            androidx.compose.ui.graphics.Color.Blue.copy(alpha = 0.2f)
+        ),
         contentAlignment = Alignment.Center
     ) {
         Text("地图 map 页面 开发中")

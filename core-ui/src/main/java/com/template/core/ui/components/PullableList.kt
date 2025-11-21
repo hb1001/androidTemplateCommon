@@ -38,7 +38,7 @@ fun <T> PullRefreshOnlyList(
     ) {
         if (uiState.data.isNotEmpty()) {
             LazyColumn(
-                contentPadding = PaddingValues(16.dp),
+                contentPadding = PaddingValues(vertical = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(uiState.data, key = { key(it) }) { post ->
