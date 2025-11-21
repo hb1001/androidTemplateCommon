@@ -7,10 +7,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.template.core.model.Post
 import com.template.core.model.Reactions
-import com.template.generated.component.GenericForm
-import com.template.generated.component.NumberFormField
-import com.template.generated.component.TagsFormField
-import com.template.generated.component.TextFormField
+import com.template.core.ui.components.GenericForm
+import com.template.core.ui.components.NumberFormField
+import com.template.core.ui.components.TagsFormField
+import com.template.core.ui.components.TextFormField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

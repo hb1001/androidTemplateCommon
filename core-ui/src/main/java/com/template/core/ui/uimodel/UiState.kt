@@ -1,6 +1,4 @@
-package com.template.generated.base
-
-import com.template.core.model.Post
+package com.template.core.ui.uimodel
 
 data class UiState<T>(
     val data:T,

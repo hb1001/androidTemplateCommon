@@ -1,4 +1,4 @@
-package com.template.generated.component
+package com.template.core.ui.components
 
 import androidx.compose.runtime.Composable
 

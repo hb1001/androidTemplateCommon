@@ -1,4 +1,4 @@
-package com.template.generated.base
+package com.template.core.ui.uimodel
 
 data class CardItem(
     val id: String,

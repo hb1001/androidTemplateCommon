@@ -1,4 +1,4 @@
-package com.template.generated.component
+package com.template.core.ui.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
@@ -58,12 +58,11 @@ fun BottomTabScreen(
                 }
             }
         }
-    ) { innerPadding ->
+    ) {
         // 5. 内容区域
         // 使用 innerPadding 防止内容被底部的 NavigationBar 遮挡
         Column(
             modifier = Modifier
-                .padding(innerPadding) // 这一点非常重要！
                 .fillMaxSize()
         ) {
             HorizontalPager(
