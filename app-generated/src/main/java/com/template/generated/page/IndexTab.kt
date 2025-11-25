@@ -95,12 +95,7 @@ fun AppMainEntryScreen() {
     // 甚至可以给 HomeScreen 传参数，比如 HomeScreen(userId = "1001")
     BottomTabScreen(
         tabs = listOf(
-            TabItem("首页", Icons.Filled.Home) { WebViewScreen(
-                url = "https://www.baidu.com",
-                onExitPage = {
-                    navController.navigateToLoginWithVpn()
-                }
-            ) },
+            TabItem("首页", Icons.Filled.Home) { MapScreen() },
             TabItem("列表", Icons.Filled.Settings) {
                 Scaffold(
                     topBar = { CommonTitleBar(title = "列表", showBack = false) }
