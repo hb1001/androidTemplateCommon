@@ -42,8 +42,11 @@ fun CommonTitleBar(
     showSearch: Boolean = false,
     onSearchClick: () -> Unit = {},
     // 4. 更多控制
-    showDropDown: Boolean = true,
+    showDropDown: Boolean = false,
     dropdownMenuComponent: @Composable (close:()->Unit) -> Unit = {},
+
+    showConfirm: Boolean = false,
+    onConfirmClick: () -> Unit = {},
     // 样式配置
     contentColor: Color = TopAppBarDefaults.topAppBarColors().titleContentColor
 ) {
@@ -112,6 +115,13 @@ fun CommonTitleBar(
                     ) {
                         dropdownMenuComponent{expanded = false}
                     }
+                }
+            }
+            // 确认图标
+            if (showConfirm) {
+                // 文字按钮
+                TextButton(onClick = onConfirmClick) {
+                    Text(text = "确认")
                 }
             }
         }

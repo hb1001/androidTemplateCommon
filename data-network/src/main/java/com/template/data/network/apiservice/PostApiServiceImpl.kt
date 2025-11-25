@@ -8,7 +8,7 @@ import io.ktor.client.request.get
 import javax.inject.Inject
 
 class PostApiServiceImpl @Inject constructor(
-    @PublicClient private val httpClient: HttpClient // <-- 使用 @PublicClient
+    @param:PublicClient private val httpClient: HttpClient // <-- 使用 @PublicClient
 ) : PostApiService {
     override suspend fun getPosts(): PostResponse {
         return httpClient.get("posts").body()

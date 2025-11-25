@@ -14,7 +14,7 @@ interface UserService {
 
 @Singleton
 class UserServiceImpl @Inject constructor(
-    @AuthedClient private val httpClient: HttpClient // <-- 使用 @AuthedClient
+    @param:AuthedClient private val httpClient: HttpClient // <-- 使用 @AuthedClient
 ) : UserService {
     override suspend fun getMyProfile(): UserProfile {
         // dummyjson.com 有一个 /auth/me 接口，我们可以用它来测试

@@ -75,6 +75,7 @@ dependencies {
     implementation(project(":feature-login-atrust"))
     implementation(project(":feature-map"))
     implementation(project(":feature-webview"))
+    implementation(project(":feature-setting"))
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
 

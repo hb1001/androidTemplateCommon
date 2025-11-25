@@ -1,12 +1,23 @@
 // File: core-navigation/src/main/java/com/template/core/navigation/AppRoutes.kt
 package com.template.core.navigation
 
+import java.net.URLEncoder
+
 object AppRoutes {
 
     // 登录
     const val LOGIN_ROUTE = "login"
     const val LOGIN_WITH_VPN_ROUTE = "LOGIN_WITH_VPN_ROUTE"
+
+    // webview
     const val WEBVIEW_ROUTE = "webview/{url}"
+
+    // 单个设置项
+    const val SETTING_ONE_ITEM = "setting_one_item"
+    // 带参数
+    const val SETTING_ONE_ITEM_ROUTE = "setting_one_item/{title}/{value}"
+    // 设置列表
+    const val SETTING_LIST_ROUTE = "setting_list"
 
     // 测试app用的
     const val HOME_ROUTE = "home"
@@ -28,4 +39,14 @@ object AppRoutes {
     // 还可以定义更复杂的路由，比如带参数的
     // const val POST_DETAIL_ROUTE = "post/{postId}"
     // fun postDetail(postId: Int) = "post/$postId"
+    fun buildNavigateRoute(
+        route: String,
+        vararg params: String
+    ):String {
+        val encoded = params.joinToString("/") { param ->
+            URLEncoder.encode(param, "UTF-8")
+        }
+        val finalRoute = if (encoded.isEmpty()) route else "$route/$encoded"
+        return finalRoute
+    }
 }

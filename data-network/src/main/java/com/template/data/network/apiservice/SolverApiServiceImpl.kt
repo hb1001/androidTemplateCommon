@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Singleton
 class SolverApiServiceImpl @Inject constructor(
-    @PublicClient private val httpClient: HttpClient
+    @param:PublicClient private val httpClient: HttpClient
 ) : SolverApiService {
 
     // 从安全的地方获取 Token，这里暂时硬编码

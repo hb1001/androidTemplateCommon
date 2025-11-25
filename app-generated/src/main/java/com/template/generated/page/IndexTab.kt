@@ -18,14 +18,12 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,17 +43,12 @@ import com.template.core.ui.uimodel.UiState
 import com.template.core.ui.components.BottomTabScreen
 import com.template.core.ui.components.CommonTitleBar
 import com.template.core.ui.components.CustomLoadingDialog
-import com.template.core.ui.components.DropdownExample
 import com.template.core.ui.components.LogoutDialog
 import com.template.core.ui.components.MaxWidthCard
 import com.template.core.ui.components.PaymentBottomSheet
-import com.template.core.ui.components.ProfileHeader
-import com.template.core.ui.components.ProfileMenuItem
 import com.template.core.ui.components.PullRefreshOnlyList
-import com.template.core.ui.components.SettingsGroup
-import com.template.core.ui.components.SimpleCard
 import com.template.core.ui.components.TabItem
-import com.template.feature.webview.WebViewScreen
+import com.template.feature.setting.ProfilePage
 import com.template.feature.webview.navigation.navigateToWebview52
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -63,8 +56,8 @@ import kotlin.collections.listOf
 
 suspend fun getList(): List<Post> {
     delay(250)
-    if((1..7).random()<5){
-        return emptyList< Post>()
+    if ((1..7).random() < 5) {
+        return emptyList<Post>()
     }
     val size = (1..7).random()
     return List(size) { index ->
@@ -79,6 +72,7 @@ suspend fun getList(): List<Post> {
         )
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppMainEntryScreen() {
@@ -90,7 +84,7 @@ fun AppMainEntryScreen() {
 
     // 状态变量
     val scrollState = rememberScrollState()
-    var data by remember { mutableStateOf(UiState(emptyList<Post>()  )) }
+    var data by remember { mutableStateOf(UiState(emptyList<Post>())) }
     var showDialog1 by remember { mutableStateOf(false) }
     var showDialog2 by remember { mutableStateOf(false) }
     var showDialog3 by remember { mutableStateOf(false) }
@@ -103,22 +97,28 @@ fun AppMainEntryScreen() {
             TabItem("首页", Icons.Filled.Home) { MapScreen() },
             TabItem("列表", Icons.Filled.Settings) {
                 Scaffold(
-                    topBar = { CommonTitleBar(title = "列表", showBack = false, dropdownMenuComponent = { close ->
-                        DropdownMenuItem(
-                            text = { Text("刷新") },
-                            onClick = {
-                                scope.launch {
-                                    data = data.copy(isLoading = true)
-                                    data = UiState(getList())
-                                }
-                                close()
-                            }
-                        )
-                        DropdownMenuItem(
-                            text = { Text("关于") },
-                            onClick = { /* ... */ }
-                        )
-                    }) }
+                    topBar = {
+                        CommonTitleBar(
+                            title = "列表",
+                            showBack = false,
+                            showDropDown = true,
+                            dropdownMenuComponent = { close ->
+                                DropdownMenuItem(
+                                    text = { Text("刷新") },
+                                    onClick = {
+                                        scope.launch {
+                                            data = data.copy(isLoading = true)
+                                            data = UiState(getList())
+                                        }
+                                        close()
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    text = { Text("关于") },
+                                    onClick = { /* ... */ }
+                                )
+                            })
+                    }
                 ) { paddingValues ->
                     Column(modifier = Modifier.padding(paddingValues)) {
                         PullRefreshOnlyList(
@@ -146,94 +146,10 @@ fun AppMainEntryScreen() {
                 }
             },
             TabItem("我的", Icons.Filled.Person) {
-                Scaffold{ paddingValues ->
-                    Column(
-                        modifier = Modifier
-                            .padding(paddingValues)
-                            .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.surface) // 背景色
-                            .verticalScroll(scrollState)
-                    ) {
-//                        DropdownExample()
-                        // --- 头部区域 ---
-                        ProfileHeader(
-                            name = "张三",
-                            email = "03931",
-                            onClick = {
-                                navController.navigateToWebview52()
-                            }
-                        )
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        // --- 分割线 ---
-                        HorizontalDivider(
-                            thickness = 8.dp,
-                            color = MaterialTheme.colorScheme.surfaceContainerLow
-                        )
-
-                        // --- 菜单列表 ---
-                        // 第一组
-                        SettingsGroup(
-                            title = "账户中心",
-                            items = listOf(
-                                ProfileMenuItem(Icons.Default.Person, "个人信息", {
-                                    showDialog2 = true
-                                }),
-                                ProfileMenuItem(Icons.Default.Notifications, "消息通知", {
-                                    showDialog3 = true
-                                })
-                            )
-                        )
-
-                        HorizontalDivider()
-
-                        // 第二组
-                        SettingsGroup(
-                            title = "通用设置",
-                            items = listOf(
-                                ProfileMenuItem(Icons.Default.Settings, "系统设置", {}),
-                                ProfileMenuItem(Icons.Default.AccountCircle, "切换账号", {}),
-                                ProfileMenuItem(Icons.Outlined.Info, "关于我们", {})
-                            )
-                        )
-
-                        Spacer(modifier = Modifier.height(32.dp))
-
-                        // --- 退出登录按钮 ---
-                        Button(
-                            onClick = { showDialog1 = true },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = MaterialTheme.colorScheme.errorContainer,
-                                contentColor = MaterialTheme.colorScheme.onErrorContainer
-                            ),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp)
-                        ) {
-                            Text("退出登录")
-                        }
-
-                        Spacer(modifier = Modifier.height(50.dp))
-
-                        if(showDialog1){
-                            LogoutDialog(
-                                onConfirm = {navController.navigateToLoginWithVpn()},
-                                onDismiss = {showDialog1 = false}
-                            )
-                        }
-                        if(showDialog2){
-                            CustomLoadingDialog(
-                                onDismiss = {showDialog2 = false}
-                            )
-                        }
-                        if(showDialog3){
-                            PaymentBottomSheet(
-                                onDismiss = {showDialog3 = false}
-                            )
-                        }
-                    }
-                }
+                ProfilePage(
+                    onClickProfileInfo = { navController.navigateToWebview52() },
+                    onClickLogout = { navController.navigateToLoginWithVpn() }
+                )
             }
         )
     )
