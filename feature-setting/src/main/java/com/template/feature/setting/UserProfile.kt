@@ -16,6 +16,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,23 +33,27 @@ import com.template.feature.setting.components.ProfileInfo
 import com.template.feature.setting.components.ProfileMenuItem
 import com.template.feature.setting.components.ProfileScreen
 import com.template.feature.setting.components.SettingsGroupData
+import timber.log.Timber
 
 @Composable
 fun ProfilePage(
+    navController: NavController,
     onClickProfileInfo: () -> Unit,
     onClickLogout: () -> Unit,
+    onClickSystemSetting: () -> Unit,
 ) {
 
     var showDialog1 by remember { mutableStateOf(false) }
     var showDialog2 by remember { mutableStateOf(false) }
     var showDialog3 by remember { mutableStateOf(false) }
-
+    navController.listenResult<String>("settingResult") { newNickName ->
+        Timber.d("newNickName: $newNickName")
+    }
     ProfileScreen(
         profileInfo = ProfileInfo(
             name = "张三",
             email = "03931",
             onClick = {
-//                navController.navigateToWebview52()
                 onClickProfileInfo()
             }
         ),
@@ -63,7 +69,9 @@ fun ProfilePage(
             SettingsGroupData(
                 title = "通用设置",
                 items = listOf(
-                    ProfileMenuItem(Icons.Default.Settings, "系统设置") {},
+                    ProfileMenuItem(Icons.Default.Settings, "系统设置") {
+                        onClickSystemSetting()
+                    },
                     ProfileMenuItem(Icons.Default.AccountCircle, "切换账号") {},
                     ProfileMenuItem(Icons.Outlined.Info, "关于我们") {}
                 )
@@ -90,7 +98,6 @@ fun ProfilePage(
                 LogoutDialog(
                     onConfirm = {
                         onClickLogout()
-//                        navController.navigateToLoginWithVpn()
                     },
                     onDismiss = { showDialog1 = false }
                 )
@@ -107,4 +114,22 @@ fun ProfilePage(
             }
         }
     )
+}
+
+@Composable
+fun <T> NavController.listenResult(
+    key: String,
+    onResult: (T) -> Unit
+) {
+    val savedStateHandle = currentBackStackEntry?.savedStateHandle
+    val resultFlow = savedStateHandle?.getStateFlow<T?>(key, null)
+    val result by resultFlow?.collectAsState() ?: remember { mutableStateOf(null) }
+
+    LaunchedEffect(result) {
+        result?.let {
+            onResult(it)
+            // 使用后清除，避免重复触发
+            savedStateHandle?.set(key, null)
+        }
+    }
 }

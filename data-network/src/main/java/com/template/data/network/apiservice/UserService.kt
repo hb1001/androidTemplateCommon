@@ -5,6 +5,7 @@ import com.template.data.network.di.AuthedClient
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,6 +19,7 @@ class UserServiceImpl @Inject constructor(
 ) : UserService {
     override suspend fun getMyProfile(): UserProfile {
         // dummyjson.com 有一个 /auth/me 接口，我们可以用它来测试
+        Timber.d("dadfas")
         return httpClient.get("auth/me").body()
     }
 }

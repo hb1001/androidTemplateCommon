@@ -28,7 +28,7 @@ dependencies {
     implementation(libs.ktor.serialization.kotlinx.json)
 
     // Timber
-    implementation(libs.timber)
+//    implementation(libs.timber)
 }
 
 kapt {

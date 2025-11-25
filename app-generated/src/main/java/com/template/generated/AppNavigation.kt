@@ -9,9 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
@@ -20,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.template.core.navigation.AppRoutes
 import com.template.feature.atrust.navigation.loginWithVpnScreen
 import com.template.feature.login.navigation.loginScreen
+import com.template.feature.setting.navigation.settingScreen
 import com.template.feature.webview.navigation.webviewScreen
 import com.template.generated.page.AppMainEntryScreen
 import com.template.generated.page.PostEditScreen
@@ -56,6 +54,7 @@ public fun AppNavigation() {
             customScreen()
 
             webviewScreen(navController)
+            settingScreen(navController)
         }
     }
 

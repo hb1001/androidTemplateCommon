@@ -47,7 +47,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
 
             // --- 新增：统一添加测试依赖 --- 暂时注释因为其他的都写了
-//            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 //            dependencies {
 //                // 单元测试
 //                add("testImplementation", libs.findLibrary("junit").get())
@@ -56,6 +56,9 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 //                add("androidTestImplementation", libs.findLibrary("androidx.junit").get())
 //                add("androidTestImplementation", libs.findLibrary("androidx.espresso.core").get())
 //            }
+            dependencies{
+                add("implementation", libs.findLibrary("timber").get())
+            }
             // --- 新增结束 ---
         }
     }

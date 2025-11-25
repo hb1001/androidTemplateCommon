@@ -25,6 +25,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,6 +34,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.template.core.model.Post
 import com.template.core.model.Reactions
 import com.template.core.navigation.AppRoutes
@@ -49,6 +52,7 @@ import com.template.core.ui.components.PaymentBottomSheet
 import com.template.core.ui.components.PullRefreshOnlyList
 import com.template.core.ui.components.TabItem
 import com.template.feature.setting.ProfilePage
+import com.template.feature.setting.navigation.navigateToSettingSingle
 import com.template.feature.webview.navigation.navigateToWebview52
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -147,8 +151,17 @@ fun AppMainEntryScreen() {
             },
             TabItem("我的", Icons.Filled.Person) {
                 ProfilePage(
-                    onClickProfileInfo = { navController.navigateToWebview52() },
-                    onClickLogout = { navController.navigateToLoginWithVpn() }
+                    navController = navController,
+                    onClickProfileInfo = {
+                        navController.navigateToSettingSingle(
+                            "姓名",
+                            "张三"
+                        )
+                    },
+                    onClickLogout = { navController.navigateToLoginWithVpn() },
+                    onClickSystemSetting = {
+                        navController.navigateToWebview52()
+                    }
                 )
             }
         )
