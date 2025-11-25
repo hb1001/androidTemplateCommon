@@ -38,6 +38,10 @@ paging = "3.2.1"  # 使用一个最新的稳定版本
 compose-material = "1.6.7"
 runtime = "1.7.0" # 这个版本包含了 pull-refresh
 
+tbs = "44286"
+bugly = "latest.release"
+
+
 [libraries]
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
@@ -45,6 +49,11 @@ androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-ru
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplash" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "compose-material" }
+
+tbs-sdk = { group = "com.tencent.tbs", name = "tbssdk", version.ref = "tbs" }
+bugly-crashreport = { group = "com.tencent.bugly", name = "crashreport", version.ref = "bugly" }
+
+
 
 # Core
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

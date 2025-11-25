@@ -6,6 +6,7 @@ object AppRoutes {
     // 登录
     const val LOGIN_ROUTE = "login"
     const val LOGIN_WITH_VPN_ROUTE = "LOGIN_WITH_VPN_ROUTE"
+    const val WEBVIEW_ROUTE = "webview/{url}"
 
     // 测试app用的
     const val HOME_ROUTE = "home"
