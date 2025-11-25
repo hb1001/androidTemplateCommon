@@ -49,6 +49,8 @@ import com.template.core.ui.components.PullRefreshOnlyList
 import com.template.core.ui.components.SettingsGroup
 import com.template.core.ui.components.SimpleCard
 import com.template.core.ui.components.TabItem
+import com.template.feature.webview.WebViewScreen
+import com.template.feature.webview.navigation.navigateToWebview52
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.collections.listOf
@@ -81,6 +83,7 @@ fun getList(): List<Post> {
 fun AppMainEntryScreen() {
 
 //    val navController = rememberNavController()
+//    val navController = rememberNavController()
     val navController = LocalNavController.current
     val scope = rememberCoroutineScope()
 
@@ -92,7 +95,12 @@ fun AppMainEntryScreen() {
     // 甚至可以给 HomeScreen 传参数，比如 HomeScreen(userId = "1001")
     BottomTabScreen(
         tabs = listOf(
-            TabItem("首页", Icons.Filled.Home) { MapScreen() },
+            TabItem("首页", Icons.Filled.Home) { WebViewScreen(
+                url = "https://www.baidu.com",
+                onExitPage = {
+                    navController.navigateToLoginWithVpn()
+                }
+            ) },
             TabItem("列表", Icons.Filled.Settings) {
                 Scaffold(
                     topBar = { CommonTitleBar(title = "列表", showBack = false) }
@@ -136,7 +144,9 @@ fun AppMainEntryScreen() {
                         ProfileHeader(
                             name = "张三",
                             email = "03931",
-                            onClick = {}
+                            onClick = {
+                                navController.navigateToWebview52()
+                            }
                         )
 
                         Spacer(modifier = Modifier.height(8.dp))

@@ -20,6 +20,7 @@ import androidx.navigation.compose.rememberNavController
 import com.template.core.navigation.AppRoutes
 import com.template.feature.atrust.navigation.loginWithVpnScreen
 import com.template.feature.login.navigation.loginScreen
+import com.template.feature.webview.navigation.webviewScreen
 import com.template.generated.page.AppMainEntryScreen
 import com.template.generated.page.PostEditScreen
 import kotlin.OptIn
@@ -53,6 +54,8 @@ public fun AppNavigation() {
             })
 
             customScreen()
+
+            webviewScreen(navController)
         }
     }
 
