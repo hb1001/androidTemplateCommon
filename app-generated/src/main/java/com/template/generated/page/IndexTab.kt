@@ -18,6 +18,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +44,11 @@ import com.template.core.ui.uimodel.CardItem
 import com.template.core.ui.uimodel.UiState
 import com.template.core.ui.components.BottomTabScreen
 import com.template.core.ui.components.CommonTitleBar
+import com.template.core.ui.components.CustomLoadingDialog
+import com.template.core.ui.components.DropdownExample
+import com.template.core.ui.components.LogoutDialog
 import com.template.core.ui.components.MaxWidthCard
+import com.template.core.ui.components.PaymentBottomSheet
 import com.template.core.ui.components.ProfileHeader
 import com.template.core.ui.components.ProfileMenuItem
 import com.template.core.ui.components.PullRefreshOnlyList
@@ -55,29 +61,24 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.collections.listOf
 
-fun getList(): List<Post> {
-    return listOf(
+suspend fun getList(): List<Post> {
+    delay(250)
+    if((1..7).random()<5){
+        return emptyList< Post>()
+    }
+    val size = (1..7).random()
+    return List(size) { index ->
         Post(
-            1,
-            "Post Title 111",
-            "This is the body of post 1.",
-            emptyList(),
-            Reactions(5, 1),
-            100,
-            1
-        ),
-        Post(
-            2,
-            "Post Title 222-",
-            "This is the body of post 2.",
-            emptyList(),
-            Reactions(10, 2),
-            200,
-            2
+            id = index + 1,
+            title = "Post Title ${index + 1}",
+            body = "This is the body of post ${index + 1}.",
+            tags = emptyList(),
+            reactions = Reactions(likes = (0..20).random(), dislikes = (0..5).random()),
+            views = (10..500).random(),
+            userId = 1
         )
-    )
+    }
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppMainEntryScreen() {
@@ -89,7 +90,11 @@ fun AppMainEntryScreen() {
 
     // 状态变量
     val scrollState = rememberScrollState()
-    var data by remember { mutableStateOf(UiState(getList())) }
+    var data by remember { mutableStateOf(UiState(emptyList<Post>()  )) }
+    var showDialog1 by remember { mutableStateOf(false) }
+    var showDialog2 by remember { mutableStateOf(false) }
+    var showDialog3 by remember { mutableStateOf(false) }
+    var showDialog4 by remember { mutableStateOf(false) }
 
     // 在这里组装你想要的页面，可以把 HomeScreen, SettingsScreen 传进去
     // 甚至可以给 HomeScreen 传参数，比如 HomeScreen(userId = "1001")
@@ -98,15 +103,29 @@ fun AppMainEntryScreen() {
             TabItem("首页", Icons.Filled.Home) { MapScreen() },
             TabItem("列表", Icons.Filled.Settings) {
                 Scaffold(
-                    topBar = { CommonTitleBar(title = "列表", showBack = false) }
+                    topBar = { CommonTitleBar(title = "列表", showBack = false, dropdownMenuComponent = { close ->
+                        DropdownMenuItem(
+                            text = { Text("刷新") },
+                            onClick = {
+                                scope.launch {
+                                    data = data.copy(isLoading = true)
+                                    data = UiState(getList())
+                                }
+                                close()
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("关于") },
+                            onClick = { /* ... */ }
+                        )
+                    }) }
                 ) { paddingValues ->
                     Column(modifier = Modifier.padding(paddingValues)) {
                         PullRefreshOnlyList(
                             uiState = data,
                             refresh = {
                                 scope.launch {
-                                    data = UiState(getList(), isLoading = true)
-                                    delay(2000)
+                                    data = data.copy(isLoading = true)
                                     data = UiState(getList())
                                 }
                             },
@@ -135,6 +154,7 @@ fun AppMainEntryScreen() {
                             .background(MaterialTheme.colorScheme.surface) // 背景色
                             .verticalScroll(scrollState)
                     ) {
+//                        DropdownExample()
                         // --- 头部区域 ---
                         ProfileHeader(
                             name = "张三",
@@ -157,8 +177,12 @@ fun AppMainEntryScreen() {
                         SettingsGroup(
                             title = "账户中心",
                             items = listOf(
-                                ProfileMenuItem(Icons.Default.Person, "个人信息", {}),
-                                ProfileMenuItem(Icons.Default.Notifications, "消息通知", {})
+                                ProfileMenuItem(Icons.Default.Person, "个人信息", {
+                                    showDialog2 = true
+                                }),
+                                ProfileMenuItem(Icons.Default.Notifications, "消息通知", {
+                                    showDialog3 = true
+                                })
                             )
                         )
 
@@ -178,7 +202,7 @@ fun AppMainEntryScreen() {
 
                         // --- 退出登录按钮 ---
                         Button(
-                            onClick = { navController.navigateToLoginWithVpn() },
+                            onClick = { showDialog1 = true },
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = MaterialTheme.colorScheme.errorContainer,
                                 contentColor = MaterialTheme.colorScheme.onErrorContainer
@@ -191,6 +215,23 @@ fun AppMainEntryScreen() {
                         }
 
                         Spacer(modifier = Modifier.height(50.dp))
+
+                        if(showDialog1){
+                            LogoutDialog(
+                                onConfirm = {navController.navigateToLoginWithVpn()},
+                                onDismiss = {showDialog1 = false}
+                            )
+                        }
+                        if(showDialog2){
+                            CustomLoadingDialog(
+                                onDismiss = {showDialog2 = false}
+                            )
+                        }
+                        if(showDialog3){
+                            PaymentBottomSheet(
+                                onDismiss = {showDialog3 = false}
+                            )
+                        }
                     }
                 }
             }
