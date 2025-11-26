@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.template.core.navigation.listenResult
 import com.template.core.ui.components.BottomSheetSelector
-import com.template.feature.setting.listenResult
 import com.template.feature.setting.navigation.navigateToSettingSingle
 
 

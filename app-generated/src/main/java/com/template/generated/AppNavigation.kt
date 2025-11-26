@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.template.core.navigation.AppRoutes
+import com.template.core.navigation.LocalNavController
 import com.template.feature.atrust.navigation.loginWithVpnScreen
 import com.template.feature.login.navigation.loginScreen
 import com.template.feature.setting.navigation.settingMapScreen

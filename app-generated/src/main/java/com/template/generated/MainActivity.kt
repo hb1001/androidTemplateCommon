@@ -26,9 +26,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-val LocalNavController = staticCompositionLocalOf<NavController> {
-    error("No NavController provided")
-}
+
 /**
  * 目录结构
  * 1. 部分页面是固定不动的（最多修改几个地方）

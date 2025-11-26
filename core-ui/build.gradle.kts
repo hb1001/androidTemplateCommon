@@ -22,6 +22,8 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":core-navigation"))
     // 5. 添加Compose相关的核心依赖
     // 使用BOM (Bill of Materials) 来统一管理Compose库的版本
     implementation(platform(libs.androidx.compose.bom))
@@ -37,5 +39,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.compose.material)
+
+
 
 }

@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
+import com.template.core.navigation.LocalNavController
 
 /**
  * 通用标题栏
@@ -37,7 +38,6 @@ fun CommonTitleBar(
     title: String = "",
     // 1. 返回控制
     showBack: Boolean = true,
-    onBackClick: () -> Unit = {},
     // 3. 搜索控制
     showSearch: Boolean = false,
     onSearchClick: () -> Unit = {},
@@ -51,6 +51,7 @@ fun CommonTitleBar(
     contentColor: Color = TopAppBarDefaults.topAppBarColors().titleContentColor
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val navController = LocalNavController.current
     TopAppBar(
         modifier = modifier,
         colors = TopAppBarDefaults.topAppBarColors(
@@ -76,7 +77,9 @@ fun CommonTitleBar(
         // 左侧图标区 (返回)
         navigationIcon = {
             if (showBack) {
-                IconButton(onClick = onBackClick) {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) {
                     // 截图中的图标是一个"<"形状，KeyboardArrowLeft最像
                     // 如果需要带尾巴的箭头，可以使用 Icons.AutoMirrored.Filled.ArrowBack
                     Icon(

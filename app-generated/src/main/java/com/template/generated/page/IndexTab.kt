@@ -38,9 +38,9 @@ import androidx.navigation.NavController
 import com.template.core.model.Post
 import com.template.core.model.Reactions
 import com.template.core.navigation.AppRoutes
+import com.template.core.navigation.LocalNavController
 import com.template.feature.atrust.navigation.navigateToLoginWithVpn
 import com.template.feature.map.MapScreen
-import com.template.generated.LocalNavController
 import com.template.core.ui.uimodel.CardItem
 import com.template.core.ui.uimodel.UiState
 import com.template.core.ui.components.BottomTabScreen
