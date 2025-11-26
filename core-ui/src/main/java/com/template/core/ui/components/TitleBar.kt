@@ -50,7 +50,6 @@ fun CommonTitleBar(
     // 样式配置
     contentColor: Color = TopAppBarDefaults.topAppBarColors().titleContentColor
 ) {
-
     var expanded by remember { mutableStateOf(false) }
     TopAppBar(
         modifier = modifier,

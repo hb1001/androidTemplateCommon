@@ -41,6 +41,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 add("implementation", project(":core-common"))
                 add("implementation", project(":core-navigation"))
                 add("implementation", project(":data-repository"))
+                add("implementation", project(":data-datastore"))
 
                 // Hilt
                 add("implementation", libs.findLibrary("hilt.android").get())

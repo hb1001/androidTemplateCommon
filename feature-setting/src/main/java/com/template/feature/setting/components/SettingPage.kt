@@ -8,6 +8,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 data class ProfileInfo(
     val name: String,
@@ -16,12 +17,14 @@ data class ProfileInfo(
 )
 
 data class SettingsGroupData(
-    val title: String,
+    val title: String? = null,
     val items: List<ProfileMenuItem>
 )
 
 @Composable
 fun ProfileScreen(
+    topBar: @Composable () -> Unit = {},
+    navController: NavController,
     profileInfo: ProfileInfo? = null,
     groups: List<SettingsGroupData>,
     footerSlot: @Composable () -> Unit = {},
@@ -29,7 +32,9 @@ fun ProfileScreen(
 ) {
     val scrollState = rememberScrollState()
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        topBar = topBar,
+    ) { paddingValues ->
         Column(
             modifier = Modifier.padding(paddingValues)
                 .fillMaxSize()
@@ -57,7 +62,8 @@ fun ProfileScreen(
             groups.forEachIndexed { index, group ->
                 SettingsGroup(
                     title = group.title,
-                    items = group.items
+                    items = group.items,
+                    navController = navController
                 )
 
                 if (index != groups.lastIndex) {

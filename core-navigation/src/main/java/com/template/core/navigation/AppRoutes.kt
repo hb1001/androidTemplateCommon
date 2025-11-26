@@ -19,6 +19,9 @@ object AppRoutes {
     // 设置列表
     const val SETTING_LIST_ROUTE = "setting_list"
 
+
+    const val SETTING_MAP_ROUTER = "SETTING_MAP_ROUTER"
+
     // 测试app用的
     const val HOME_ROUTE = "home"
     const val DEBUG_ROUTE = "debug"

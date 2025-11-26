@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.template.core.navigation.AppRoutes
 import com.template.feature.atrust.navigation.loginWithVpnScreen
 import com.template.feature.login.navigation.loginScreen
+import com.template.feature.setting.navigation.settingMapScreen
 import com.template.feature.setting.navigation.settingScreen
 import com.template.feature.webview.navigation.webviewScreen
 import com.template.generated.page.AppMainEntryScreen
@@ -55,6 +56,8 @@ public fun AppNavigation() {
 
             webviewScreen(navController)
             settingScreen(navController)
+
+            settingMapScreen(navController)
         }
     }
 

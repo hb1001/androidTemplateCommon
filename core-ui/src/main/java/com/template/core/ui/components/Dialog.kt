@@ -1,5 +1,6 @@
 package com.template.core.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.runtime.Composable
 
 import androidx.compose.foundation.layout.*
@@ -111,6 +112,40 @@ fun DropdownExample() {
                 text = { Text("关于") },
                 onClick = { /* ... */ }
             )
+        }
+    }
+}
+
+
+// n选1
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomSheetSelector(
+    title: String,
+    options: List<String>,
+    selectedOption: String,
+    onOptionSelected: (String) -> Unit,
+    onDismiss: () -> Unit
+) {
+    val sheetState = rememberModalBottomSheetState()
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        containerColor = Color.White
+    ) {
+        // 底部弹窗的内容
+        Column(modifier = Modifier.padding(bottom = 30.dp)) {
+            Text(title, style = MaterialTheme.typography.titleLarge, modifier = Modifier.padding(16.dp))
+            for (option in options){
+                ListItem(
+                    headlineContent = { Text(option) },
+                    modifier = Modifier.clickable {
+                        onOptionSelected(option)
+                        onDismiss()
+                    }
+                )
+            }
         }
     }
 }

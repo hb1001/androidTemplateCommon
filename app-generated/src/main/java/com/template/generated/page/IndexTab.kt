@@ -52,6 +52,7 @@ import com.template.core.ui.components.PaymentBottomSheet
 import com.template.core.ui.components.PullRefreshOnlyList
 import com.template.core.ui.components.TabItem
 import com.template.feature.setting.ProfilePage
+import com.template.feature.setting.navigation.navigateToSettingMap
 import com.template.feature.setting.navigation.navigateToSettingSingle
 import com.template.feature.webview.navigation.navigateToWebview52
 import kotlinx.coroutines.delay
@@ -161,6 +162,9 @@ fun AppMainEntryScreen() {
                     onClickLogout = { navController.navigateToLoginWithVpn() },
                     onClickSystemSetting = {
                         navController.navigateToWebview52()
+                    },
+                    onClickMapSetting = {
+                        navController.navigateToSettingMap()
                     }
                 )
             }
