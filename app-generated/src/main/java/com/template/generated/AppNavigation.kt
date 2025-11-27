@@ -20,6 +20,7 @@ import com.template.feature.webview.navigation.webviewScreen
 import com.template.generated.page.AppMainEntryScreen
 import com.template.generated.page.PostEditScreen
 import com.template.generated.page.TestVan
+import com.template.generated.pickdemo.PickerDemoScreen
 import kotlin.OptIn
 
 

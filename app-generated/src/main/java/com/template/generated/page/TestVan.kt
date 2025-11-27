@@ -42,11 +42,284 @@ fun TestVan() {
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 40.dp) // 底部留白
         ) {
-            VanSwipes()
+            VanSliders()
 //            VanButtons()
 //            Spacer(modifier = Modifier.height(20.dp))
 //            VanCollapses()
 
+        }
+    }
+}
+@Composable
+fun VanSliders() {
+    // 状态
+    var value1 by remember { mutableFloatStateOf(50f) }
+    var valueRange by remember { mutableStateOf(listOf(20f, 60f)) }
+    var valueStep by remember { mutableFloatStateOf(0f) }
+    var valueVertical by remember { mutableFloatStateOf(50f) }
+    var valueCustom by remember { mutableFloatStateOf(30f) }
+
+    Column {
+        Text(
+            "Slider 滑块",
+            modifier = Modifier.padding(16.dp),
+            color = Color.Gray,
+            fontSize = 14.sp
+        )
+
+        // 1. 基础用法
+        Text("基础用法: ${value1.toInt()}", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
+            VanSlider(
+                value = value1,
+                onValueChange = { value1 = it as Float }
+            )
+        }
+
+        // 2. 双滑块
+        Text("双滑块: ${valueRange[0].toInt()} - ${valueRange[1].toInt()}", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
+            VanSlider(
+                range = true,
+                value = valueRange,
+                onValueChange = { valueRange = it as List<Float> }
+            )
+        }
+
+        // 3. 指定步长
+        Text("指定步长 (Step=10): ${valueStep.toInt()}", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
+            VanSlider(
+                step = 10f,
+                value = valueStep,
+                onValueChange = { valueStep = it as Float }
+            )
+        }
+
+        // 4. 自定义样式 & 按钮
+        Text("自定义样式 & 按钮", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
+            VanSlider(
+                value = valueCustom,
+                activeColor = Color(0xFFEE0A24),
+                barHeight = 4.dp,
+                onValueChange = { valueCustom = it as Float },
+                button = {
+                    Box(
+                        modifier = Modifier
+                            .background(Color(0xFFEE0A24), RoundedCornerShape(4.dp))
+                            .padding(horizontal = 4.dp, vertical = 2.dp)
+                    ) {
+                        Text(
+                            text = "${valueCustom.toInt()}",
+                            color = Color.White,
+                            fontSize = 10.sp
+                        )
+                    }
+                }
+            )
+        }
+
+        // 5. 垂直方向
+        Text("垂直方向", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Row(
+            modifier = Modifier
+                .height(200.dp) // 必须给高度
+                .padding(start = 30.dp, bottom = 20.dp),
+            horizontalArrangement = Arrangement.spacedBy(40.dp)
+        ) {
+            VanSlider(
+                vertical = true,
+                value = valueVertical,
+                onValueChange = { valueVertical = it as Float }
+            )
+
+            // 垂直双滑块
+            VanSlider(
+                vertical = true,
+                range = true,
+                value = valueRange, // 复用之前的 Range 值
+                onValueChange = { valueRange = it as List<Float> }
+            )
+        }
+    }
+}
+@Composable
+fun VanSwitches() {
+    // 状态管理
+    var checked1 by remember { mutableStateOf(true) }
+    var checked2 by remember { mutableStateOf(true) }
+    var checked3 by remember { mutableStateOf(true) }
+    var checked4 by remember { mutableStateOf(true) }
+    var checked5 by remember { mutableStateOf(true) }
+
+    // 异步控制模拟
+    var checkedAsync by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) }
+
+    // 模拟 Dialog (这里用 AlertDialog 简单替代)
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text("提醒") },
+            text = { Text("是否切换开关？") },
+            confirmButton = {
+                TextButton(onClick = {
+                    checkedAsync = !checkedAsync
+                    showDialog = false
+                }) { Text("确认") }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) { Text("取消") }
+            }
+        )
+    }
+
+    Column {
+        Text(
+            "Switch 开关",
+            modifier = Modifier.padding(16.dp),
+            color = Color.Gray,
+            fontSize = 14.sp
+        )
+
+        // 1. 基础用法
+        VanCellGroup(title = "基础用法") {
+            VanCell(title = "基础用法", rightIconComposable = {
+                VanSwitch(checked = checked1, onCheckedChange = { checked1 = it })
+            })
+        }
+
+        // 2. 禁用状态
+        VanCellGroup(title = "禁用状态") {
+            VanCell(title = "禁用状态", rightIconComposable = {
+                VanSwitch(checked = checked2, onCheckedChange = { checked2 = it }, disabled = true)
+            })
+        }
+
+        // 3. 加载状态
+        VanCellGroup(title = "加载状态") {
+            VanCell(title = "加载状态", rightIconComposable = {
+                VanSwitch(checked = checked3, onCheckedChange = { checked3 = it }, loading = true)
+            })
+        }
+
+        // 4. 自定义大小
+        VanCellGroup(title = "自定义大小") {
+            VanCell(title = "自定义大小 (24dp)", rightIconComposable = {
+                VanSwitch(checked = checked4, onCheckedChange = { checked4 = it }, size = 24.dp)
+            })
+        }
+
+        // 5. 自定义颜色
+        VanCellGroup(title = "自定义颜色") {
+            VanCell(title = "自定义颜色", rightIconComposable = {
+                VanSwitch(
+                    checked = checked5,
+                    onCheckedChange = { checked5 = it },
+                    activeColor = Color(0xFFEE0A24),
+                    inactiveColor = Color(0xFFDCDEE0)
+                )
+            })
+        }
+
+        // 6. 异步控制
+        VanCellGroup(title = "异步控制") {
+            VanCell(title = "异步控制", rightIconComposable = {
+                VanSwitch(
+                    checked = checkedAsync,
+                    onCheckedChange = {
+                        // 不直接修改 checkedAsync，而是弹窗
+                        showDialog = true
+                    }
+                )
+            })
+        }
+    }
+}
+
+@Composable
+fun VanTags() {
+    // 状态：用于控制可关闭标签的显示
+    var showCloseableTag by remember { mutableStateOf(true) }
+
+    Column {
+        Text(
+            "Tag 标签",
+            modifier = Modifier.padding(16.dp),
+            color = Color.Gray,
+            fontSize = 14.sp
+        )
+
+        // 1. 基础用法
+        VanCellGroup(title = "基础用法") {
+            VanCell(title = "primary 类型", valueComposable = {
+                VanTag(type = VanTagType.Primary) { Text("标签") }
+            })
+            VanCell(title = "success 类型", valueComposable = {
+                VanTag(type = VanTagType.Success) { Text("标签") }
+            })
+            VanCell(title = "danger 类型", valueComposable = {
+                VanTag(type = VanTagType.Danger) { Text("标签") }
+            })
+            VanCell(title = "warning 类型", valueComposable = {
+                VanTag(type = VanTagType.Warning) { Text("标签") }
+            })
+        }
+
+        // 2. 样式风格
+        VanCellGroup(title = "样式风格") {
+            VanCell(title = "空心样式", valueComposable = {
+                VanTag(plain = true, type = VanTagType.Primary) { Text("标签") }
+            })
+            VanCell(title = "圆角样式", valueComposable = {
+                VanTag(round = true, type = VanTagType.Primary) { Text("标签") }
+            })
+            VanCell(title = "标记样式", valueComposable = {
+                VanTag(mark = true, type = VanTagType.Primary) { Text("标签") }
+            })
+            VanCell(title = "可关闭标签", valueComposable = {
+                VanTag(
+                    show = showCloseableTag,
+                    plain = true,
+                    closeable = true,
+                    size = VanTagSize.Medium,
+                    type = VanTagType.Primary,
+                    onClose = { showCloseableTag = false }
+                ) {
+                    Text("标签")
+                }
+                // 为了演示效果，如果关闭了提供一个重置按钮
+                if (!showCloseableTag) {
+                    VanButton(size = VanButtonSize.Mini, type = VanButtonType.Default, text = "重置", onClick = { showCloseableTag = true })
+                }
+            })
+        }
+
+        // 3. 标签大小
+        VanCellGroup(title = "标签大小") {
+            VanCell(title = "小号标签", valueComposable = {
+                VanTag(type = VanTagType.Primary, size = VanTagSize.Small) { Text("标签") }
+            })
+            VanCell(title = "中号标签", valueComposable = {
+                VanTag(type = VanTagType.Primary, size = VanTagSize.Medium) { Text("标签") }
+            })
+            VanCell(title = "大号标签", valueComposable = {
+                VanTag(type = VanTagType.Primary, size = VanTagSize.Large) { Text("标签") }
+            })
+        }
+
+        // 4. 自定义颜色
+        VanCellGroup(title = "自定义颜色") {
+            VanCell(title = "背景颜色", valueComposable = {
+                VanTag(color = Color(0xFF7232DD)) { Text("标签") }
+            })
+            VanCell(title = "文字颜色", valueComposable = {
+                VanTag(color = Color(0xFFFFE1E1), textColor = Color(0xFFAD0000)) { Text("标签") }
+            })
+            VanCell(title = "空心颜色", valueComposable = {
+                VanTag(color = Color(0xFF7232DD), plain = true) { Text("标签") }
+            })
         }
     }
 }
