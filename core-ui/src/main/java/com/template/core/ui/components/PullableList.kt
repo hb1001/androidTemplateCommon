@@ -1,5 +1,7 @@
 package com.template.core.ui.components
 
+import FashionPullRefreshIndicator
+import TechPullRefreshIndicator
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.template.core.ui.uimodel.UiState
+import timber.log.Timber
 
 // 下拉刷新的list
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
@@ -35,6 +38,7 @@ fun <T> PullRefreshOnlyList(
 ) {
     // 进入后，自动刷新一次
     LaunchedEffect( Unit) {
+        Timber.d("自动刷新列表") // 每次返回都输出日志了
         refresh()
     }
 
@@ -72,7 +76,7 @@ fun <T> PullRefreshOnlyList(
             }
         }
         // ... 处理错误和加载状态 ...
-        PullRefreshIndicator(
+        TechPullRefreshIndicator(
             refreshing = uiState.isLoading,
             state = pullRefreshState,
             modifier = Modifier.align(Alignment.TopCenter)

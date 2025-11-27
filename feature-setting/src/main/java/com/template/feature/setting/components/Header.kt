@@ -41,7 +41,7 @@ fun ProfileHeader(
     ) {
         // 头像 (如果没有网络图片，用图标代替)
         Surface(
-            modifier = Modifier.size(72.dp),
+            modifier = Modifier.size(96.dp),
             shape = CircleShape,
             color = MaterialTheme.colorScheme.primaryContainer
         ) {

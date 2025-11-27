@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.template.core.model.Post
 import com.template.core.model.Reactions
+import com.template.core.ui.components.CommonTitleBar
 import com.template.core.ui.components.GenericForm
 import com.template.core.ui.components.NumberFormField
 import com.template.core.ui.components.TagsFormField
@@ -94,7 +95,9 @@ fun PostEditScreen() {
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("编辑") })
+            TopAppBar(title = {
+                CommonTitleBar(title = "编辑")
+            })
         },
         bottomBar = {
             Button(
