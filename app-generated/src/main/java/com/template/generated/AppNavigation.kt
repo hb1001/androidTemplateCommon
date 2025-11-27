@@ -2,11 +2,7 @@ package com.template.generated
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.NavController
@@ -23,6 +19,7 @@ import com.template.feature.setting.navigation.settingScreen
 import com.template.feature.webview.navigation.webviewScreen
 import com.template.generated.page.AppMainEntryScreen
 import com.template.generated.page.PostEditScreen
+import com.template.generated.page.TestVan
 import kotlin.OptIn
 
 
@@ -32,7 +29,7 @@ public fun AppNavigation() {
     CompositionLocalProvider(LocalNavController provides navController) {
         NavHost(
             navController = navController,
-            startDestination = AppRoutes.LOGIN_WITH_VPN_ROUTE,
+            startDestination = AppRoutes.CUSTOM_TEST_VANT_ROUTE, // 启动页面
 
             // 直接禁止入场动画
             enterTransition = { EnterTransition.None },
@@ -77,5 +74,9 @@ public fun NavGraphBuilder.customScreen() {
     }
     composable(route = AppRoutes.CUSTOM_POST_DETAIL_ROUTE) {
         PostEditScreen()
+    }
+
+    composable(route = AppRoutes.CUSTOM_TEST_VANT_ROUTE) {
+        TestVan()
     }
 }

@@ -1,7 +1,11 @@
 package com.template.generated.page
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -17,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.template.core.model.Post
 import com.template.core.model.Reactions
 import com.template.core.navigation.AppRoutes
@@ -30,6 +35,8 @@ import com.template.core.ui.components.MaxWidthCard
 import com.template.core.ui.components.PullRefreshOnlyList
 import com.template.core.ui.components.StableBottomTab
 import com.template.core.ui.components.TabItem
+import com.template.core.ui.vant.VanButton
+import com.template.core.ui.vant.VanButtonType
 import com.template.feature.setting.ProfilePage
 import com.template.feature.setting.navigation.navigateToSettingMap
 import com.template.feature.setting.navigation.navigateToSettingSingle
@@ -70,7 +77,8 @@ fun AppMainEntryScreen() {
     // 甚至可以给 HomeScreen 传参数，比如 HomeScreen(userId = "1001")
     StableBottomTab(
         tabs = listOf(
-            TabItem("首页", Icons.Filled.Home) { MapScreen() },
+            TabItem("首页", Icons.Filled.Home) { MapScreen(
+            ) },
             TabItem("列表", Icons.Filled.Settings) {
                 Scaffold(
                     topBar = {
@@ -97,6 +105,7 @@ fun AppMainEntryScreen() {
                     }
                 ) { paddingValues ->
                     Column(modifier = Modifier.padding(paddingValues)) {
+
                         PullRefreshOnlyList(
                             uiState = data,
                             refresh = {
