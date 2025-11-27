@@ -1,18 +1,19 @@
 package com.template.core.ui.vant
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.drag
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -31,6 +32,8 @@ private object VanSliderColors {
 
 /**
  * VanSlider - 滑块 (修复版)
+ * 修复 1: 解决连续滑动卡顿 (使用 rememberUpdatedState)
+ * 修复 2: 解决双滑块蓝色区域渲染错误 (使用 Canvas 绘制)
  */
 @Composable
 fun VanSlider(
@@ -54,8 +57,7 @@ fun VanSlider(
 ) {
     val density = LocalDensity.current
 
-    // 1. 统一处理 Values，确保它是 List<Float> 并排序
-    // 注意：这里仅仅作为 UI 渲染的数据源
+    // 1. 数据标准化：确保 currentValues 始终是排序好的 List<Float>
     val currentValues = remember(value, range) {
         if (range && value is List<*>) {
             value.map { (it as Number).toFloat() }.sorted()
@@ -64,16 +66,15 @@ fun VanSlider(
         }
     }
 
-    // 轨道尺寸
+    // 轨道尺寸 (用于手势计算和按钮定位)
     var trackSize by remember { mutableStateOf(IntSize.Zero) }
 
-    // --- 关键修复 1：使用 rememberUpdatedState 持有最新状态 ---
-    // 这样我们就不需要在 pointerInput 中传入 currentValues 导致手势重启
+    // --- 状态持有 (解决手势中断的关键) ---
     val currentValuesState = rememberUpdatedState(currentValues)
     val onValueChangeState = rememberUpdatedState(onValueChange)
     val trackSizeState = rememberUpdatedState(trackSize)
 
-    // 辅助函数：Value -> Px (用于 UI 绘制)
+    // 辅助函数：值转像素 (UI 用)
     fun valueToPx(valIn: Float, size: IntSize): Float {
         val totalLen = if (vertical) size.height else size.width
         if (totalLen == 0) return 0f
@@ -81,7 +82,7 @@ fun VanSlider(
         return fraction * totalLen.toFloat()
     }
 
-    // 触摸热区
+    // 触摸区域大小
     val touchSize = buttonSize.coerceAtLeast(40.dp)
 
     Box(
@@ -91,26 +92,26 @@ fun VanSlider(
                 else Modifier.height(touchSize).fillMaxWidth()
             )
             .onSizeChanged { trackSize = it }
-            // --- 关键修复 2：pointerInput 的 key 只包含不会频繁变化的配置项 ---
-            // 移除了 currentValues 和 trackSize，改用 disabled, range, vertical 等
+            // --- 手势处理 ---
+            // Key 只包含静态配置，不包含变化的 value，防止手势重置
             .pointerInput(disabled, range, vertical, min, max, step) {
                 if (disabled) return@pointerInput
 
                 awaitEachGesture {
                     val down = awaitFirstDown(requireUnconsumed = false)
-
-                    // 在手势内部获取最新的状态值
-                    val latestValues = currentValuesState.value
                     val currentSize = trackSizeState.value
+                    val latestValues = currentValuesState.value
+
                     if (currentSize.width == 0 || currentSize.height == 0) return@awaitEachGesture
 
-                    // 内部计算函数：Px -> Value
+                    // 内部: Px 转 Value
                     fun pxToValue(px: Float): Float {
                         val totalLen = if (vertical) currentSize.height else currentSize.width
                         if (totalLen == 0) return min
                         val clampedPx = px.coerceIn(0f, totalLen.toFloat())
                         val fraction = clampedPx / totalLen.toFloat()
                         val rawVal = min + fraction * (max - min)
+
                         if (step > 0) {
                             val steps = ((rawVal - min) / step).roundToInt()
                             return (min + steps * step).coerceIn(min, max)
@@ -118,41 +119,34 @@ fun VanSlider(
                         return rawVal.coerceIn(min, max)
                     }
 
-                    // 内部计算函数：Value -> Px (用于寻找最近滑块)
-                    fun valToPx(v: Float): Float = valueToPx(v, currentSize)
+                    // 内部: Value 转 Px (用于寻找最近滑块)
+                    fun valToPx(v: Float) = valueToPx(v, currentSize)
 
                     val touchPx = if (vertical) down.position.y else down.position.x
 
-                    // 决定操作哪个滑块
+                    // Range 模式：判断点击的是哪个滑块（找最近的）
                     var activeThumbIndex = 0
                     if (range && latestValues.size >= 2) {
                         val px0 = valToPx(latestValues[0])
                         val px1 = valToPx(latestValues[1])
-                        // 找离触点最近的滑块
                         activeThumbIndex = if (abs(touchPx - px0) <= abs(touchPx - px1)) 0 else 1
                     }
 
-                    // 更新逻辑
                     fun update(currentPos: Offset) {
                         val currPx = if (vertical) currentPos.y else currentPos.x
                         val newValue = pxToValue(currPx)
-                        val currentList = currentValuesState.value // 再次获取最新列表，防止并发修改问题
+                        val currentList = currentValuesState.value
 
                         if (range) {
                             val mutableList = currentList.toMutableList()
-                            // 保护性检查，防止 index越界
                             if (activeThumbIndex < mutableList.size) {
                                 mutableList[activeThumbIndex] = newValue
                                 val sortedList = mutableList.sorted()
-
-                                // 回调最新值
                                 onValueChangeState.value(sortedList)
 
-                                // 追踪手指控制的那个滑块的新索引（防止滑块交叉后控制权丢失）
+                                // 关键：如果滑块发生了交叉（左边的拖到右边了），更新当前控制的索引
                                 val newIndex = sortedList.indexOf(newValue)
-                                if (newIndex != -1) {
-                                    activeThumbIndex = newIndex
-                                }
+                                if (newIndex != -1) activeThumbIndex = newIndex
                             }
                         } else {
                             onValueChangeState.value(newValue)
@@ -162,7 +156,7 @@ fun VanSlider(
                     // 响应按下
                     update(down.position)
 
-                    // 响应拖拽
+                    // 响应拖动
                     drag(down.id) { change ->
                         change.consume()
                         update(change.position)
@@ -173,57 +167,62 @@ fun VanSlider(
             },
         contentAlignment = Alignment.Center
     ) {
-        // 1. 轨道背景
-        Box(
+        // --- 轨道绘制 (Canvas 替代 Box) ---
+        // 使用 Canvas 可以精确控制绘制坐标，解决双滑块蓝色位置计算错误的问题
+        Canvas(
             modifier = Modifier
-                .background(inactiveColor, RoundedCornerShape(100))
                 .then(
                     if (vertical) Modifier.width(barHeight).fillMaxHeight()
                     else Modifier.height(barHeight).fillMaxWidth()
                 )
-        )
+        ) {
+            val strokeW = if (vertical) size.width else size.height
+            val trackLen = if (vertical) size.height else size.width
 
-        // UI 绘制参数计算
+            // 1. 绘制底色 (Inactive)
+            drawLine(
+                color = inactiveColor,
+                start = if (vertical) Offset(size.width / 2, 0f) else Offset(0f, size.height / 2),
+                end = if (vertical) Offset(size.width / 2, size.height) else Offset(size.width, size.height / 2),
+                strokeWidth = strokeW,
+                cap = StrokeCap.Round
+            )
+
+            // 2. 绘制激活色 (Active)
+            if (trackLen > 0) {
+                // 在 Canvas 内部重新计算像素位置，保证绝对精确
+                fun getPx(v: Float): Float {
+                    val fraction = (v - min) / (max - min)
+                    return fraction * trackLen
+                }
+
+                // 确定绘制的起点和终点
+                val startVal = if (range) currentValues.minOrNull() ?: min else min
+                val endVal = currentValues.maxOrNull() ?: min
+
+                val startPx = getPx(startVal)
+                val endPx = getPx(endVal)
+
+                drawLine(
+                    color = activeColor,
+                    start = if (vertical) Offset(size.width / 2, startPx) else Offset(startPx, size.height / 2),
+                    end = if (vertical) Offset(size.width / 2, endPx) else Offset(endPx, size.height / 2),
+                    strokeWidth = strokeW,
+                    cap = StrokeCap.Round
+                )
+            }
+        }
+
+        // --- 按钮 (Thumb) ---
+        // 按钮仍然使用 Box + Offset，因为它们需要承载 Composable 内容
         val pxValues = currentValues.map { valueToPx(it, trackSize) }
 
-        // --- 关键修复 3：明确 Active Bar 的起始点和长度 ---
-        // Range 模式：Start = min, End = max, Length = End - Start
-        // Single 模式：Start = 0, End = value, Length = value
-        val startPx = if (range) pxValues.minOrNull() ?: 0f else 0f
-        val endPx = pxValues.maxOrNull() ?: 0f
-        val barSize = abs(endPx - startPx)
-
-        // 2. 激活轨道 (Active)
-        Box(
-            modifier = Modifier
-                .background(activeColor, RoundedCornerShape(100))
-                .then(
-                    if (vertical) {
-                        Modifier
-                            .width(barHeight)
-                            .height(with(density) { barSize.toDp() })
-                            .align(Alignment.TopCenter) // 垂直模式下，从顶部开始计算偏移
-                            .offset(y = with(density) { startPx.toDp() })
-                    } else {
-                        Modifier
-                            .height(barHeight)
-                            .width(with(density) { barSize.toDp() })
-                            .align(Alignment.CenterStart) // 水平模式下，从左侧开始计算偏移
-                            .offset(x = with(density) { startPx.toDp() })
-                    }
-                )
-        )
-
-        // 3. 按钮 (Thumb)
-        currentValues.forEachIndexed { index, _ ->
-            val px = pxValues.getOrElse(index) { 0f }
+        pxValues.forEachIndexed { index, px ->
             val buttonSizePx = with(density) { buttonSize.toPx() }
 
             val thumbOffset = if (vertical) {
-                // 垂直：Y轴偏移
                 IntOffset(0, (px - buttonSizePx / 2).toInt())
             } else {
-                // 水平：X轴偏移
                 IntOffset((px - buttonSizePx / 2).toInt(), 0)
             }
 
