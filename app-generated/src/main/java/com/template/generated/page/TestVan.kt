@@ -24,9 +24,11 @@ import com.template.core.ui.components.CommonTitleBar
 // 请确保 VanButton, VanCell, VanCellGroup 等都在这个包下，或者根据你的实际路径修改import
 import com.template.core.ui.vant.*
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
@@ -53,7 +55,8 @@ fun TestVan1() {
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 40.dp) // 底部留白
         ) {
-            VanTypographyDemo()
+//            VanTypographyDemo()
+            VanButtonDemo()
 //            VanButtons()
 //            Spacer(modifier = Modifier.height(20.dp))
 //            VanCollapses()
@@ -102,7 +105,8 @@ fun VanTypographyDemo() {
         }
 
         // 2. 文本省略
-        val content = "React Vant 是一套轻量、可靠的移动端 React 组件库，提供了丰富的基础组件和业务组件，帮助开发者快速搭建移动应用，使用过程中发现任何问题都可以提 Issue 给我们，当然，我们也非常欢迎你给我们发 PR。"
+        val content =
+            "React Vant 是一套轻量、可靠的移动端 React 组件库，提供了丰富的基础组件和业务组件，帮助开发者快速搭建移动应用，使用过程中发现任何问题都可以提 Issue 给我们，当然，我们也非常欢迎你给我们发 PR。"
 
         DemoSection("文本省略 (Ellipsis)") {
             // 单行省略
@@ -195,9 +199,13 @@ fun VanTypographyDemo() {
 }
 
 @Composable
-fun DemoSection(title: String, padding:Boolean = false, content: @Composable () -> Unit) {
+fun DemoSection(title: String, padding: Boolean = false, content: @Composable () -> Unit) {
     Column {
-        Text(title, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
+        Text(
+            title,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -211,8 +219,6 @@ fun DemoSection(title: String, padding:Boolean = false, content: @Composable () 
         }
     }
 }
-
-
 
 
 @Composable
@@ -256,7 +262,10 @@ private fun BasicUsage() {
     var checked1 by remember { mutableStateOf(false) }
     var checked2 by remember { mutableStateOf(true) }
 
-    Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+    Column(
+        Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
         VanCheckbox(
             checked = checked1,
             onChange = { checked1 = it }
@@ -298,7 +307,10 @@ private fun CustomStyle() {
     var checked3 by remember { mutableStateOf(true) }
     var checked4 by remember { mutableStateOf(true) }
 
-    Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+    Column(
+        Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
         VanCheckbox(
             checked = checked1,
             onChange = { checked1 = it },
@@ -377,7 +389,12 @@ private fun CheckboxGroupDemo() {
     var values by remember { mutableStateOf(setOf("a", "b")) } // 默认选 a, b
 
     Column(Modifier.padding(horizontal = 16.dp)) {
-        Text("当前值: $values", fontSize = 12.sp, color = Color.Gray, modifier = Modifier.padding(bottom = 8.dp))
+        Text(
+            "当前值: $values",
+            fontSize = 12.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
 
         VanCheckboxGroup(
             value = values,
@@ -524,7 +541,6 @@ fun DemoTitle(text: String) {
 }
 
 
-
 @Composable
 fun VanSliders() {
     // 状态
@@ -543,7 +559,12 @@ fun VanSliders() {
         )
 
         // 1. 基础用法
-        Text("基础用法: ${value1.toInt()}", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Text(
+            "基础用法: ${value1.toInt()}",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+        )
         Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
             VanSlider(
                 value = value1,
@@ -552,7 +573,12 @@ fun VanSliders() {
         }
 
         // 2. 双滑块
-        Text("双滑块: ${valueRange[0].toInt()} - ${valueRange[1].toInt()}", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Text(
+            "双滑块: ${valueRange[0].toInt()} - ${valueRange[1].toInt()}",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+        )
         Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
             VanSlider(
                 range = true,
@@ -562,7 +588,12 @@ fun VanSliders() {
         }
 
         // 3. 指定步长
-        Text("指定步长 (Step=10): ${valueStep.toInt()}", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Text(
+            "指定步长 (Step=10): ${valueStep.toInt()}",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+        )
         Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
             VanSlider(
                 step = 10f,
@@ -572,7 +603,12 @@ fun VanSliders() {
         }
 
         // 4. 自定义样式 & 按钮
-        Text("自定义样式 & 按钮", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Text(
+            "自定义样式 & 按钮",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+        )
         Box(modifier = Modifier.padding(horizontal = 24.dp, vertical = 10.dp)) {
             VanSlider(
                 value = valueCustom,
@@ -596,7 +632,12 @@ fun VanSliders() {
         }
 
         // 5. 垂直方向
-        Text("垂直方向", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Text(
+            "垂直方向",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+        )
         Row(
             modifier = Modifier
                 .height(200.dp) // 必须给高度
@@ -619,6 +660,7 @@ fun VanSliders() {
         }
     }
 }
+
 @Composable
 fun VanSwitches() {
     // 状态管理
@@ -766,7 +808,11 @@ fun VanTags() {
                 }
                 // 为了演示效果，如果关闭了提供一个重置按钮
                 if (!showCloseableTag) {
-                    VanButton(size = VanButtonSize.Mini, type = VanButtonType.Default, text = "重置", onClick = { showCloseableTag = true })
+                    VanButton(
+                        size = VanButtonSize.Mini,
+                        type = VanButtonType.Default,
+                        text = "重置",
+                        onClick = { showCloseableTag = true })
                 }
             })
         }
@@ -798,6 +844,7 @@ fun VanTags() {
         }
     }
 }
+
 @Composable
 fun VanSwipes() {
     Column {
@@ -809,7 +856,12 @@ fun VanSwipes() {
         )
 
         // 1. 基础用法 (自动播放)
-        Text("基础用法 (Autoplay)", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Text(
+            "基础用法 (Autoplay)",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+        )
         VanSwipe(
             itemCount = 4,
             autoplay = 3000,
@@ -832,7 +884,12 @@ fun VanSwipes() {
         Spacer(modifier = Modifier.height(20.dp))
 
         // 2. 纵向滚动
-        Text("纵向滚动", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Text(
+            "纵向滚动",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+        )
         VanSwipe(
             itemCount = 4,
             vertical = true,
@@ -855,7 +912,12 @@ fun VanSwipes() {
         Spacer(modifier = Modifier.height(20.dp))
 
         // 3. 自定义滑块大小 (一屏多页)
-        Text("自定义滑块大小 (Loop=false)", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Text(
+            "自定义滑块大小 (Loop=false)",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+        )
         VanSwipe(
             itemCount = 4,
             loop = false,
@@ -865,7 +927,9 @@ fun VanSwipes() {
                 .height(200.dp)
         ) { index ->
             // 给个 margin 来看出间隙
-            Box(modifier = Modifier.padding(end = 10.dp).fillMaxSize()) {
+            Box(modifier = Modifier
+                .padding(end = 10.dp)
+                .fillMaxSize()) {
                 val color = when (index) {
                     0 -> Color(0xFF39A9ED)
                     1 -> Color(0xFF66C6F2)
@@ -881,7 +945,12 @@ fun VanSwipes() {
         Spacer(modifier = Modifier.height(20.dp))
 
         // 4. 自定义指示器
-        Text("自定义指示器", fontSize = 14.sp, color = Color.Gray, modifier = Modifier.padding(start = 16.dp, bottom = 8.dp))
+        Text(
+            "自定义指示器",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
+        )
         VanSwipe(
             itemCount = 4,
             modifier = Modifier
@@ -916,6 +985,7 @@ fun VanSwipes() {
         }
     }
 }
+
 @Composable
 fun VanCollapses() {
     // --- 状态管理 ---
@@ -995,7 +1065,12 @@ fun VanCollapses() {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text("标题3")
                             Spacer(modifier = Modifier.width(4.dp))
-                            Icon(Icons.Filled.Info, null, tint = Color.Blue, modifier = Modifier.size(14.dp))
+                            Icon(
+                                Icons.Filled.Info,
+                                null,
+                                tint = Color.Blue,
+                                modifier = Modifier.size(14.dp)
+                            )
                         }
                     }
                 ) {
@@ -1089,7 +1164,12 @@ fun VanBadges() {
             }) { BadgeChildBox() }
 
             VanBadge(badgeSlot = {
-                Icon(Icons.Default.KeyboardArrowDown, null, tint = Color.White, modifier = Modifier.size(10.dp))
+                Icon(
+                    Icons.Default.KeyboardArrowDown,
+                    null,
+                    tint = Color.White,
+                    modifier = Modifier.size(10.dp)
+                )
             }) { BadgeChildBox() }
         }
 
@@ -1115,6 +1195,7 @@ fun VanBadges() {
         }
     }
 }
+
 // 模拟 Vant 文档中的灰色方块子元素
 @Composable
 fun BadgeChildBox() {
@@ -1124,6 +1205,7 @@ fun BadgeChildBox() {
             .background(Color(0xFFF2F3F5), RoundedCornerShape(4.dp))
     )
 }
+
 @Composable
 fun VanButtons() {
 // ================== 1. 原有的按钮测试 ==================
@@ -1165,7 +1247,7 @@ fun VanButtons() {
 }
 
 @Composable
-fun VanCellGroups(){
+fun VanCellGroups() {
     Column() {
         // ================== 2. Cell 单元格测试 ==================
 
@@ -1184,14 +1266,26 @@ fun VanCellGroups(){
         // --- 单元格大小 ---
         VanCellGroup(title = "单元格大小") {
             VanCell(title = "普通", value = "内容")
-            VanCell(title = "大号", value = "内容", size = VanCellSize.Large, label = "描述信息", border = false)
+            VanCell(
+                title = "大号",
+                value = "内容",
+                size = VanCellSize.Large,
+                label = "描述信息",
+                border = false
+            )
         }
 
         // --- 展示图标 & 箭头 ---
         VanCellGroup(title = "展示图标与箭头") {
             VanCell(title = "带图标", icon = Icons.Filled.LocationOn, value = "定位")
             VanCell(title = "跳转链接", isLink = true)
-            VanCell(title = "向下箭头", isLink = true, arrowDirection = VanCellArrowDirection.Down, value = "展开", border = false)
+            VanCell(
+                title = "向下箭头",
+                isLink = true,
+                arrowDirection = VanCellArrowDirection.Down,
+                value = "展开",
+                border = false
+            )
         }
 
         // --- 垂直居中 ---
@@ -1211,7 +1305,11 @@ fun VanCellGroups(){
             VanCell(
                 title = "自定义右侧图标",
                 rightIconComposable = {
-                    Icon(Icons.Filled.Search, contentDescription = null, modifier = Modifier.size(16.dp))
+                    Icon(
+                        Icons.Filled.Search,
+                        contentDescription = null,
+                        modifier = Modifier.size(16.dp)
+                    )
                 }
             )
 
@@ -1238,6 +1336,174 @@ fun VanCellGroups(){
                 },
                 border = false
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun VanButtonDemo() {
+    Column {
+        // 1. 按钮类型
+        DemoSection("按钮类型") {
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                VanButton(type = VanButtonType.Primary, text = "主要按钮")
+                VanButton(type = VanButtonType.Success, text = "成功按钮")
+                VanButton(type = VanButtonType.Default, text = "默认按钮")
+                VanButton(type = VanButtonType.Danger, text = "危险按钮")
+                VanButton(type = VanButtonType.Warning, text = "警告按钮")
+            }
+        }
+
+        // 2. 朴素按钮
+        DemoSection("朴素按钮") {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                VanButton(plain = true, type = VanButtonType.Primary, text = "朴素按钮")
+                VanButton(plain = true, type = VanButtonType.Success, text = "朴素按钮")
+            }
+        }
+
+        // 3. 细边框
+        DemoSection("细边框 (Hairline)") {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                VanButton(
+                    plain = true,
+                    hairline = true,
+                    type = VanButtonType.Primary,
+                    text = "细边框按钮"
+                )
+                VanButton(
+                    plain = true,
+                    hairline = true,
+                    type = VanButtonType.Success,
+                    text = "细边框按钮"
+                )
+            }
+        }
+
+        // 4. 禁用状态
+        DemoSection("禁用状态") {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                VanButton(disabled = true, type = VanButtonType.Primary, text = "禁用状态")
+                VanButton(disabled = true, type = VanButtonType.Success, text = "禁用状态")
+            }
+        }
+
+        // 5. 加载状态
+        DemoSection("加载状态") {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                VanButton(loading = true, type = VanButtonType.Primary)
+                VanButton(
+                    loading = true,
+                    type = VanButtonType.Primary,
+                    loadingText = "加载中..."
+                )
+                VanButton(
+                    loading = true,
+                    type = VanButtonType.Success,
+                    loadingText = "加载中..."
+                )
+            }
+        }
+
+        // 6. 按钮形状
+        DemoSection("按钮形状") {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                VanButton(square = true, type = VanButtonType.Primary, text = "方形按钮")
+                VanButton(round = true, type = VanButtonType.Success, text = "圆形按钮")
+            }
+        }
+
+        // 7. 图标按钮
+        DemoSection("图标按钮") {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                VanButton(icon = Icons.Default.Add, type = VanButtonType.Primary)
+                VanButton(
+                    icon = Icons.Default.Add,
+                    type = VanButtonType.Primary,
+                    text = "按钮"
+                )
+                VanButton(
+                    plain = true,
+                    icon = Icons.Default.Star,
+                    type = VanButtonType.Primary,
+                    text = "按钮"
+                )
+            }
+        }
+
+        // 8. 图标位置
+        DemoSection("图标位置") {
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                VanButton(
+                    icon = Icons.Default.ArrowForward,
+                    iconPosition = VanButtonIconPosition.Right,
+                    type = VanButtonType.Primary,
+                    text = "下一步"
+                )
+            }
+        }
+
+        // 9. 按钮尺寸
+        DemoSection("按钮尺寸") {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                VanButton(
+                    size = VanButtonSize.Large,
+                    type = VanButtonType.Primary,
+                    text = "大号按钮",
+                    block = true
+                )
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    VanButton(
+                        size = VanButtonSize.Normal,
+                        type = VanButtonType.Primary,
+                        text = "普通按钮"
+                    )
+                    VanButton(
+                        size = VanButtonSize.Small,
+                        type = VanButtonType.Primary,
+                        text = "小型按钮"
+                    )
+                    VanButton(
+                        size = VanButtonSize.Mini,
+                        type = VanButtonType.Primary,
+                        text = "迷你"
+                    )
+                }
+            }
+        }
+
+        // 10. 块级元素
+        DemoSection("块级元素") {
+            VanButton(type = VanButtonType.Primary, block = true, text = "块级元素")
+        }
+
+        // 11. 自定义颜色
+        DemoSection("自定义颜色") {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                VanButton(color = Color(0xFF7232DD), text = "单色按钮")
+                VanButton(color = Color(0xFF7232DD), plain = true, text = "单色按钮")
+
+                // 渐变色
+                val gradient = Brush.horizontalGradient(
+                    colors = listOf(Color(0xFFFF6034), Color(0xFFEE0A24))
+                )
+                VanButton(
+                    gradient = gradient,
+                    text = "渐变色按钮",
+                    color = Color.White // 这里指定color是为了确保文字是白色的
+                )
+            }
+            Row {
+                VanButton(square = true, type = VanButtonType.Primary, text = "方形按钮")
+                VanButton(square = true, type = VanButtonType.Primary, text = "方形按钮")
+            }
         }
     }
 }

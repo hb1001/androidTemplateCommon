@@ -41,7 +41,7 @@ fun TestVanDetail(path: String?) {
         ) {
             // 根据 path 路由到具体的 Demo 组件
             when (path) {
-                "button" -> VanButtons()
+                "button" -> VanButtonDemo()
                 "cell" -> VanCellGroups()
                 "typography" -> VanTypographyDemo()
                 "checkbox" -> VanCheckboxDemo()
@@ -57,6 +57,7 @@ fun TestVanDetail(path: String?) {
                 "swipe" -> VanSwipes()
                 "image"-> VanImageDemo()
                 "icon"-> VanIconDemo()
+                "dialog"->VanDialogDemo()
                 else -> {
                     // 默认或未找到
                     VanCell(title = "未找到该组件示例", value = path)

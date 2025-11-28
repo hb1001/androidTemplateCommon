@@ -17,6 +17,7 @@ import com.template.core.navigation.LocalNavController
 import com.template.core.ui.components.CommonTitleBar
 import com.template.core.ui.vant.VanCell
 import com.template.core.ui.vant.VanCellGroup
+import com.template.feature.atrust.navigation.navigateToLoginWithVpn
 import com.template.generated.navigateToTestDetail
 
 // 定义菜单数据
@@ -38,7 +39,10 @@ val demoCells = listOf(
     CellItem("Collapse 折叠面板", "collapse"),
     CellItem("Swipe 轮播", "swipe"),
     CellItem("image 图片", "image"),
-    CellItem("icon ", "icon")
+    CellItem("icon ", "icon"),
+    CellItem("Dialog 弹出框", "dialog"),
+    CellItem("toast/弹框提示", "icon"),
+    CellItem("ActionSheet 动作面板", "actionSheet")
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,6 +65,13 @@ fun TestListScreen() {
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 40.dp)
         ) {
+            VanCell(
+                title = "登录",
+                isLink = true,
+                onClick = {
+                    navController.navigateToLoginWithVpn()
+                }
+            )
             VanCellGroup(title = "基础组件") {
                 demoCells.forEach { item ->
                     VanCell(
