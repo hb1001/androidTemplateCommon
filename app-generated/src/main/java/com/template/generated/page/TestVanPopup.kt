@@ -11,13 +11,103 @@ import androidx.compose.ui.unit.dp
 import com.template.core.ui.vant.VanAction
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.sp
+import com.template.core.ui.uimodel.*
 import com.template.core.ui.vant.*
 
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+
+@Composable
+fun VanAreaDemo() {
+    val context = LocalContext.current
+    var showAreaPicker by remember { mutableStateOf(false) }
+    var resultText by remember { mutableStateOf("点击选择省市区") }
+
+    val areaRepo = AreaRepository(context)
+    // --- 异步加载数据 ---
+    // 为了不阻塞 UI，我们在 LaunchedEffect 或 produceState 中加载
+    // 假设 context.loadProvinces() 等方法已经按照你提供的代码写好
+    val areaDataState = produceState(initialValue = AreaDataState(loading = true)) {
+        // 模拟一点延迟，或者真实读取IO
+        val provinces = areaRepo.getProvinces()
+        val cities = areaRepo.getCities()
+        val areas = areaRepo.getAreas()
+
+        value = AreaDataState(
+            loading = false,
+            provinces = provinces,
+            cities = cities,
+            areas = areas
+        )
+    }
+
+    val areaData = areaDataState.value
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        Text("Area 省市区选择", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
+
+        // 触发按钮
+        VanCellGroup {
+            VanCell(
+                title = "选择地区",
+                value = resultText,
+                isLink = true,
+                onClick = { showAreaPicker = true }
+            )
+        }
+    }
+
+    // --- 弹出层 ---
+    VanPopup(
+        visible = showAreaPicker,
+        onClose = { showAreaPicker = false },
+        position = VanPopupPosition.Bottom,
+        round = true, // 关键：顶部圆角
+        // 高度自适应，或者在这里限制高度 (VanAreaPicker 内部给了 500.dp)
+    ) {
+        if (areaData.loading) {
+            // 加载中状态
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = VanAreaColors.Active)
+            }
+        } else {
+            // 选择器组件
+            VanAreaPicker(
+                provinces = areaData.provinces,
+                cities = areaData.cities,
+                areas = areaData.areas,
+                onCancel = { showAreaPicker = false },
+                onFinish = { p, c, a ->
+                    resultText = "${p.name} / ${c.name} / ${a.name}"
+                    showAreaPicker = false
+                }
+            )
+        }
+    }
+}
+
+// 简单的状态持有类
+data class AreaDataState(
+    val loading: Boolean = false,
+    val provinces: List<Province> = emptyList(),
+    val cities: List<City> = emptyList(),
+    val areas: List<Area> = emptyList()
+)
 
 @Composable
 fun VanPickerDemo() {
@@ -80,7 +170,7 @@ fun VanPickerDemo() {
     VanPickerPopup(
         visible = showDatePicker,
         onClose = { showDatePicker = false },
-        title = "${tempDate.year}年${tempDate.monthValue}月", // 动态标题，仿照截图
+        title =  "选择日期",  // "${tempDate.year}年${tempDate.monthValue}月", // 动态标题，仿照截图
         onCancel = { showDatePicker = false },
         onConfirm = {
             selectedDate = tempDate
@@ -111,6 +201,7 @@ fun VanPickerDemo() {
             onTimeChange = { tempTime = it }
         )
     }
+    VanAreaDemo()
 }
 
 

@@ -8,12 +8,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import com.template.core.navigation.LocalNavController
 import com.template.core.ui.components.CommonTitleBar
 import com.template.core.ui.vant.*
 
@@ -55,7 +52,7 @@ fun TestVanDetail(path: String?) {
                 "search" -> VanSearchDemo()
                 "slider" -> VanSliders()
                 "switch" -> VanSwitches()
-                "swipecell" -> VanSwipeCellDemo()
+                "swipeCell" -> VanSwipeCellDemo()
                 "tag" -> VanTags()
                 "badge" -> VanBadges()
                 "collapse" -> VanCollapses()

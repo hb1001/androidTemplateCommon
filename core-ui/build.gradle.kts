@@ -3,6 +3,8 @@
 plugins {
     // 1. 应用我们自定义的约定插件，一行搞定大部分Android配置
     id("your.project.android.library")
+
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -45,6 +47,8 @@ dependencies {
     implementation(libs.coil.compose)
 //    implementation(libs.coil.gif)     // 可选
     implementation(libs.coil.svg)     // 可选
+
+    implementation(libs.kotlinx.serialization.json)
 
 
 
