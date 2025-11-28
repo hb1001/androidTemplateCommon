@@ -31,13 +31,13 @@ fun TestVanDetail(path: String?) {
                 .fillMaxSize()
                 .background(Color(0xFFF7F8FA))
                 .then(
-                    if (path=="popup") {
+                    if (path == "popup") {
                         Modifier
                     } else {
                         Modifier.verticalScroll(rememberScrollState())
                     }
                 )
-                // 统一在这里处理滚动，Demo 组件内部不要再写 verticalScroll
+            // 统一在这里处理滚动，Demo 组件内部不要再写 verticalScroll
 //                .verticalScroll(rememberScrollState())
 //                .padding(bottom = 40.dp)
         ) {
@@ -57,12 +57,13 @@ fun TestVanDetail(path: String?) {
                 "badge" -> VanBadges()
                 "collapse" -> VanCollapses()
                 "swipe" -> VanSwipes()
-                "image"-> VanImageDemo()
-                "icon"-> VanIconDemo()
-                "dialog"->VanDialogDemo()
-                "popup"->VanPopupDemo()
-                "actionSheet"->VanActionSheetDemo()
+                "image" -> VanImageDemo()
+                "icon" -> VanIconDemo()
+                "dialog" -> VanDialogDemo()
+                "popup" -> VanPopupDemo()
+                "actionSheet" -> VanActionSheetDemo()
                 "timePicker" -> VanPickerDemo()
+                "share" -> VanShareSheetDemo()
 
                 else -> {
                     // 默认或未找到

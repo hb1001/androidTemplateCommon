@@ -43,9 +43,9 @@ val demoCells = listOf(
     CellItem("Dialog 弹出框", "dialog"),
     CellItem("popup 弹出", "popup"), // 可能只需要底部的
     CellItem("ActionSheet 动作面板", "actionSheet"), //稍微丑，可以参考闹钟的设计
-    CellItem("share", "share"), // 自己写
-    CellItem("toast 通知提示", "toast"),// 自己写? 有三种：纯文字toast、带图标的成功失败的toast、加载中遮罩
+    CellItem("share 分享", "share"), // 自己写
     CellItem("Picker 选择器", "timePicker"), // 时间日期选择器；地区选择；省市区选择
+    CellItem("toast 通知提示", "toast"),// 自己写? 有三种：纯文字toast、带图标的成功失败的toast、加载中遮罩
 
 )
 // 调整依赖gradle文件

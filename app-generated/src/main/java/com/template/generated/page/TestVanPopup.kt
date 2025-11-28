@@ -1,6 +1,7 @@
 package com.template.generated.page
 
 import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -21,6 +22,142 @@ import com.template.core.ui.vant.*
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+
+
+
+@Composable
+fun VanShareSheetDemo() {
+    val context = LocalContext.current
+
+    // States
+    var showBasic by remember { mutableStateOf(false) }
+    var showMultiLine by remember { mutableStateOf(false) }
+    var showCustomIcon by remember { mutableStateOf(false) }
+    var showDesc by remember { mutableStateOf(false) }
+
+    // Mock Options
+    val basicOptions = listOf(
+        VanShareOption(name = "微信", icon = "wechat"),
+        VanShareOption(name = "微博", icon = "weibo"),
+        VanShareOption(name = "复制链接", icon = "link"),
+        VanShareOption(name = "分享海报", icon = "poster"),
+        VanShareOption(name = "二维码", icon = "qrcode")
+    )
+
+    val multiLineOptions = listOf(
+        listOf(
+            VanShareOption(name = "微信", icon = "wechat"),
+            VanShareOption(name = "朋友圈", icon = "wechat-moments"),
+            VanShareOption(name = "微博", icon = "weibo"),
+            VanShareOption(name = "QQ", icon = "qq")
+        ),
+        listOf(
+            VanShareOption(name = "复制链接", icon = "link"),
+            VanShareOption(name = "分享海报", icon = "poster"),
+            VanShareOption(name = "二维码", icon = "qrcode"),
+            VanShareOption(name = "小程序码", icon = "weapp-qrcode")
+        )
+    )
+
+    val customIconOptions = listOf(
+        VanShareOption(name = "名称", icon = "https://img.yzcdn.cn/vant/custom-icon-fire.png"),
+        VanShareOption(name = "名称", icon = "https://img.yzcdn.cn/vant/custom-icon-light.png"),
+        VanShareOption(name = "名称", icon = "https://img.yzcdn.cn/vant/custom-icon-water.png")
+    )
+
+    val descOptions = listOf(
+        VanShareOption(name = "微信", icon = "wechat"),
+        VanShareOption(name = "微博", icon = "weibo"),
+        VanShareOption(name = "复制链接", icon = "link", description = "描述信息"),
+        VanShareOption(name = "分享海报", icon = "poster"),
+        VanShareOption(name = "二维码", icon = "qrcode")
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        Text("ShareSheet 分享面板", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
+
+        // 1. 基础用法
+        DemoSection("基础用法", padding = false) {
+            VanCellGroup {
+                VanCell(title = "显示分享面板", isLink = true, onClick = { showBasic = true })
+            }
+        }
+
+        // 2. 展示多行选项
+        DemoSection("展示多行选项", padding = false) {
+            VanCellGroup {
+                VanCell(title = "显示分享面板", isLink = true, onClick = { showMultiLine = true })
+            }
+        }
+
+        // 3. 自定义图标
+        DemoSection("自定义图标", padding = false) {
+            VanCellGroup {
+                VanCell(title = "显示分享面板", isLink = true, onClick = { showCustomIcon = true })
+            }
+        }
+
+        // 4. 展示描述信息
+        DemoSection("展示描述信息", padding = false) {
+            VanCellGroup {
+                VanCell(title = "显示分享面板", isLink = true, onClick = { showDesc = true })
+            }
+        }
+    }
+
+    // --- ShareSheets ---
+
+    VanShareSheet(
+        visible = showBasic,
+        onCancel = { showBasic = false },
+        title = "立即分享给好友",
+        options = basicOptions,
+        onSelect = { option, index ->
+            Toast.makeText(context, "${option.name} $index", Toast.LENGTH_SHORT).show()
+            showBasic = false
+        }
+    )
+
+    VanShareSheet(
+        visible = showMultiLine,
+        onCancel = { showMultiLine = false },
+        title = "立即分享给好友",
+        options = multiLineOptions,
+        onSelect = { option, index ->
+            Toast.makeText(context, "${option.name} $index", Toast.LENGTH_SHORT).show()
+            showMultiLine = false
+        }
+    )
+
+    VanShareSheet(
+        visible = showCustomIcon,
+        onCancel = { showCustomIcon = false },
+        options = customIconOptions,
+        onSelect = { option, _ ->
+            Toast.makeText(context, option.name, Toast.LENGTH_SHORT).show()
+            showCustomIcon = false
+        }
+    )
+
+    VanShareSheet(
+        visible = showDesc,
+        onCancel = { showDesc = false },
+        title = "立即分享给好友",
+        description = "描述信息",
+        options = descOptions,
+        onSelect = { option, _ ->
+            Toast.makeText(context, option.name, Toast.LENGTH_SHORT).show()
+            showDesc = false
+        }
+    )
+}
+
+
 
 @Composable
 fun VanAreaDemo() {
