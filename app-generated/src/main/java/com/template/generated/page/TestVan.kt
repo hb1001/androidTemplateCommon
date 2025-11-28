@@ -26,9 +26,11 @@ import com.template.core.ui.vant.*
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
+import coil.compose.AsyncImage
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -193,7 +195,7 @@ fun VanTypographyDemo() {
 }
 
 @Composable
-private fun DemoSection(title: String, content: @Composable () -> Unit) {
+fun DemoSection(title: String, padding:Boolean = false, content: @Composable () -> Unit) {
     Column {
         Text(title, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
         Box(
@@ -325,20 +327,20 @@ private fun CustomStyle() {
         val activeIcon = "https://img.yzcdn.cn/vant/user-active.png"
         val inactiveIcon = "https://img.yzcdn.cn/vant/user-inactive.png"
 
-//        VanCheckbox(
-//            checked = checked4,
-//            onChange = { checked4 = it },
-//            iconRender = { checked, _ ->
-//                val url = if (checked) activeIcon else inactiveIcon
-//                Image(
-//                    painter = rememberAsyncImagePainter(url),
-//                    contentDescription = null,
-//                    modifier = Modifier.size(20.dp)
-//                )
-//            }
-//        ) {
-//            Text("自定义图标 (网络图)")
-//        }
+        VanCheckbox(
+            checked = checked4,
+            onChange = { checked4 = it },
+            iconRender = { checked, _ ->
+                val url = if (checked) activeIcon else inactiveIcon
+                AsyncImage(
+                    model = url,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        ) {
+            Text("自定义图标 (网络图)")
+        }
     }
 }
 

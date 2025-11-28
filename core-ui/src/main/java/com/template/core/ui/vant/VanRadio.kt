@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,9 +46,6 @@ enum class VanRadioDirection {
 
 // --- Group 上下文 ---
 
-/**
- * 用于在 Group 和 Radio 之间共享状态
- */
 internal data class RadioGroupContext(
     val currentValue: Any?,
     val onValueChange: (Any?) -> Unit,
@@ -63,16 +59,6 @@ internal val LocalRadioGroup = compositionLocalOf<RadioGroupContext?> { null }
 
 // --- 组件实现 ---
 
-/**
- * VanRadioGroup - 单选框组
- *
- * @param value 当前选中项的标识符
- * @param onChange 选中变化回调
- * @param direction 排列方向
- * @param disabled 是否禁用所有单选框
- * @param iconSize 所有单选框的图标大小
- * @param checkedColor 所有单选框的选中状态颜色
- */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> VanRadioGroup(
@@ -81,7 +67,7 @@ fun <T> VanRadioGroup(
     modifier: Modifier = Modifier,
     direction: VanRadioDirection = VanRadioDirection.Vertical,
     disabled: Boolean = false,
-    iconSize: Dp = 20.dp, // Vant 默认 21px 左右
+    iconSize: Dp = 20.dp,
     checkedColor: Color = VanRadioColors.CheckedDefault,
     content: @Composable () -> Unit
 ) {
@@ -103,10 +89,9 @@ fun <T> VanRadioGroup(
                 content()
             }
         } else {
-            // 水平排列，使用 FlowRow 以防溢出
             FlowRow(
                 modifier = modifier,
-                horizontalArrangement = Arrangement.spacedBy(12.dp), // 水平间距略大一点
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 content()
@@ -115,17 +100,6 @@ fun <T> VanRadioGroup(
     }
 }
 
-/**
- * VanRadio - 单选框
- *
- * @param name 标识符 (用于与 Group value 比对)
- * @param shape 形状 Round | Square
- * @param disabled 是否禁用
- * @param labelDisabled 是否禁用文本内容点击
- * @param iconSize 图标大小
- * @param checkedColor 选中状态颜色
- * @param iconRender 自定义图标渲染 (checked, disabled) -> Unit
- */
 @Composable
 fun <T> VanRadio(
     name: T,
@@ -133,32 +107,31 @@ fun <T> VanRadio(
     shape: VanRadioShape = VanRadioShape.Round,
     disabled: Boolean = false,
     labelDisabled: Boolean = false,
-    iconSize: Dp? = null, // 为 null 时尝试读取 Group 配置
-    checkedColor: Color? = null, // 为 null 时尝试读取 Group 配置
+    iconSize: Dp? = null,
+    checkedColor: Color? = null,
     iconRender: (@Composable (Boolean, Boolean) -> Unit)? = null,
-    content: (@Composable () -> Unit)? = null // Label
+    content: (@Composable () -> Unit)? = null
 ) {
     val groupContext = LocalRadioGroup.current
         ?: throw IllegalStateException("VanRadio must be used inside VanRadioGroup")
 
-    // --- 状态判定 ---
     val isChecked = (groupContext.currentValue == name)
     val isDisabled = groupContext.disabled || disabled
     val activeColor = checkedColor ?: groupContext.checkedColor
     val currentIconSize = iconSize ?: groupContext.iconSize
 
-    // --- 交互逻辑 ---
     val onClick = {
         if (!isDisabled && !isChecked) {
             groupContext.onValueChange(name)
         }
     }
 
-    // 整个 Row 的点击事件 (如果 Label 没有禁用)
+    // 整个 Row 的点击事件
     val rowModifier = modifier
         .clickable(
             interactionSource = remember { MutableInteractionSource() },
-            indication = null, // 无水波纹
+            indication = null,
+            // 只有当整体未禁用，且 Label 未禁用时，Row 才可以点击
             enabled = !isDisabled && !labelDisabled,
             onClick = onClick,
             role = Role.RadioButton
@@ -170,18 +143,21 @@ fun <T> VanRadio(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         // --- 图标区域 ---
-        Box(
-            modifier = Modifier
-                .clickable(
-                    interactionSource = remember { MutableInteractionSource() },
-                    indication = null,
-                    enabled = !isDisabled,
-                    onClick = {
-                        // 如果 labelDisabled，这里必须响应；否则外层 Row 响应，这里防冒泡
-                        if (labelDisabled) onClick()
-                    }
-                )
-        ) {
+        // 修复逻辑：
+        // 如果 labelDisabled = true，说明 Row 不响应点击，我们需要单独给 Icon 添加点击事件。
+        // 如果 labelDisabled = false，Row 已经响应点击，Icon 不需要添加 clickable (否则会拦截父级点击)。
+        val iconModifier = if (labelDisabled) {
+            Modifier.clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                enabled = !isDisabled,
+                onClick = onClick
+            )
+        } else {
+            Modifier
+        }
+
+        Box(modifier = iconModifier) {
             if (iconRender != null) {
                 Box(modifier = Modifier.size(currentIconSize)) {
                     iconRender(isChecked, isDisabled)
@@ -222,13 +198,12 @@ private fun DefaultRadioIcon(
     checkedColor: Color,
     size: Dp
 ) {
-    // 动画状态
     val transition = updateTransition(checked, label = "RadioTransition")
 
     val backgroundColor by transition.animateColor(label = "BgColor") { isChecked ->
         if (isChecked && !disabled) checkedColor
         else if (isChecked && disabled) VanRadioColors.DisabledIcon
-        else Color.Transparent // Unchecked
+        else Color.Transparent
     }
 
     val borderColor by transition.animateColor(label = "BorderColor") { isChecked ->

@@ -120,6 +120,12 @@ dependencies {
 
     // 添加 Material 2 来使用 pull-refresh 组件
     implementation(libs.androidx.compose.material)
+
+    implementation(libs.coil.core)
+    implementation(libs.coil.compose)
+//    implementation(libs.coil.gif)     // 可选
+    implementation(libs.coil.svg)     // 可选
+
 }
 
 // Allow references to generated code

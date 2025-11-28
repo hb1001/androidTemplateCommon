@@ -41,5 +41,11 @@ dependencies {
     implementation(libs.androidx.compose.material)
 
 
+    implementation(libs.coil.core)
+    implementation(libs.coil.compose)
+//    implementation(libs.coil.gif)     // 可选
+    implementation(libs.coil.svg)     // 可选
+
+
 
 }

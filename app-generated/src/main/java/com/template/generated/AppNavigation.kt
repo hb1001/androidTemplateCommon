@@ -7,9 +7,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.template.core.navigation.AppRoutes
 import com.template.core.navigation.LocalNavController
 import com.template.feature.atrust.navigation.loginWithVpnScreen
@@ -19,7 +21,9 @@ import com.template.feature.setting.navigation.settingScreen
 import com.template.feature.webview.navigation.webviewScreen
 import com.template.generated.page.AppMainEntryScreen
 import com.template.generated.page.PostEditScreen
+import com.template.generated.page.TestListScreen
 import com.template.generated.page.TestVan
+import com.template.generated.page.TestVanDetail
 import com.template.generated.pickdemo.PickerDemoScreen
 import kotlin.OptIn
 
@@ -77,7 +81,23 @@ public fun NavGraphBuilder.customScreen() {
         PostEditScreen()
     }
 
+    // 1. 列表页
     composable(route = AppRoutes.CUSTOM_TEST_VANT_ROUTE) {
-        TestVan()
+        TestListScreen()
     }
+
+    // 2. 详情页 (接收 path 参数)
+    composable(
+        route = AppRoutes.CUSTOM_TEST_VANT_DETAIL_ROUTE,
+        arguments = listOf(navArgument("path") { type = NavType.StringType })
+    ) { backStackEntry ->
+        // 获取参数
+        val path = backStackEntry.arguments?.getString("path")
+        TestVanDetail(path = path)
+    }
+}
+fun androidx.navigation.NavController.navigateToTestDetail(path: String) {
+    // 替换路由中的 {path} 占位符
+    val route = AppRoutes.CUSTOM_TEST_VANT_DETAIL_ROUTE.replace("{path}", path)
+    this.navigate(route)
 }
