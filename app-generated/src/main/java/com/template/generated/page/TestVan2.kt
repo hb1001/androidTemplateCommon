@@ -71,6 +71,169 @@ fun TestVan() {
 
 
 @Composable
+fun VanPopupDemo() {
+    // 状态管理
+    var showBasic by remember { mutableStateOf(false) }
+
+    var showTop by remember { mutableStateOf(false) }
+    var showBottom by remember { mutableStateOf(false) }
+    var showLeft by remember { mutableStateOf(false) }
+    var showRight by remember { mutableStateOf(false) }
+
+    var showRound by remember { mutableStateOf(false) }
+    var showCloseable by remember { mutableStateOf(false) }
+    var showTitle by remember { mutableStateOf(false) }
+
+    // 由于 VanPopup 需要覆盖在页面最上层，我们这里用一个 Box 包裹整个演示页面
+    // 实际项目中，VanPopup 建议放在 Scaffold 的最外层 Box 中
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
+            Text(
+                "Popup 弹出层",
+                color = Color.Gray,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+
+            // 1. 基础用法
+            DemoSection("基础用法", padding = false) {
+                VanCellGroup {
+                    VanCell(title = "展示弹出层", isLink = true, onClick = { showBasic = true })
+                }
+            }
+
+            // 2. 弹出位置
+            DemoSection("弹出位置", padding = false) {
+                VanCellGroup {
+                    VanCell(title = "顶部弹出", isLink = true, onClick = { showTop = true })
+                    VanCell(title = "底部弹出", isLink = true, onClick = { showBottom = true })
+                    VanCell(title = "左侧弹出", isLink = true, onClick = { showLeft = true })
+                    VanCell(title = "右侧弹出", isLink = true, onClick = { showRight = true })
+                }
+            }
+
+            // 3. 圆角弹窗
+            DemoSection("圆角弹窗", padding = false) {
+                VanCellGroup {
+                    VanCell(title = "圆角弹窗", isLink = true, onClick = { showRound = true })
+                }
+            }
+
+            // 4. 关闭图标
+            DemoSection("关闭图标", padding = false) {
+                VanCellGroup {
+                    VanCell(title = "关闭图标", isLink = true, onClick = { showCloseable = true })
+                }
+            }
+
+            // 5. 标题弹窗
+            DemoSection("标题弹窗", padding = false) {
+                VanCellGroup {
+                    VanCell(title = "标题弹窗", isLink = true, onClick = { showTitle = true })
+                }
+            }
+        }
+
+        // --- Popups (放在最上层) ---
+
+        // 1. 基础 (Center)
+        VanPopup(
+            visible = showBasic,
+            onClose = { showBasic = false },
+            contentWidth = 200.dp,
+            contentHeight = 150.dp
+        ) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text("内容")
+            }
+        }
+
+        // 2. Top
+        VanPopup(
+            visible = showTop,
+            onClose = { showTop = false },
+            position = VanPopupPosition.Top,
+            contentHeight = 200.dp
+        ) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("顶部弹出") }
+        }
+
+        // Bottom
+        VanPopup(
+            visible = showBottom,
+            onClose = { showBottom = false },
+            position = VanPopupPosition.Bottom,
+            contentHeight = 200.dp,
+            safeAreaInsetBottom = true
+        ) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("底部弹出") }
+        }
+
+        // Left
+        VanPopup(
+            visible = showLeft,
+            onClose = { showLeft = false },
+            position = VanPopupPosition.Left,
+            contentWidth = 200.dp
+        ) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("左侧弹出") }
+        }
+
+        // Right
+        VanPopup(
+            visible = showRight,
+            onClose = { showRight = false },
+            position = VanPopupPosition.Right,
+            contentWidth = 200.dp
+        ) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("右侧弹出") }
+        }
+
+        // Round
+        VanPopup(
+            visible = showRound,
+            onClose = { showRound = false },
+            position = VanPopupPosition.Bottom,
+            round = true,
+            contentHeight = 200.dp
+        ) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("圆角弹窗") }
+        }
+
+        // Closeable
+        VanPopup(
+            visible = showCloseable,
+            onClose = { showCloseable = false },
+            position = VanPopupPosition.Bottom,
+            closeable = true,
+            contentHeight = 200.dp
+        ) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("关闭图标") }
+        }
+
+        // Title
+        VanPopup(
+            visible = showTitle,
+            onClose = { showTitle = false },
+            position = VanPopupPosition.Bottom,
+            round = true,
+            closeable = true,
+            title = "标题",
+            description = "这是一段很长很长的描述这是一段很长很长的描述",
+            contentHeight = 250.dp
+        ) {
+            // 内容区域
+        }
+    }
+}
+
+
+@Composable
 fun VanDialogDemo() {
     val context = LocalContext.current
     val dialogController = LocalVanDialog.current
@@ -85,7 +248,12 @@ fun VanDialogDemo() {
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text("Dialog 弹出框", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            "Dialog 弹出框",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
         // 1. 函数调用 (消息提示)
         DemoSection("消息提示 (函数调用)", padding = false) {
@@ -147,7 +315,8 @@ fun VanDialogDemo() {
                                     message = "代码是写出来给人看的，附带能在机器上运行",
                                     theme = VanDialogTheme.RoundButton
                                 )
-                            } catch (e: Exception) {}
+                            } catch (e: Exception) {
+                            }
                         }
                     }
                 )
@@ -172,7 +341,8 @@ fun VanDialogDemo() {
                                     scope.launch {
                                         kotlinx.coroutines.delay(1000)
                                         dialogController.dismiss()
-                                        Toast.makeText(context, "异步关闭成功", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, "异步关闭成功", Toast.LENGTH_SHORT)
+                                            .show()
                                     }
                                 },
                                 onCancel = {
@@ -211,7 +381,9 @@ fun VanDialogDemo() {
                     AsyncImage(
                         model = "https://img.yzcdn.cn/vant/apple-3.jpg",
                         contentDescription = null,
-                        modifier = Modifier.fillMaxWidth().height(150.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(150.dp)
                     )
                     Spacer(Modifier.height(10.dp))
                     Text("这是自定义的图片内容", fontSize = 14.sp, color = Color.Gray)
@@ -220,7 +392,6 @@ fun VanDialogDemo() {
         }
     }
 }
-
 
 
 @Composable
@@ -241,8 +412,18 @@ fun VanIconDemo() {
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text("Icon 图标 (Coil SVG)", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
-        Text("请确保 assets/icons/ 下存在对应的 .svg 文件", fontSize = 12.sp, color = Color.Red, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            "Icon 图标 (Coil SVG)",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+        Text(
+            "请确保 assets/icons/ 下存在对应的 .svg 文件",
+            fontSize = 12.sp,
+            color = Color.Red,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
         // 1. 基础用法
         DemoSection("基础用法 (加载 Assets/Network)", padding = false) {
@@ -354,7 +535,12 @@ fun VanImageDemo() {
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text("Image 图片", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            "Image 图片",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
         // 1. 基础用法
         DemoSection("基础用法", padding = false) {
@@ -488,7 +674,11 @@ fun VanImageDemo() {
                         height = 100.dp,
                         // 自定义 Error 插槽 (文字)
                         errorIcon = {
-                            Text("加载失败", fontSize = 14.sp, color = VanImageColors.PlaceholderText)
+                            Text(
+                                "加载失败",
+                                fontSize = 14.sp,
+                                color = VanImageColors.PlaceholderText
+                            )
                         }
                     )
                     Spacer(Modifier.height(8.dp))
@@ -509,7 +699,12 @@ fun VanInputDemo() {
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text("Input 输入框", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            "Input 输入框",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
         // 1. 基础用法
         DemoSection("基础用法", padding = false) {
@@ -592,7 +787,13 @@ fun VanInputDemo() {
                                     text = "发送",
                                     type = VanButtonType.Primary,
                                     size = VanButtonSize.Mini,
-                                    onClick = { Toast.makeText(context, "发送验证码", Toast.LENGTH_SHORT).show() }
+                                    onClick = {
+                                        Toast.makeText(
+                                            context,
+                                            "发送验证码",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                                 )
                             }
                         )
@@ -647,7 +848,13 @@ fun VanInputDemo() {
                             onValueChange = { val1 = it },
                             maxLength = 10,
                             placeholder = "最多10个字符",
-                            onOverlimit = { Toast.makeText(context, "不能超过10个字符", Toast.LENGTH_SHORT).show() }
+                            onOverlimit = {
+                                Toast.makeText(
+                                    context,
+                                    "不能超过10个字符",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         )
                     }
                 )
@@ -712,7 +919,12 @@ fun VanSearchDemo() {
             .padding(bottom = 20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Text("Search 搜索", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(start = 16.dp, top = 16.dp))
+        Text(
+            "Search 搜索",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(start = 16.dp, top = 16.dp)
+        )
 
         // 1. 基础用法
         DemoSection("基础用法", padding = false) {
@@ -795,7 +1007,8 @@ fun VanSearchDemo() {
                         text = "搜索",
                         color = Color(0xFF323233),
                         modifier = Modifier.clickable {
-                            Toast.makeText(context, "Custom Search: $value", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Custom Search: $value", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     )
                 }
@@ -812,7 +1025,12 @@ fun VanSwipeCellDemo() {
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text("SwipeCell 滑动单元格", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            "SwipeCell 滑动单元格",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
         // 1. 基础用法
         DemoSection("基础用法", padding = false) {
@@ -879,7 +1097,9 @@ fun VanSwipeCellDemo() {
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Column(
-                        modifier = Modifier.weight(1f).height(88.dp),
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(88.dp),
                         verticalArrangement = Arrangement.SpaceBetween
                     ) {
                         Column {
@@ -913,7 +1133,11 @@ fun VanSwipeCellDemo() {
                                 .background(Color(0xFFEE0A24)),
                             contentAlignment = Alignment.Center
                         ) {
-                            CircularProgressIndicator(color = Color.White, modifier = Modifier.size(20.dp), strokeWidth = 2.dp)
+                            CircularProgressIndicator(
+                                color = Color.White,
+                                modifier = Modifier.size(20.dp),
+                                strokeWidth = 2.dp
+                            )
                         }
                     } else {
                         ActionBox(color = Color(0xFFEE0A24), text = "删除")
@@ -950,7 +1174,9 @@ fun VanSwipeCellDemo() {
                 }
 
                 Row(
-                    modifier = Modifier.padding(16.dp).fillMaxWidth(),
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     VanButton(text = "左滑", size = VanButtonSize.Small, onClick = {

@@ -45,25 +45,28 @@ public fun AppNavigation() {
             popExitTransition = { ExitTransition.None }
 
         ) {
-            loginScreen(
-                onLoginSuccess = {
-                    navController.navigateToCustom()
-                }
-            )
-
-            loginWithVpnScreen(onLoginSuccess = {
-                navController.navigateToCustom()
-            })
-
+            existPage(navController)
             customScreen()
-
-            webviewScreen(navController)
-            settingScreen(navController)
-
-            settingMapScreen(navController)
         }
     }
 
+}
+fun NavGraphBuilder.existPage(navController: NavController){
+    loginScreen(
+        onLoginSuccess = {
+            navController.navigateToCustom()
+        }
+    )
+
+    loginWithVpnScreen(onLoginSuccess = {
+        navController.navigateToCustom()
+    })
+
+
+    webviewScreen(navController)
+    settingScreen(navController)
+
+    settingMapScreen(navController)
 }
 
 public fun NavController.navigateToCustom() {
@@ -96,7 +99,7 @@ public fun NavGraphBuilder.customScreen() {
         TestVanDetail(path = path)
     }
 }
-fun androidx.navigation.NavController.navigateToTestDetail(path: String) {
+fun NavController.navigateToTestDetail(path: String) {
     // 替换路由中的 {path} 占位符
     val route = AppRoutes.CUSTOM_TEST_VANT_DETAIL_ROUTE.replace("{path}", path)
     this.navigate(route)

@@ -25,9 +25,7 @@ fun TestVanDetail(path: String?) {
 
     Scaffold(
         topBar = {
-            TopAppBar(title = {
-                CommonTitleBar(title = title, showBack = true)
-            })
+            CommonTitleBar(title = title, showBack = true)
         },
     ) { paddingValues ->
         Column(
@@ -35,9 +33,16 @@ fun TestVanDetail(path: String?) {
                 .padding(paddingValues)
                 .fillMaxSize()
                 .background(Color(0xFFF7F8FA))
+                .then(
+                    if (path=="popup") {
+                        Modifier
+                    } else {
+                        Modifier.verticalScroll(rememberScrollState())
+                    }
+                )
                 // 统一在这里处理滚动，Demo 组件内部不要再写 verticalScroll
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 40.dp)
+//                .verticalScroll(rememberScrollState())
+//                .padding(bottom = 40.dp)
         ) {
             // 根据 path 路由到具体的 Demo 组件
             when (path) {
@@ -58,6 +63,8 @@ fun TestVanDetail(path: String?) {
                 "image"-> VanImageDemo()
                 "icon"-> VanIconDemo()
                 "dialog"->VanDialogDemo()
+                "popup"->VanPopupDemo()
+
                 else -> {
                     // 默认或未找到
                     VanCell(title = "未找到该组件示例", value = path)
