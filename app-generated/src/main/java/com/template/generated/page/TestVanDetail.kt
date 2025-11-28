@@ -64,6 +64,7 @@ fun TestVanDetail(path: String?) {
                 "actionSheet" -> VanActionSheetDemo()
                 "timePicker" -> VanPickerDemo()
                 "share" -> VanShareSheetDemo()
+                "loading" -> VanLoadingDemo()
 
                 else -> {
                     // 默认或未找到

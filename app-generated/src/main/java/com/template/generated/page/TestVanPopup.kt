@@ -24,6 +24,133 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 
+@Composable
+fun VanLoadingDemo() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        Text(
+            "Loading 加载",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+
+
+        var loading by remember { mutableStateOf(false) }
+        var loading2 by remember { mutableStateOf(false) }
+        // 5. 垂直排列
+        DemoSection("弹框", padding = false) {
+            VanCell(title = "加载数据", isLink = true, size = VanCellSize.Large, onClick = {
+                loading = true
+            })
+            VanCell(title = "加载数据2", isLink = true, onClick = {
+                loading2 = true
+            })
+            VanPopup(
+                visible = loading,
+                onClose = {  },
+                contentWidth = 200.dp,
+                contentHeight = 150.dp,
+                // 透明背景
+                modifier = Modifier.background(Color.Black.copy(alpha = 0f))
+            ) {
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    VanLoading(size = 24.dp) {
+                        Text("加载中...")
+                    }
+                }
+            }
+            // 只能结束应用,不推荐。
+            VanDialog(
+                visible = loading2,
+                onDismissRequest = { },
+                showConfirmButton = false,
+                content = {
+                    VanLoading(size = 24.dp, vertical = true) {
+                        Text("加载中...")
+                    }
+                }
+            )
+        }
+
+        // 1. 加载类型
+        DemoSection("加载类型", padding = false) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                VanLoading(type = VanLoadingType.Circular)
+                VanLoading(type = VanLoadingType.Spinner)
+                VanLoading(type = VanLoadingType.Ball, size = 40.dp) // Ball 需要稍微宽一点
+            }
+        }
+
+        // 2. 自定义颜色
+        DemoSection("自定义颜色", padding = false) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                VanLoading(color = Color(0xFF1989FA))
+                VanLoading(type = VanLoadingType.Spinner, color = Color(0xFF1989FA))
+            }
+        }
+
+        // 3. 自定义大小
+        DemoSection("自定义大小", padding = false) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                VanLoading(size = 20.dp)
+                VanLoading(type = VanLoadingType.Spinner, size = 20.dp)
+            }
+        }
+
+        // 4. 加载文案
+        DemoSection("加载文案", padding = false) {
+            Row(modifier = Modifier.padding(16.dp)) {
+                VanLoading(size = 24.dp) {
+                    Text("加载中...")
+                }
+            }
+        }
+
+
+        // 6. 自定义文本颜色
+        DemoSection("自定义文本颜色垂直", padding = false) {
+            Row(modifier = Modifier.padding(16.dp)) {
+                VanLoading(
+                    size = 24.dp,
+                    vertical = true,
+                    textColor = Color(0xFF1989FA)
+                ) {
+                    Text("加载中...")
+                }
+            }
+        }
+
+        // 弹框中加载
+        DemoSection("弹框中加载", padding = false) {
+            Row(modifier = Modifier.padding(16.dp)) {
+                VanLoading(size = 24.dp, vertical = true) {
+                    Text("加载中...")
+                }
+            }
+        }
+    }
+}
+
 
 @Composable
 fun VanShareSheetDemo() {
@@ -79,7 +206,12 @@ fun VanShareSheetDemo() {
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text("ShareSheet 分享面板", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            "ShareSheet 分享面板",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
         // 1. 基础用法
         DemoSection("基础用法", padding = false) {
@@ -158,7 +290,6 @@ fun VanShareSheetDemo() {
 }
 
 
-
 @Composable
 fun VanAreaDemo() {
     val context = LocalContext.current
@@ -191,7 +322,12 @@ fun VanAreaDemo() {
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text("Area 省市区选择", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            "Area 省市区选择",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
         // 触发按钮
         VanCellGroup {
@@ -270,7 +406,12 @@ fun VanPickerDemo() {
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text("Datetime Picker 选择器", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            "Datetime Picker 选择器",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
         // 1. 日期选择
         DemoSection("日期选择器", padding = false) {
@@ -307,12 +448,16 @@ fun VanPickerDemo() {
     VanPickerPopup(
         visible = showDatePicker,
         onClose = { showDatePicker = false },
-        title =  "选择日期",  // "${tempDate.year}年${tempDate.monthValue}月", // 动态标题，仿照截图
+        title = "选择日期",  // "${tempDate.year}年${tempDate.monthValue}月", // 动态标题，仿照截图
         onCancel = { showDatePicker = false },
         onConfirm = {
             selectedDate = tempDate
             showDatePicker = false
-            Toast.makeText(context, "选择了: ${selectedDate.format(dateFormatter)}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "选择了: ${selectedDate.format(dateFormatter)}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     ) {
         VanDatePicker(
@@ -330,7 +475,11 @@ fun VanPickerDemo() {
         onConfirm = {
             selectedTime = tempTime
             showTimePicker = false
-            Toast.makeText(context, "选择了: ${selectedTime.format(timeFormatter)}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "选择了: ${selectedTime.format(timeFormatter)}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     ) {
         VanTimePicker(
@@ -376,7 +525,12 @@ fun VanActionSheetDemo() {
             .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text("ActionSheet 动作面板", color = Color.Gray, fontSize = 14.sp, modifier = Modifier.padding(horizontal = 16.dp))
+        Text(
+            "ActionSheet 动作面板",
+            color = Color.Gray,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
         // 1. 基础用法
         DemoSection("基础用法", padding = false) {
