@@ -42,10 +42,10 @@ val demoCells = listOf(
     CellItem("icon 图标", "icon"),
     CellItem("Dialog 弹出框", "dialog"),
     CellItem("popup 弹出", "popup"), // 可能只需要底部的
-    CellItem("ActionSheet 动作面板", "actionSheet"),
+    CellItem("ActionSheet 动作面板", "actionSheet"), //稍微丑，可以参考闹钟的设计
     CellItem("share", "share"), // 自己写
     CellItem("toast 通知提示", "toast"),// 自己写?
-    CellItem("Picker 选择器", "picker"), // 时间日期选择器；地区选择；省市区选择
+    CellItem("Picker 选择器", "timePicker"), // 时间日期选择器；地区选择；省市区选择
 
 )
 // 调整依赖gradle文件

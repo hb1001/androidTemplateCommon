@@ -64,6 +64,8 @@ fun TestVanDetail(path: String?) {
                 "icon"-> VanIconDemo()
                 "dialog"->VanDialogDemo()
                 "popup"->VanPopupDemo()
+                "actionSheet"->VanActionSheetDemo()
+                "timePicker" -> VanPickerDemo()
 
                 else -> {
                     // 默认或未找到
