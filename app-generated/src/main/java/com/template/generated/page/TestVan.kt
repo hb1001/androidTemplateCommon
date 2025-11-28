@@ -24,9 +24,18 @@ import com.template.core.ui.components.CommonTitleBar
 // 请确保 VanButton, VanCell, VanCellGroup 等都在这个包下，或者根据你的实际路径修改import
 import com.template.core.ui.vant.*
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
+
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TestVan() {
+fun TestVan1() {
     Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -42,7 +51,7 @@ fun TestVan() {
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 40.dp) // 底部留白
         ) {
-            VanSliders()
+            VanTypographyDemo()
 //            VanButtons()
 //            Spacer(modifier = Modifier.height(20.dp))
 //            VanCollapses()
@@ -50,6 +59,470 @@ fun TestVan() {
         }
     }
 }
+
+@Composable
+fun VanTypographyDemo() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        Text("Typography 文本", color = Color.Gray, fontSize = 14.sp)
+
+        // 1. 基础用法
+        DemoSection("基础用法 (AnnotatedString)") {
+            // 模拟 React Vant 的嵌套结构：
+            // In the process of <Text type="danger">internal</Text> ...
+            val text = buildAnnotatedString {
+                append("In the process of ")
+                withStyle(SpanStyle(color = VanTypographyColors.Danger)) {
+                    append("internal")
+                }
+                append(" ")
+                withStyle(SpanStyle(textDecoration = androidx.compose.ui.text.style.TextDecoration.LineThrough)) {
+                    append("desktop")
+                }
+                append(" applications development, ")
+                withStyle(SpanStyle(color = VanTypographyColors.Primary)) {
+                    append("many different")
+                }
+                append(" design specs and ")
+                withStyle(SpanStyle(textDecoration = androidx.compose.ui.text.style.TextDecoration.Underline)) {
+                    append("implementations")
+                }
+                append(" would be ")
+                withStyle(SpanStyle(color = VanTypographyColors.Warning)) {
+                    append("involved")
+                }
+            }
+            VanTypography(text = text)
+        }
+
+        // 2. 文本省略
+        val content = "React Vant 是一套轻量、可靠的移动端 React 组件库，提供了丰富的基础组件和业务组件，帮助开发者快速搭建移动应用，使用过程中发现任何问题都可以提 Issue 给我们，当然，我们也非常欢迎你给我们发 PR。"
+
+        DemoSection("文本省略 (Ellipsis)") {
+            // 单行省略
+            Text("单行省略:", fontSize = 12.sp, color = Color.Gray)
+            VanTypography(
+                text = content,
+                ellipsis = VanEllipsisConfig(rows = 1)
+            )
+            Divider(Modifier.padding(vertical = 8.dp))
+
+            // 多行省略
+            Text("多行省略 (Rows=2):", fontSize = 12.sp, color = Color.Gray)
+            VanTypography(
+                text = content,
+                ellipsis = VanEllipsisConfig(rows = 2)
+            )
+            Divider(Modifier.padding(vertical = 8.dp))
+
+            // 带展开/收起
+            Text("带展开/收起:", fontSize = 12.sp, color = Color.Gray)
+            VanTypography(
+                text = content,
+                ellipsis = VanEllipsisConfig(
+                    rows = 2,
+                    collapseText = "收起",
+                    expandText = "展开"
+                )
+            )
+            Divider(Modifier.padding(vertical = 8.dp))
+
+            // 保留末位文本 (如文件名)
+            Text("保留末位文本 (中间省略):", fontSize = 12.sp, color = Color.Gray)
+            VanTypography(
+                text = content,
+                ellipsis = VanEllipsisConfig(
+                    rows = 2,
+                    symbol = "......",
+                    suffixCount = 10 // 保留最后10个字
+                )
+            )
+            Divider(Modifier.padding(vertical = 8.dp))
+
+            // 自定义后缀
+            Text("自定义文本后缀:", fontSize = 12.sp, color = Color.Gray)
+            VanTypography(
+                text = content,
+                ellipsis = VanEllipsisConfig(
+                    rows = 2,
+                    suffixText = "--William",
+                    expandText = "更多"
+                )
+            )
+        }
+
+        // 3. 标题
+        DemoSection("标题 (Title)") {
+            VanTitle(text = "一级测试标题 (Level 1)", level = VanTypographyLevel.L1)
+            VanTitle(text = "二级测试标题 (Level 2)", level = VanTypographyLevel.L2)
+            VanTitle(text = "三级测试标题 (Level 3)", level = VanTypographyLevel.L3)
+            VanTitle(text = "四级测试标题 (Level 4)", level = VanTypographyLevel.L4)
+            VanTitle(text = "五级测试标题 (Level 5)", level = VanTypographyLevel.L5)
+            VanTitle(text = "六级测试标题 (Level 6)", level = VanTypographyLevel.L6)
+        }
+
+        // 4. 链接
+        DemoSection("链接 (Link)") {
+            VanLink(
+                text = "测试 Link (Open Google)",
+                url = "https://www.google.com"
+            )
+            Spacer(Modifier.height(8.dp))
+            VanLink(
+                text = "测试 Link (Underline)",
+                underline = true,
+                onClick = { /* Handle click */ }
+            )
+        }
+
+        // 5. 样式变量模拟
+        DemoSection("类型样式 (Types)") {
+            VanTypography(text = "Default Type")
+            VanTypography(text = "Primary Type", type = VanTypographyType.Primary)
+            VanTypography(text = "Success Type", type = VanTypographyType.Success)
+            VanTypography(text = "Danger Type", type = VanTypographyType.Danger)
+            VanTypography(text = "Warning Type", type = VanTypographyType.Warning)
+            VanTypography(text = "Secondary Type", type = VanTypographyType.Secondary)
+            VanTypography(text = "Disabled Text", disabled = true)
+        }
+    }
+}
+
+@Composable
+private fun DemoSection(title: String, content: @Composable () -> Unit) {
+    Column {
+        Text(title, fontWeight = androidx.compose.ui.text.font.FontWeight.Bold, modifier = Modifier.padding(bottom = 8.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 16.dp)
+                .background(Color.White)
+                .padding(12.dp)
+        ) {
+            Column {
+                content()
+            }
+        }
+    }
+}
+
+
+
+
+@Composable
+fun VanCheckboxDemo() {
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFFF7F8FA)) // Vant 背景灰
+            .padding(bottom = 40.dp)
+    ) {
+        DemoTitle("基础用法")
+        BasicUsage()
+
+        DemoTitle("自定义样式")
+        CustomStyle()
+
+        DemoTitle("异步更新")
+        AsyncUpdate()
+
+        DemoTitle("复选框组 (Vertical)")
+        CheckboxGroupDemo()
+
+        DemoTitle("复选框组 (Horizontal)")
+        CheckboxGroupHorizontalDemo()
+
+        DemoTitle("限制最大可选数 (Max = 2)")
+        CheckboxGroupMaxDemo()
+
+        DemoTitle("全选与反选")
+        CheckAllDemo()
+
+        DemoTitle("搭配单元格")
+        CellIntegrationDemo()
+    }
+}
+
+// --- 1. 基础用法 ---
+@Composable
+private fun BasicUsage() {
+    var checked1 by remember { mutableStateOf(false) }
+    var checked2 by remember { mutableStateOf(true) }
+
+    Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        VanCheckbox(
+            checked = checked1,
+            onChange = { checked1 = it }
+        ) {
+            Text("复选框 (Status: $checked1)")
+        }
+
+        VanCheckbox(
+            checked = checked2,
+            onChange = { checked2 = it }
+        ) {
+            Text("默认勾选")
+        }
+
+        VanCheckbox(checked = false, disabled = true) {
+            Text("禁用复选框")
+        }
+
+        VanCheckbox(checked = true, disabled = true) {
+            Text("禁用且勾选")
+        }
+
+        var checkedLabel by remember { mutableStateOf(true) }
+        VanCheckbox(
+            checked = checkedLabel,
+            onChange = { checkedLabel = it },
+            labelDisabled = true
+        ) {
+            Text("禁止文本点击 (只能点框)")
+        }
+    }
+}
+
+// --- 2. 自定义样式 ---
+@Composable
+private fun CustomStyle() {
+    var checked1 by remember { mutableStateOf(true) }
+    var checked2 by remember { mutableStateOf(true) }
+    var checked3 by remember { mutableStateOf(true) }
+    var checked4 by remember { mutableStateOf(true) }
+
+    Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        VanCheckbox(
+            checked = checked1,
+            onChange = { checked1 = it },
+            shape = VanCheckboxShape.Square
+        ) {
+            Text("自定义形状 (Square)")
+        }
+
+        VanCheckbox(
+            checked = checked2,
+            onChange = { checked2 = it },
+            checkedColor = Color(0xFFEE0A24)
+        ) {
+            Text("自定义颜色 (Red)")
+        }
+
+        VanCheckbox(
+            checked = checked3,
+            onChange = { checked3 = it },
+            iconSize = 24.dp
+        ) {
+            Text("自定义大小 (24dp)")
+        }
+
+        // 自定义图标 Render
+        val activeIcon = "https://img.yzcdn.cn/vant/user-active.png"
+        val inactiveIcon = "https://img.yzcdn.cn/vant/user-inactive.png"
+
+//        VanCheckbox(
+//            checked = checked4,
+//            onChange = { checked4 = it },
+//            iconRender = { checked, _ ->
+//                val url = if (checked) activeIcon else inactiveIcon
+//                Image(
+//                    painter = rememberAsyncImagePainter(url),
+//                    contentDescription = null,
+//                    modifier = Modifier.size(20.dp)
+//                )
+//            }
+//        ) {
+//            Text("自定义图标 (网络图)")
+//        }
+    }
+}
+
+// --- 3. 异步更新 ---
+@Composable
+private fun AsyncUpdate() {
+    var checked by remember { mutableStateOf(false) }
+    var loading by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
+    Column(Modifier.padding(horizontal = 16.dp)) {
+        VanCheckbox(
+            checked = checked,
+            onChange = { newVal ->
+                if (!loading) {
+                    loading = true
+                    // 模拟网络请求
+                    scope.launch {
+                        delay(500)
+                        checked = newVal
+                        loading = false
+                    }
+                }
+            }
+        ) {
+            Text(if (loading) "更新中..." else "复选框 (延迟500ms)")
+        }
+    }
+}
+
+// --- 4. 复选框组 ---
+@Composable
+private fun CheckboxGroupDemo() {
+    var values by remember { mutableStateOf(setOf("a", "b")) } // 默认选 a, b
+
+    Column(Modifier.padding(horizontal = 16.dp)) {
+        Text("当前值: $values", fontSize = 12.sp, color = Color.Gray, modifier = Modifier.padding(bottom = 8.dp))
+
+        VanCheckboxGroup(
+            value = values,
+            onChange = { values = it }
+        ) {
+            VanCheckbox(name = "a") { Text("复选框 A") }
+            VanCheckbox(name = "b") { Text("复选框 B") }
+            VanCheckbox(name = "c") { Text("复选框 C") }
+        }
+    }
+}
+
+// --- 5. 水平排列 ---
+@Composable
+private fun CheckboxGroupHorizontalDemo() {
+    var values by remember { mutableStateOf(setOf<String>()) }
+
+    Column(Modifier.padding(horizontal = 16.dp)) {
+        VanCheckboxGroup(
+            value = values,
+            onChange = { values = it },
+            direction = VanCheckboxDirection.Horizontal
+        ) {
+            VanCheckbox(name = "a") { Text("复选框 A") }
+            VanCheckbox(name = "b") { Text("复选框 B") }
+            VanCheckbox(name = "c") { Text("复选框 C") }
+        }
+    }
+}
+
+// --- 6. 限制最大可选数 ---
+@Composable
+private fun CheckboxGroupMaxDemo() {
+    var values by remember { mutableStateOf(setOf<String>()) }
+
+    Column(Modifier.padding(horizontal = 16.dp)) {
+        VanCheckboxGroup(
+            value = values,
+            onChange = { values = it },
+            max = 2
+        ) {
+            VanCheckbox(name = "a") { Text("复选框 A") }
+            VanCheckbox(name = "b") { Text("复选框 B") }
+            VanCheckbox(name = "c") { Text("复选框 C (最多选2个)") }
+        }
+    }
+}
+
+// --- 7. 全选与反选 ---
+@Composable
+private fun CheckAllDemo() {
+    val allItems = listOf("a", "b", "c")
+    var values by remember { mutableStateOf(setOf("a")) }
+
+    Column(Modifier.padding(horizontal = 16.dp)) {
+        VanCheckboxGroup(
+            value = values,
+            onChange = { values = it }
+        ) {
+            allItems.forEach { item ->
+                VanCheckbox(name = item) { Text("复选框 $item") }
+            }
+        }
+
+        Row(Modifier.padding(top = 16.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Button(onClick = { values = allItems.toSet() }) {
+                Text("全选")
+            }
+            Button(onClick = {
+                // 反选逻辑：当前有的去掉，没有的加上
+                val newSet = allItems.filter { !values.contains(it) }.toSet()
+                values = newSet
+            }) {
+                Text("反选")
+            }
+        }
+    }
+}
+
+// --- 8. 搭配单元格 ---
+// 简单模拟 VanCell，实际项目中请引用真正的 Cell 组件
+@Composable
+private fun CellIntegrationDemo() {
+    var values by remember { mutableStateOf(setOf<String>()) }
+
+    // 辅助函数：切换某个 key
+    fun toggle(key: String) {
+        val newSet = values.toMutableSet()
+        if (newSet.contains(key)) newSet.remove(key) else newSet.add(key)
+        values = newSet
+    }
+
+    Column(Modifier.fillMaxWidth()) {
+        VanCheckboxGroup(value = values, onChange = { values = it }) {
+            // 模拟 CellGroup
+            Column(Modifier.background(Color.White)) {
+
+                // Cell 1
+                MockCell(
+                    title = "单选框 1",
+                    onClick = { toggle("a") },
+                    rightIcon = { VanCheckbox(name = "a") }
+                )
+                Divider(color = Color(0xFFF5F6F7))
+
+                // Cell 2
+                MockCell(
+                    title = "单选框 2",
+                    onClick = { toggle("b") },
+                    rightIcon = { VanCheckbox(name = "b") }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun MockCell(
+    title: String,
+    onClick: () -> Unit,
+    rightIcon: @Composable () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(title, fontSize = 16.sp)
+        rightIcon()
+    }
+}
+
+@Composable
+fun DemoTitle(text: String) {
+    Text(
+        text = text,
+        modifier = Modifier.padding(start = 16.dp, top = 20.dp, bottom = 10.dp),
+        color = Color.Gray,
+        fontSize = 14.sp
+    )
+}
+
+
+
 @Composable
 fun VanSliders() {
     // 状态
