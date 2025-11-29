@@ -71,20 +71,11 @@ class WebSocketViewModel @Inject constructor(
         if (text.isBlank()) return
 
         viewModelScope.launch {
-            // 1. 本地先上屏（优化体验）
-            // 注意：SocketMessage 应该在 core-model 里，这里模拟构建一个自己发的消息
-            val myMessage = SocketMessage(
-                content = text,
-                isFromMe = true,
-                timestamp = System.currentTimeMillis()
-            )
-
-            _uiState.update {
-                it.copy(messages = it.messages + myMessage)
-            }
-
-            // 2. 发送网络请求
+            // [修改] 聊天室模式：只发送，不本地立即上屏。
+            // 等收到服务器的广播消息（包含 senderId=我）时，Flow 会自动更新 UI
             repository.sendMessage(text)
+
+            // 可以在这里加个 sending 状态，但为了跑通先简化
         }
     }
 
