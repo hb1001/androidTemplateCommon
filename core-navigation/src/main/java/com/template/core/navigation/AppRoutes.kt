@@ -36,6 +36,7 @@ object AppRoutes {
     const val CUSTOM_ROUTER_ROUTE = "custom_router"
     const val CUSTOM_POST_DETAIL_ROUTE = "CUSTOM_POST_DETAIL_ROUTE"
 
+    const val WEBSOCKET_ROUTE = "websocket_route"
     // 还可以定义更复杂的路由，比如带参数的
     // const val POST_DETAIL_ROUTE = "post/{postId}"
     // fun postDetail(postId: Int) = "post/$postId"

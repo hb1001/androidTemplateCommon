@@ -21,6 +21,7 @@ import com.template.feature.setting.navigation.settingScreen
 import com.template.feature.webview.navigation.webviewScreen
 import com.template.generated.page.AppMainEntryScreen
 import com.template.generated.page.PostEditScreen
+import com.template.generated.page.websocket.WebSocketScreen
 import kotlin.OptIn
 
 
@@ -73,5 +74,15 @@ public fun NavGraphBuilder.customScreen() {
     }
     composable(route = AppRoutes.CUSTOM_POST_DETAIL_ROUTE) {
         PostEditScreen()
+    }
+
+    composable(route = AppRoutes.WEBSOCKET_ROUTE) {
+        WebSocketScreen(
+            onBackClick = {
+                // 如果你需要处理返回逻辑（比如 navController.popBackStack()），
+                // 以后可以将 navController 传进来在这里调用。
+                // 目前先留空即可。
+            }
+        )
     }
 }

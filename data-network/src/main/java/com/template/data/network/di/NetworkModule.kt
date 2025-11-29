@@ -7,6 +7,8 @@ import com.template.data.network.apiservice.SolverApiService
 import com.template.data.network.apiservice.SolverApiServiceImpl
 import com.template.data.network.apiservice.UserService
 import com.template.data.network.apiservice.UserServiceImpl
+import com.template.data.network.apiservice.WebSocketApiService
+import com.template.data.network.apiservice.WebSocketApiServiceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -25,6 +27,7 @@ import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.http.encodedPath
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.first
@@ -48,6 +51,12 @@ abstract class NetworkModule {
     @Singleton
     abstract fun bindSolverApiService(impl: SolverApiServiceImpl): SolverApiService
 
+
+    // 新增：绑定 WebSocket Service
+    @Binds
+    @Singleton
+    abstract fun bindWebSocketApiService(impl: WebSocketApiServiceImpl): WebSocketApiService
+
     companion object {
 
         // 提炼出一个公共的 JSON 配置，避免重复
@@ -56,6 +65,40 @@ abstract class NetworkModule {
             isLenient = true
             ignoreUnknownKeys = true
         }
+
+
+        // 新增：提供专门的 WebSocket HttpClient (CIO 引擎)
+        @Provides
+        @Singleton
+        @WsClient
+        fun provideWebSocketHttpClient(): HttpClient {
+            return HttpClient(CIO) {
+                // 1. 安装 WebSockets 插件
+                install(WebSockets) {
+                    // 心跳检测，防止连接假死
+                    pingInterval = 20_000 // 20秒
+                    maxFrameSize = Long.MAX_VALUE
+                }
+
+                // 2. 安装 Logging (调试用)
+                install(Logging) {
+                    level = LogLevel.ALL
+                    logger = object : Logger {
+                        override fun log(message: String) {
+                            Timber.tag("KtorHttpClient-WS").d(message)
+                        }
+                    }
+                }
+
+                // 3. 配置超时
+                // WebSocket 是长连接，通常不需要 requestTimeout，或者设为无限
+                install(HttpTimeout) {
+                    connectTimeoutMillis = 10000 // 连接超时 10秒
+                    socketTimeoutMillis = Long.MAX_VALUE // 保持 Socket 不断开
+                }
+            }
+        }
+
 
         @Provides
         @Singleton

@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.template.core.navigation.AppRoutes
 import com.template.core.ui.components.CommonTitleBar
 import com.template.core.ui.components.CustomLoadingDialog
 import com.template.core.ui.components.LogoutDialog
@@ -73,7 +74,9 @@ fun ProfilePage(
                         onClickSystemSetting()
                     },
                     ProfileMenuItem(Icons.Default.AccountCircle, "切换账号") {},
-                    ProfileMenuItem(Icons.Outlined.Info, "关于我们") {}
+                    ProfileMenuItem(Icons.Outlined.Info, "关于我们") {
+                        navController.navigate(AppRoutes.WEBSOCKET_ROUTE)
+                    }
                 )
             )
         ),
