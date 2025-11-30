@@ -31,8 +31,9 @@ public fun AppNavigation() {
     CompositionLocalProvider(LocalNavController provides navController) {
         NavHost(
             navController = navController,
-            startDestination = AppRoutes.LOGIN_WITH_VPN_ROUTE,
-
+            startDestination = "local_webview",
+//            startDestination = AppRoutes.LOGIN_WITH_VPN_ROUTE,
+//            startDestination = "webview/1",
             // 直接禁止入场动画
             enterTransition = { EnterTransition.None },
             // 直接禁止出场动画

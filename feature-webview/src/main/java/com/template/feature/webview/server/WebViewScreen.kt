@@ -1,4 +1,4 @@
-package com.template.feature.webview
+package com.template.feature.webview.server
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
@@ -9,6 +9,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.template.feature.webview.WebViewEvent
+import com.template.feature.webview.WebViewViewModel
 
 @Composable
 fun WebViewScreen(

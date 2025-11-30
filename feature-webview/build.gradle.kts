@@ -10,5 +10,8 @@ android {
 dependencies {
     implementation(libs.tbs.sdk)
     implementation(libs.bugly.crashreport)
+    implementation("androidx.webkit:webkit:1.9.0")
+    implementation("org.nanohttpd:nanohttpd:2.3.1")
+// 必须添加这个库
 
 }
