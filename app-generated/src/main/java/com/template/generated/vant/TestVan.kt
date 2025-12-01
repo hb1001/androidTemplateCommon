@@ -1,4 +1,4 @@
-package com.template.generated.page
+package com.template.generated.vant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -31,6 +31,8 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import coil.compose.AsyncImage
 
@@ -85,7 +87,7 @@ fun VanTypographyDemo() {
                     append("internal")
                 }
                 append(" ")
-                withStyle(SpanStyle(textDecoration = androidx.compose.ui.text.style.TextDecoration.LineThrough)) {
+                withStyle(SpanStyle(textDecoration = TextDecoration.LineThrough)) {
                     append("desktop")
                 }
                 append(" applications development, ")
@@ -93,7 +95,7 @@ fun VanTypographyDemo() {
                     append("many different")
                 }
                 append(" design specs and ")
-                withStyle(SpanStyle(textDecoration = androidx.compose.ui.text.style.TextDecoration.Underline)) {
+                withStyle(SpanStyle(textDecoration = TextDecoration.Underline)) {
                     append("implementations")
                 }
                 append(" would be ")
@@ -203,7 +205,7 @@ fun DemoSection(title: String, padding: Boolean = false, content: @Composable ()
     Column {
         Text(
             title,
-            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(bottom = 8.dp)
         )
         Box(

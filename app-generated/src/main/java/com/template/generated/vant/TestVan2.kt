@@ -1,4 +1,4 @@
-package com.template.generated.page
+package com.template.generated.vant
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -16,26 +16,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.template.core.ui.components.CommonTitleBar
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.template.core.ui.components.CommonTitleBar
 // 请确保 VanButton, VanCell, VanCellGroup 等都在这个包下，或者根据你的实际路径修改import
 import com.template.core.ui.vant.*
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import coil.compose.AsyncImage
 
 import kotlinx.coroutines.delay
@@ -339,7 +332,7 @@ fun VanDialogDemo() {
                                 dismissOnAction = false, // 只有手动 dismiss 才关闭
                                 onConfirm = {
                                     scope.launch {
-                                        kotlinx.coroutines.delay(1000)
+                                        delay(1000)
                                         dialogController.dismiss()
                                         Toast.makeText(context, "异步关闭成功", Toast.LENGTH_SHORT)
                                             .show()

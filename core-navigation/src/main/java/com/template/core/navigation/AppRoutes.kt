@@ -11,6 +11,10 @@ object AppRoutes {
 
     // webview
     const val WEBVIEW_ROUTE = "webview/{url}"
+    const val WEBSOCKET_ROUTE = "websocket_route"
+    const val WEBVIEW_SERVER = "server_webview"
+    const val WEBVIEW_LOCAL = "local_webview"
+
 
     // 单个设置项
     const val SETTING_ONE_ITEM = "setting_one_item"
@@ -40,6 +44,7 @@ object AppRoutes {
     const val CUSTOM_POST_DETAIL_ROUTE = "CUSTOM_POST_DETAIL_ROUTE"
     const val CUSTOM_TEST_VANT_ROUTE = "CUSTOM_TEST_VANT_ROUTE"
     const val CUSTOM_TEST_VANT_DETAIL_ROUTE = "custom_test_vant_detail/{path}"
+
 
     // 还可以定义更复杂的路由，比如带参数的
     // const val POST_DETAIL_ROUTE = "post/{postId}"

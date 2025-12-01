@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.sp
 import com.template.core.ui.uimodel.*
 import com.template.core.ui.vant.*
+import com.template.generated.vant.DemoSection
 
 import java.time.LocalDate
 import java.time.LocalTime
@@ -52,7 +53,7 @@ fun VanLoadingDemo() {
             })
             VanPopup(
                 visible = loading,
-                onClose = {  },
+                onClose = { },
                 contentWidth = 200.dp,
                 contentHeight = 150.dp,
                 // 透明背景

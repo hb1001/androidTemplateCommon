@@ -13,6 +13,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.template.core.ui.components.CommonTitleBar
 import com.template.core.ui.vant.*
+import com.template.generated.vant.VanBadges
+import com.template.generated.vant.VanButtonDemo
+import com.template.generated.vant.VanCellGroups
+import com.template.generated.vant.VanCheckboxDemo
+import com.template.generated.vant.VanCollapses
+import com.template.generated.vant.VanDialogDemo
+import com.template.generated.vant.VanIconDemo
+import com.template.generated.vant.VanImageDemo
+import com.template.generated.vant.VanInputDemo
+import com.template.generated.vant.VanPopupDemo
+import com.template.generated.vant.VanRadioDemo
+import com.template.generated.vant.VanSearchDemo
+import com.template.generated.vant.VanSliders
+import com.template.generated.vant.VanSwipeCellDemo
+import com.template.generated.vant.VanSwipes
+import com.template.generated.vant.VanSwitches
+import com.template.generated.vant.VanTags
+import com.template.generated.vant.VanTypographyDemo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

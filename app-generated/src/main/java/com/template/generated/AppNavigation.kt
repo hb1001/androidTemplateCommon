@@ -22,9 +22,7 @@ import com.template.feature.webview.navigation.webviewScreen
 import com.template.generated.page.AppMainEntryScreen
 import com.template.generated.page.PostEditScreen
 import com.template.generated.page.TestListScreen
-import com.template.generated.page.TestVan
 import com.template.generated.page.TestVanDetail
-import com.template.generated.pickdemo.PickerDemoScreen
 import kotlin.OptIn
 
 
@@ -34,6 +32,7 @@ public fun AppNavigation() {
     CompositionLocalProvider(LocalNavController provides navController) {
         NavHost(
             navController = navController,
+//            startDestination = AppRoutes.WEBVIEW_LOCAL, // 启动页面
             startDestination = AppRoutes.CUSTOM_TEST_VANT_ROUTE, // 启动页面
 
             // 直接禁止入场动画
