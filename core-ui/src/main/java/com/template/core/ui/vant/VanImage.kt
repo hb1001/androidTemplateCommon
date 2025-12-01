@@ -105,43 +105,47 @@ fun VanImage(
         VanImageFit.ScaleDown -> ContentScale.Inside
     }
 
-    // 5. 状态管理 (用于显示 Loading/Error 插槽)
+    // 5. 状态管理
     var isLoading by remember { mutableStateOf(true) }
     var isError by remember { mutableStateOf(false) }
 
-    // 如果 src 改变，重置状态
+    // 不需要手动 LaunchedEffect(src)，AsyncImage 的 onLoading 会在请求开始时自动触发
+    // 但为了保险起见（比如空链接直接报错），保留一个重置逻辑是好的，但要配合下方的回调
     LaunchedEffect(src) {
-        isLoading = true
+        // 重置状态，防止切换图片时残留之前的状态
+        // 注意：Coil 加载非常快时，这里可能会和回调有竞态，
+        // 但通常 AsyncImage 的 onLoading 会再次覆盖它，所以问题不大。
+        // 最重要的是下面的 AsyncImage 回调修复。
         isError = false
+        isLoading = true
     }
 
     Box(
         modifier = finalModifier.background(VanImageColors.PlaceholderBackground),
         contentAlignment = Alignment.Center
     ) {
-        // 核心：AsyncImage
+        // 核心修改：将 listener 移除，改用 AsyncImage 的参数
         AsyncImage(
             model = ImageRequest.Builder(context)
                 .data(src)
                 .crossfade(true)
-                .listener(
-                    onStart = {
-                        isLoading = true
-                        isError = false
-                    },
-                    onSuccess = { _, _ ->
-                        isLoading = false
-                        isError = false
-                    },
-                    onError = { _, _ ->
-                        isLoading = false
-                        isError = true
-                    }
-                )
-                .build(),
+                .build(), // 这里构建的 Model 不再包含变动的 Listener Lambda，因此是稳定的
             contentDescription = alt,
-            modifier = Modifier.fillMaxSize(), // 图片填满 Box
-            contentScale = contentScale
+            modifier = Modifier.fillMaxSize(),
+            contentScale = contentScale,
+            // 使用 Compose 版本的 Coil 回调，它们不会导致 Model 变化引起的重载
+            onLoading = {
+                isLoading = true
+                isError = false
+            },
+            onSuccess = {
+                isLoading = false
+                isError = false
+            },
+            onError = {
+                isLoading = false
+                isError = true
+            }
         )
 
         // 6. 遮罩层：加载中
@@ -149,7 +153,7 @@ fun VanImage(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(VanImageColors.PlaceholderBackground), // 遮住下方可能存在的旧图
+                    .background(VanImageColors.PlaceholderBackground),
                 contentAlignment = Alignment.Center
             ) {
                 if (loadingIcon != null) {

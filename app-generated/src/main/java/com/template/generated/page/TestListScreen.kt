@@ -38,7 +38,7 @@ val demoCells = listOf(
     CellItem("Badge 徽标", "badge"),
     CellItem("Collapse 折叠面板", "collapse"),
     CellItem("Swipe 轮播", "swipe"),
-    CellItem("image 图片", "image"),  // 有问题
+    CellItem("image 图片", "image"),  // 有问题，
     CellItem("icon 图标", "icon"),
     CellItem("Dialog 弹出框", "dialog"),
     CellItem("popup 弹出", "popup"), // 可能只需要底部的

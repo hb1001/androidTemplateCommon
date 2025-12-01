@@ -553,9 +553,9 @@ fun VanImageDemo() {
             }
         }
 
-        // 2. 填充模式
+        // 2. 填充模式,删掉这部分正常
         DemoSection("填充模式", padding = false) {
-            val fits = VanImageFit.values()
+            val fits = VanImageFit.entries.toTypedArray()
 
             @OptIn(ExperimentalLayoutApi::class)
             FlowRow(
