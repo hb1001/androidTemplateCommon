@@ -116,7 +116,7 @@ fun VanButton(
         VanButtonSize.Large -> 50.dp
         VanButtonSize.Normal -> 44.dp
         VanButtonSize.Small -> 32.dp
-        VanButtonSize.Mini -> 24.dp
+        VanButtonSize.Mini -> 26.dp
     }
 
     val fontSize = when (size) {
@@ -130,7 +130,7 @@ fun VanButton(
         VanButtonSize.Large -> 24.dp
         VanButtonSize.Normal -> 15.dp
         VanButtonSize.Small -> 8.dp
-        VanButtonSize.Mini -> 4.dp
+        VanButtonSize.Mini -> 5.dp
     }
 
     // --- 2. 计算形状 ---

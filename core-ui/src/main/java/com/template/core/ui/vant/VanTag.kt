@@ -63,7 +63,7 @@ private object VanTagColors {
 fun VanTag(
     modifier: Modifier = Modifier,
     type: VanTagType = VanTagType.Default,
-    size: VanTagSize = VanTagSize.Small,
+    size: VanTagSize = VanTagSize.Medium,
     color: Color? = null,
     show: Boolean = true,
     plain: Boolean = false,
@@ -79,7 +79,7 @@ fun VanTag(
     val (paddingValues, fontSize) = when (size) {
         VanTagSize.Large -> Pair(PaddingValues(horizontal = 8.dp, vertical = 4.dp), 14.sp)
         VanTagSize.Medium -> Pair(PaddingValues(horizontal = 6.dp, vertical = 2.dp), 12.sp)
-        VanTagSize.Small -> Pair(PaddingValues(horizontal = 4.dp, vertical = 0.dp), 10.sp) // Vant 默认更小一点
+        VanTagSize.Small -> Pair(PaddingValues(horizontal = 5.dp, vertical = 2.dp), 10.sp) // Vant 默认更小一点
     }
 
     // 2. 形状计算

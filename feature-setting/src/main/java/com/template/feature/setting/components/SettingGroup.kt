@@ -1,5 +1,6 @@
 package com.template.feature.setting.components
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -17,6 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.template.core.navigation.listenResult
 import com.template.core.ui.components.BottomSheetSelector
+import com.template.core.ui.vant.VanAction
+import com.template.core.ui.vant.VanActionSheet
+import com.template.core.ui.vant.VanCell
+import com.template.core.ui.vant.VanSwitch
 import com.template.feature.setting.navigation.navigateToSettingSingle
 
 
@@ -66,22 +71,21 @@ sealed class ProfileMenuItem(
         val onClick: () -> Unit
     ) : ProfileMenuItem(title, desc, icon)
 
-    fun showArrow() = when(this){
+    fun showArrow() = when (this) {
         is SwitchItem -> false
         is TextItem -> true
         is IntItem -> true
         is ItemPicker -> true
         is NormalItem -> true
     }
-    fun itemRightValue() = when(this){
+
+    fun itemRightValue() = when (this) {
         is TextItem -> this.value
         is IntItem -> this.value.toString()
         is ItemPicker -> this.value
         else -> null
     }
 }
-
-
 
 
 // 1. 定义菜单项数据模型
@@ -131,7 +135,7 @@ fun SettingsGroup(
 ) {
     Column {
         // 组标题
-        if(title!=null){
+        if (title != null) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.labelLarge,
@@ -152,88 +156,57 @@ fun SettingsGroup(
 fun SettingsItemRow(item: ProfileMenuItem, navController: NavController) {
     var showDialog by remember { mutableStateOf(false) }
     navController.listenResult<String>(item.title) {
-        if(item is ProfileMenuItem.TextItem){
+        if (item is ProfileMenuItem.TextItem) {
             item.onSetValue(it)
         }
-        if(item is ProfileMenuItem.IntItem){
-            it.toIntOrNull()?.let {value->
+        if (item is ProfileMenuItem.IntItem) {
+            it.toIntOrNull()?.let { value ->
                 item.onSetValue(value)
             }
         }
     }
-    if(item is ProfileMenuItem.ItemPicker){
-        if(showDialog){
-            BottomSheetSelector(
-                title = item.title,
-                options = item.options,
-                selectedOption = item.value,
-                onOptionSelected = {
+    if (item is ProfileMenuItem.ItemPicker) {
+        VanActionSheet(
+            title = item.title,
+            visible = showDialog,
+            onCancel = { showDialog = false },
+            actions = item.options.map { VanAction(name = it) },
+            onSelect = { action, index ->
+                action.name?.let {
                     item.onSetValue(it)
-                },
-                onDismiss = {
-                    showDialog = false
                 }
-            )
-        }
+//                Toast.makeText(context, "选中: ${action.name}", Toast.LENGTH_SHORT).show()
+                showDialog = false
+            }
+        )
     }
-    ListItem(
-        headlineContent = { Text(item.title) },
-
-        supportingContent = {
-            if (item.desc != null) {
-                Text(item.desc)
+    VanCell(
+        title = item.title,
+        label = item.desc,
+        icon = item.icon,
+        value = item.itemRightValue(),
+        isLink = item.showArrow(),
+        valueComposable = if (item is ProfileMenuItem.SwitchItem) {
+            {
+                VanSwitch(checked = item.checked, onCheckedChange = item.onChecked)
             }
-        }, // 可选：如果你想要描述
-        leadingContent = {
-            if (item.icon != null) {
-                Icon(
-                    imageVector = item.icon,
-                    contentDescription = item.title
-                )
-            }
-        },
-        trailingContent = {
-            Row {
-                if(item.itemRightValue()!= null){
-                    Text(item.itemRightValue()!!)
-                }
-                if(item is ProfileMenuItem.SwitchItem){
-                    Switch(
-                        checked = item.checked,
-                        onCheckedChange = item.onChecked
-                    )
-                }
-                // todo 其他
-                if(item.showArrow()){
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
-
-            }
-        },
-        modifier = Modifier.clickable {
-            if(item is ProfileMenuItem.TextItem){
+        } else null,
+        onClick = {
+            if (item is ProfileMenuItem.TextItem) {
                 navController.navigateToSettingSingle(item.title, item.value)
             }
-            if(item is ProfileMenuItem.SwitchItem){
+            if (item is ProfileMenuItem.SwitchItem) {
                 item.onChecked(!item.checked)
             }
-            if(item is ProfileMenuItem.ItemPicker){
+            if (item is ProfileMenuItem.ItemPicker) {
                 showDialog = true
             }
-            if(item is ProfileMenuItem.IntItem){
+            if (item is ProfileMenuItem.IntItem) {
                 navController.navigateToSettingSingle(item.title, item.value.toString())
             }
-            if(item is ProfileMenuItem.NormalItem){
+            if (item is ProfileMenuItem.NormalItem) {
                 item.onClick()
             }
-
-        },
-        colors = ListItemDefaults.colors(
-            containerColor = Color.Transparent // 保持透明，使用父容器背景
-        )
+        }
     )
 }

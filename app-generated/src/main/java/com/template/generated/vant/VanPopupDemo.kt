@@ -1,10 +1,12 @@
 package com.template.generated.vant
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -61,6 +63,40 @@ fun VanPopupDemo() {
                     VanCell(title = "展示弹出层", isLink = true, onClick = { showBasic = true })
                 }
             }
+
+//            // 1. 基础用法
+//            DemoSection("子组件", padding = false) {
+//
+//                var showTopSub by remember { mutableStateOf(false) }
+//                var showBottomSub by remember { mutableStateOf(false) }
+//                VanCellGroup {
+//                    VanCell(title = "展示弹出层", isLink = true, onClick = { showTopSub = true })
+//                    VanCell(title = "展示弹出层", isLink = true, onClick = { showBottomSub = true })
+//                }
+//
+//                Box(modifier = Modifier.fillMaxWidth().height(50.dp).background(Color.Red)){
+//                    // 2. Top
+//                    VanPopup(
+//                        visible = showTopSub,
+//                        onClose = { showTopSub = false },
+//                        position = VanPopupPosition.Top,
+//                        contentHeight = 200.dp
+//                    ) {
+//                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("顶部弹出") }
+//                    }
+//
+//                    // Bottom
+//                    VanPopup(
+//                        visible = showBottomSub,
+//                        onClose = { showBottomSub = false },
+//                        position = VanPopupPosition.Bottom,
+//                        contentHeight = 200.dp,
+//                        safeAreaInsetBottom = true
+//                    ) {
+//                        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("底部弹出") }
+//                    }
+//                }
+//            }
 
             // 2. 弹出位置
             DemoSection("弹出位置", padding = false) {

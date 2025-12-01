@@ -48,7 +48,10 @@ val demoCells = listOf(
     CellItem("Picker 选择器", "timePicker"), // 时间日期选择器；地区选择；省市区选择
     CellItem("Loading 加载", "loading"), // 弹框还不够
     CellItem("toast 通知提示", "toast"),// 自己写? 有三种：纯文字toast、带图标的成功失败的toast
-
+    /**
+     * tabs\ tabbar\ ~grid\popover\ imagepreview\ empty\\divider 、 DropdownMenu
+     * sidebar\indexbar\ progress\steps
+     */
 )
 // 调整依赖gradle文件
 

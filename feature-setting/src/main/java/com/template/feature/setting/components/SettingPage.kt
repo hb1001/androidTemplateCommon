@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.template.core.ui.vant.VanCell
 
 data class ProfileInfo(
     val name: String,
@@ -65,6 +66,8 @@ fun ProfileScreen(
                     items = group.items,
                     navController = navController
                 )
+
+
 
                 if (index != groups.lastIndex) {
                     HorizontalDivider()

@@ -63,7 +63,7 @@ fun VanActionSheet(
     title: String? = null,
     description: String? = null,
     cancelText: String? = null,
-    closeable: Boolean = true,
+    closeable: Boolean = false,
     round: Boolean = true,
     onSelect: ((VanAction, Int) -> Unit)? = null,
     content: (@Composable () -> Unit)? = null

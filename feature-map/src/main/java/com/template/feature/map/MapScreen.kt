@@ -9,6 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.template.core.ui.vant.VanImage
+import com.template.core.ui.vant.VanImageFit
 
 @Composable
 fun MapScreen(
@@ -28,6 +30,11 @@ fun MapContent() {
         ),
         contentAlignment = Alignment.Center
     ) {
+        VanImage(
+            src = R.drawable.map_mock,
+           fit = VanImageFit.Cover
+        )
+
         Text("地图 map 页面 开发中")
     }
 }
