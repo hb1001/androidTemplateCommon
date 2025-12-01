@@ -1,4 +1,4 @@
-package com.template.generated.page
+package com.template.generated.vant
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -18,7 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.sp
 import com.template.core.ui.uimodel.*
 import com.template.core.ui.vant.*
-import com.template.generated.vant.DemoSection
 
 import java.time.LocalDate
 import java.time.LocalTime

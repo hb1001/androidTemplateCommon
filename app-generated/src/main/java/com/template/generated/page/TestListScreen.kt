@@ -25,6 +25,7 @@ import com.template.generated.navigateToTestDetail
 data class CellItem(val title: String, val path: String)
 
 val demoCells = listOf(
+    CellItem("tabbar tabbar", "tabbar"),
     CellItem("Button 按钮", "button"),
     CellItem("Cell 单元格", "cell"),
     CellItem("Typography 文本", "typography"),

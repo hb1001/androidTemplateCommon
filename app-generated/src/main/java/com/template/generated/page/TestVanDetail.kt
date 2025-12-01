@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.template.core.ui.components.CommonTitleBar
 import com.template.core.ui.vant.*
+import com.template.generated.vant.VanActionSheetDemo
 import com.template.generated.vant.VanBadges
 import com.template.generated.vant.VanButtonDemo
 import com.template.generated.vant.VanCellGroups
@@ -22,13 +23,17 @@ import com.template.generated.vant.VanDialogDemo
 import com.template.generated.vant.VanIconDemo
 import com.template.generated.vant.VanImageDemo
 import com.template.generated.vant.VanInputDemo
+import com.template.generated.vant.VanLoadingDemo
+import com.template.generated.vant.VanPickerDemo
 import com.template.generated.vant.VanPopupDemo
 import com.template.generated.vant.VanRadioDemo
 import com.template.generated.vant.VanSearchDemo
+import com.template.generated.vant.VanShareSheetDemo
 import com.template.generated.vant.VanSliders
 import com.template.generated.vant.VanSwipeCellDemo
 import com.template.generated.vant.VanSwipes
 import com.template.generated.vant.VanSwitches
+import com.template.generated.vant.VanTabbarDemo
 import com.template.generated.vant.VanTags
 import com.template.generated.vant.VanTypographyDemo
 
@@ -83,6 +88,7 @@ fun TestVanDetail(path: String?) {
                 "timePicker" -> VanPickerDemo()
                 "share" -> VanShareSheetDemo()
                 "loading" -> VanLoadingDemo()
+                "tabbar"->VanTabbarDemo()
 
                 else -> {
                     // 默认或未找到
