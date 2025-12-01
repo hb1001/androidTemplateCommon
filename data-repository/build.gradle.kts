@@ -1,7 +1,6 @@
 plugins {
     id("your.project.android.library")
-    alias(libs.plugins.hilt)
-    id("kotlin-kapt")
+    id("your.project.android.hilt")
 }
 
 android {
@@ -9,24 +8,12 @@ android {
 }
 
 dependencies {
-    // 模块依赖
     implementation(project(":core-model"))
-    implementation(project(":core-common")) // 需要 Result 和 Dispatchers
-    implementation(project(":data-network")) // 需要 PostApiService
+    implementation(project(":core-common"))
+    implementation(project(":data-network"))
     implementation(project(":data-database"))
     implementation(project(":data-datastore"))
 
-    implementation(libs.timber)
-    // Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-
-    // Coroutines & Flow
     implementation(libs.kotlinx.coroutines.core)
-
-    implementation(libs.androidx.paging.compose)
-}
-
-kapt {
-    correctErrorTypes = true
+    implementation(libs.androidx.paging.compose) // Repository 可能返回 PagingData
 }

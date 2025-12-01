@@ -1,4 +1,5 @@
-import com.android.build.api.dsl.LibraryExtension
+// File: build-logic/src/main/kotlin/AndroidLibraryConventionPlugin.kt
+import com.android.build.gradle.LibraryExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -6,60 +7,43 @@ import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
-import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
-            // 应用基础插件
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
             }
 
-            // 配置Android Library通用设置
+            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
             extensions.configure<LibraryExtension> {
                 compileSdk = 34
                 defaultConfig {
                     minSdk = 24
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                    // 添加 consumer-proguard-rules.pro  应该是可选的
-//                    consumerProguardFiles("consumer-rules.pro")
                 }
                 compileOptions {
                     sourceCompatibility = JavaVersion.VERSION_17
                     targetCompatibility = JavaVersion.VERSION_17
                 }
-                buildTypes {
-                    getByName("release") {
-                        isMinifyEnabled = false
-                        proguardFiles(
-                            getDefaultProguardFile("proguard-android-optimize.txt"),
-                            "proguard-rules.pro"
-                        )
-                    }
+                // 很多 Library 不需要 buildConfig，默认关闭以加快构建
+                // 需要的模块可以手动开启
+                buildFeatures {
+                    buildConfig = false
                 }
             }
 
-            // 配置Kotlin通用设置
-            extensions.configure<KotlinAndroidProjectExtension> {
-                jvmToolchain(17)
-            }
-
-            // --- 新增：统一添加测试依赖 --- 暂时注释因为其他的都写了
-            val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-//            dependencies {
-//                // 单元测试
-//                add("testImplementation", libs.findLibrary("junit").get())
-//
-//                // UI/仪器测试
-//                add("androidTestImplementation", libs.findLibrary("androidx.junit").get())
-//                add("androidTestImplementation", libs.findLibrary("androidx.espresso.core").get())
-//            }
-            dependencies{
+            dependencies {
+                // 所有 Library 默认依赖 Timber 和 Core KTX，减少重复代码
                 add("implementation", libs.findLibrary("timber").get())
+                add("implementation", libs.findLibrary("androidx.core.ktx").get())
+
+                add("testImplementation", libs.findLibrary("junit").get())
+                add("androidTestImplementation", libs.findLibrary("androidx.junit").get())
+                add("androidTestImplementation", libs.findLibrary("androidx.espresso.core").get())
             }
-            // --- 新增结束 ---
         }
     }
 }
