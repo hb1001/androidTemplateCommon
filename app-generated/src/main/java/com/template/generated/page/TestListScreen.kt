@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.template.core.navigation.AppRoutes
 import com.template.core.navigation.LocalNavController
 import com.template.core.ui.components.CommonTitleBar
 import com.template.core.ui.vant.VanCell
@@ -58,9 +59,7 @@ fun TestListScreen() {
 
     Scaffold(
         topBar = {
-            TopAppBar(title = {
-                CommonTitleBar(title = "V a n t 组件列表", showBack = true)
-            })
+            CommonTitleBar(title = "Vant组件列表", showBack = true)
         },
     ) { paddingValues ->
         Column(
@@ -75,7 +74,8 @@ fun TestListScreen() {
                 title = "登录",
                 isLink = true,
                 onClick = {
-                    navController.navigateToLoginWithVpn()
+//                    navController.navigateToLoginWithVpn()
+                    navController.navigate(AppRoutes.LOGIN_WITH_VPN_ROUTE)
                 }
             )
             VanCellGroup(title = "基础组件") {

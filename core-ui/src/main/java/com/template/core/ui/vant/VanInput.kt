@@ -246,8 +246,10 @@ fun VanInput(
 /**
  * VanTextArea - 多行文本域
  *
- * @param autoSize 自适应高度 (Compose BasicTextField 默认自适应，可以通过 minHeight/maxHeight 限制)
- * @param showWordLimit 是否显示字数统计
+ * 修复说明：
+ * 1. 添加 FocusRequester。
+ * 2. 给外层 Box 添加 clickable，点击空白区域时请求焦点。
+ * 3. 给 BasicTextField 绑定 focusRequester。
  */
 @Composable
 fun VanTextArea(
@@ -266,11 +268,23 @@ fun VanTextArea(
 ) {
     val textColor = if (disabled) VanInputColors.Disabled else VanInputColors.Text
 
+    // [修复] 1. 创建 FocusRequester
+    val focusRequester = remember { FocusRequester() }
+
     Column(modifier = modifier.fillMaxWidth()) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = minHeight, max = maxHeight), // 控制高度范围
+                .heightIn(min = minHeight, max = maxHeight) // 控制高度范围
+                // [修复] 2. 让容器可点击，解决点击空白处无法聚焦的问题
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null, // 不需要点击水波纹
+                    enabled = !disabled && !readOnly,
+                    onClick = {
+                        focusRequester.requestFocus()
+                    }
+                ),
             contentAlignment = Alignment.TopStart
         ) {
             if (value.isEmpty()) {
@@ -293,7 +307,10 @@ fun VanTextArea(
                         onValueChange(it.take(maxLength))
                     }
                 },
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    // [修复] 3. 绑定焦点请求器
+                    .focusRequester(focusRequester),
                 enabled = !disabled,
                 readOnly = readOnly,
                 textStyle = TextStyle(
