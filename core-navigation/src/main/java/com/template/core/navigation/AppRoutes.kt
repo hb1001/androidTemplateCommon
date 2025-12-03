@@ -14,6 +14,7 @@ object AppRoutes {
     const val WEBSOCKET_ROUTE = "websocket_route"
     const val WEBVIEW_SERVER = "server_webview"
     const val WEBVIEW_LOCAL = "local_webview"
+    const val AI_TEST_ROUTE = "AI_TEST_ROUTE"
 
 
     // 单个设置项

@@ -8,7 +8,6 @@ import com.template.core.model.Reactions
 import com.template.core.navigation.AppRoutes
 import com.template.core.navigation.LocalNavController
 import com.template.feature.atrust.navigation.navigateToLoginWithVpn
-import com.template.feature.map.AiScreen
 import com.template.core.ui.uimodel.CardItem
 import com.template.core.ui.uimodel.UiState
 import com.template.core.ui.components.CommonTitleBar
@@ -47,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.template.core.ui.vant.VanTabbar
 import com.template.core.ui.vant.VanTabbarItem
+import com.template.feature.map.MapScreen
 
 /**
  * 主页面：Tabbar 切换示例 (页面状态保持)
@@ -96,7 +96,7 @@ fun AppMainEntryScreen() {
         ) {
             when (activeTabName) {
 
-                "home" -> AiScreen()
+                "home" -> MapScreen()
 
                 "list" -> {
                     Scaffold(

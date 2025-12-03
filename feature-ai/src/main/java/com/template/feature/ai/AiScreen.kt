@@ -57,7 +57,7 @@ fun AiScreen() {
                 }) {
                     Text("我的")
                 }
-            }
+            }// 307+84+4+8-3-3=397+60=457
         }
     ) { paddingValues ->
         Box(

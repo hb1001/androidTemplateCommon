@@ -7,7 +7,7 @@ import com.template.feature.ai.AiScreen
 
 
 fun NavGraphBuilder.aiScreen() {
-    composable(route = AppRoutes.LOGIN_ROUTE) {
+    composable(route = AppRoutes.AI_TEST_ROUTE) {
         AiScreen()
     }
 }

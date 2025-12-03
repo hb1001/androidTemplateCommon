@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.template.core.navigation.AppRoutes
 import com.template.core.navigation.LocalNavController
+import com.template.feature.ai.navigation.aiScreen
 import com.template.feature.atrust.navigation.loginWithVpnScreen
 import com.template.feature.login.navigation.loginScreen
 import com.template.feature.setting.navigation.settingMapScreen
@@ -33,7 +34,7 @@ public fun AppNavigation() {
         NavHost(
             navController = navController,
 //            startDestination = AppRoutes.WEBVIEW_LOCAL, // 启动页面
-            startDestination = AppRoutes.CUSTOM_TEST_VANT_ROUTE, // 启动页面
+            startDestination = AppRoutes.AI_TEST_ROUTE, // 启动页面
 
             // 直接禁止入场动画
             enterTransition = { EnterTransition.None },
@@ -66,6 +67,7 @@ fun NavGraphBuilder.existPage(navController: NavController){
     settingScreen(navController)
 
     settingMapScreen(navController)
+    aiScreen()
 }
 
 public fun NavController.navigateToCustom() {

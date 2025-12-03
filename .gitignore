@@ -14,3 +14,25 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+
+
+# Android Studio / IntelliJ IDEA
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/dictionaries
+.idea/shelf
+.idea/deploymentTargetSelector.xml
+.idea/compiler.xml
+# 忽略所有的 .iml 模块文件，让 Gradle 自动生成
+*.iml
+
+# 即使在 .idea 目录下，也要强制保留以下核心配置（使用 ! 表示不忽略）
+!/idea/misc.xml
+!/idea/kotlinc.xml
+!/idea/vcs.xml
+!/idea/codeStyles/
+!/idea/inspectionProfiles/
+!/idea/scopes/
+!/idea/compiler.xml
+!/idea/AndroidProjectSystem.xml
