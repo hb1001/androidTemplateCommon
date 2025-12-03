@@ -23,6 +23,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.template.core.ui.vant.VanImage
+import com.template.core.ui.vant.VanImageFit
 
 
 // --- 组件封装：头部 ---
@@ -40,19 +42,27 @@ fun ProfileHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         // 头像 (如果没有网络图片，用图标代替)
-        Surface(
-            modifier = Modifier.size(96.dp),
-            shape = CircleShape,
-            color = MaterialTheme.colorScheme.primaryContainer
-        ) {
-            // 实际项目中这里通常用 Coil 的 AsyncImage
-            Icon(
-                imageVector = Icons.Default.Person,
-                contentDescription = "Avatar",
-                modifier = Modifier.padding(12.dp).fillMaxSize(),
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        }
+//        Surface(
+//            modifier = Modifier.size(48.dp),
+//            shape = CircleShape,
+//            color = MaterialTheme.colorScheme.primaryContainer
+//        ) {
+//            // 实际项目中这里通常用 Coil 的 AsyncImage
+//            Icon(
+//                imageVector = Icons.Default.Person,
+//                contentDescription = "Avatar",
+//                modifier = Modifier.padding(12.dp).fillMaxSize(),
+//                tint = MaterialTheme.colorScheme.onPrimaryContainer
+//            )
+//        }
+
+        VanImage(
+            src = Icons.Default.Person,
+            width = 72.dp,
+            height = 72.dp,
+            fit = VanImageFit.Cover,
+            round = true
+        )
 
         Spacer(modifier = Modifier.width(16.dp))
 

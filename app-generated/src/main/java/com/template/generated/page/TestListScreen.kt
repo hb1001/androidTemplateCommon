@@ -25,7 +25,10 @@ import com.template.generated.navigateToTestDetail
 data class CellItem(val title: String, val path: String)
 
 val demoCells = listOf(
-    CellItem("tabbar tabbar", "tabbar"),
+    CellItem("标签栏 tabbar", "tabbar"),
+    CellItem("标签页 tabs", "tabs"),
+    CellItem("空状态 empty", "empty"), // 有问题，
+    CellItem("步进器 stepper", "stepper"), // 有问题，
     CellItem("Button 按钮", "button"),
     CellItem("Cell 单元格", "cell"),
     CellItem("Typography 文本", "typography"),
@@ -50,7 +53,7 @@ val demoCells = listOf(
     CellItem("Loading 加载", "loading"), // 弹框还不够
     CellItem("toast 通知提示", "toast"),// 自己写? 有三种：纯文字toast、带图标的成功失败的toast
     /**
-     * tabs\ tabbar\ ~grid\popover\ imagepreview\ empty\\divider 、 DropdownMenu
+     * ~grid\popover\ imagepreview\ \\divider 、 DropdownMenu
      * sidebar\indexbar\ progress\steps
      */
 )

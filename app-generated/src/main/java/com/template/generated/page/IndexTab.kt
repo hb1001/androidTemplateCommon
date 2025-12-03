@@ -1,7 +1,6 @@
 package com.template.generated.page
 
 
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.runtime.rememberCoroutineScope
 import com.template.core.model.Post
@@ -9,31 +8,23 @@ import com.template.core.model.Reactions
 import com.template.core.navigation.AppRoutes
 import com.template.core.navigation.LocalNavController
 import com.template.feature.atrust.navigation.navigateToLoginWithVpn
-import com.template.feature.map.MapScreen
+import com.template.feature.map.AiScreen
 import com.template.core.ui.uimodel.CardItem
 import com.template.core.ui.uimodel.UiState
 import com.template.core.ui.components.CommonTitleBar
 import com.template.core.ui.components.MaxWidthCard
 import com.template.core.ui.components.PullRefreshOnlyList
-import com.template.core.ui.components.StableBottomTab
-import com.template.core.ui.components.TabItem
-import com.template.core.ui.vant.VanButton
-import com.template.core.ui.vant.VanButtonType
 import com.template.feature.setting.ProfilePage
 import com.template.feature.setting.navigation.navigateToSettingMap
 import com.template.feature.setting.navigation.navigateToSettingSingle
 import com.template.feature.webview.navigation.navigateToWebview52
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.collections.listOf
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -41,28 +32,19 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 import com.template.core.ui.vant.VanTabbar
 import com.template.core.ui.vant.VanTabbarItem
 
@@ -114,7 +96,7 @@ fun AppMainEntryScreen() {
         ) {
             when (activeTabName) {
 
-                "home" -> MapScreen()
+                "home" -> AiScreen()
 
                 "list" -> {
                     Scaffold(

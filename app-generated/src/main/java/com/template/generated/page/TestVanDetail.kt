@@ -20,6 +20,7 @@ import com.template.generated.vant.VanCellGroups
 import com.template.generated.vant.VanCheckboxDemo
 import com.template.generated.vant.VanCollapses
 import com.template.generated.vant.VanDialogDemo
+import com.template.generated.vant.VanEmptyDemo
 import com.template.generated.vant.VanIconDemo
 import com.template.generated.vant.VanImageDemo
 import com.template.generated.vant.VanInputDemo
@@ -30,10 +31,12 @@ import com.template.generated.vant.VanRadioDemo
 import com.template.generated.vant.VanSearchDemo
 import com.template.generated.vant.VanShareSheetDemo
 import com.template.generated.vant.VanSliders
+import com.template.generated.vant.VanStepperDemo
 import com.template.generated.vant.VanSwipeCellDemo
 import com.template.generated.vant.VanSwipes
 import com.template.generated.vant.VanSwitches
 import com.template.generated.vant.VanTabbarDemo
+import com.template.generated.vant.VanTabsDemo
 import com.template.generated.vant.VanTags
 import com.template.generated.vant.VanTypographyDemo
 
@@ -89,6 +92,9 @@ fun TestVanDetail(path: String?) {
                 "share" -> VanShareSheetDemo()
                 "loading" -> VanLoadingDemo()
                 "tabbar"->VanTabbarDemo()
+                "tabs"-> VanTabsDemo()
+                "stepper"-> VanStepperDemo()
+                "empty" -> VanEmptyDemo()
 
                 else -> {
                     // 默认或未找到

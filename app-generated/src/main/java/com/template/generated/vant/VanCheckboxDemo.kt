@@ -342,7 +342,7 @@ fun MockCell(
 }
 
 @Composable
-fun DemoTitle(text: String) {
+fun DemoTitle(text: String, padding: Boolean = false) {
     Text(
         text = text,
         modifier = Modifier.padding(start = 16.dp, top = 20.dp, bottom = 10.dp),
