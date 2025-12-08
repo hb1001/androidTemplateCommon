@@ -29,7 +29,7 @@ fun VanIconDemo() {
     // 假设你放入了 'star.svg', 'chat.svg' 等到 assets/icons/ 目录
 
     // 如果没有本地文件，这里使用一个在线 SVG 做演示 (Vite Logo)
-    val demoSvgUrl = "https://vitejs.dev/logo.svg"
+    val demoSvgUrl = "BillO" //""https://vitejs.dev/logo.svg"
     val demoName = "PhoneO" // 假设你下载了这个文件并命名为 vite-logo.svg 放在 assets/icons/
 
     Column(
@@ -78,12 +78,16 @@ fun VanIconDemo() {
             ) {
                 // 红点
                 VanBadge(dot = true) {
-                    VanIcon(name = demoSvgUrl, size = 32.dp)
+                    VanIcon(name = "Bars", size = 32.dp)
                 }
 
                 // 数字
                 VanBadge(content = "99+") {
-                    VanIcon(name = demoSvgUrl, size = 32.dp)
+                    VanIcon(name = "Bill", size = 32.dp)
+                }
+                // 数字
+                VanBadge(content = "99+") {
+                    VanIcon(name = "BillO", size = 32.dp)
                 }
             }
         }
@@ -106,6 +110,19 @@ fun VanIconDemo() {
                 modifier = Modifier.padding(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
                 verticalAlignment = Alignment.Bottom
+            ) {
+                VanIcon(name = demoSvgUrl, size = 20.dp)
+                VanIcon(name = demoSvgUrl, size = 30.dp)
+                VanIcon(name = demoSvgUrl, size = 40.dp)
+            }
+        }
+
+        // 4. 图标大小
+        DemoSection("图标大小", padding = false) {
+            Row(
+                modifier = Modifier.padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 VanIcon(name = demoSvgUrl, size = 20.dp)
                 VanIcon(name = demoSvgUrl, size = 30.dp)
