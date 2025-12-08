@@ -51,12 +51,15 @@ fun VanAreaPicker(
     areas: List<Area>,
     onFinish: (Province, City, Area) -> Unit,
     onCancel: () -> Unit,
+    currentProvince: Province? = null,
+    currentCity: City? = null,
+    currentArea: Area? = null,
     modifier: Modifier = Modifier
 ) {
     // --- 状态管理 ---
-    var selectedProvince by remember { mutableStateOf<Province?>(null) }
-    var selectedCity by remember { mutableStateOf<City?>(null) }
-    var selectedArea by remember { mutableStateOf<Area?>(null) }
+    var selectedProvince by remember { mutableStateOf<Province?>(currentProvince) }
+    var selectedCity by remember { mutableStateOf<City?>(currentCity) }
+    var selectedArea by remember { mutableStateOf<Area?>(currentArea) }
 
     // 当前激活的 Tab 索引: 0=省, 1=市, 2=区
     var activeTabIndex by remember { mutableIntStateOf(0) }

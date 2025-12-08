@@ -1,6 +1,8 @@
 package com.template.generated.vant
 
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
@@ -294,6 +296,7 @@ fun VanShareSheetDemo() {
 fun VanAreaDemo() {
     val context = LocalContext.current
     var showAreaPicker by remember { mutableStateOf(false) }
+    var resultArea by remember { mutableStateOf<Triple<Province, City, Area>?>(null) }
     var resultText by remember { mutableStateOf("点击选择省市区") }
 
     val areaRepo = AreaRepository(context)
@@ -333,7 +336,9 @@ fun VanAreaDemo() {
         VanCellGroup {
             VanCell(
                 title = "选择地区",
-                value = resultText,
+                value = resultArea?.let {
+                    "${it.first.name} / ${it.second.name} / ${it.third.name}"
+                } ?: "点击选择省市区",
                 isLink = true,
                 onClick = { showAreaPicker = true }
             )
@@ -366,9 +371,12 @@ fun VanAreaDemo() {
                 areas = areaData.areas,
                 onCancel = { showAreaPicker = false },
                 onFinish = { p, c, a ->
-                    resultText = "${p.name} / ${c.name} / ${a.name}"
+                    resultArea = Triple(p, c, a)
                     showAreaPicker = false
-                }
+                },
+                currentProvince = resultArea?.first,
+                currentCity = resultArea?.second,
+                currentArea = resultArea?.third
             )
         }
     }
@@ -382,6 +390,7 @@ data class AreaDataState(
     val areas: List<Area> = emptyList()
 )
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun VanPickerDemo() {
     val context = LocalContext.current

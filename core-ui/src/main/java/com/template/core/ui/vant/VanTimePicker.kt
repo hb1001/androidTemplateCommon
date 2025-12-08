@@ -1,5 +1,7 @@
 package com.template.core.ui.vant
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -289,6 +291,7 @@ fun VanDatePicker(
 
 // --- 4. 时间选择器 (Time Picker) ---
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun VanTimePicker(
     currentTime: LocalTime = LocalTime.now(),
