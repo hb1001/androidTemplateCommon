@@ -12,16 +12,16 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             val libs = extensions.getByType<VersionCatalogsExtension>().named("libs")
-
+            pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
             // 定义一个辅助函数来配置通用的 CommonExtension
             fun configureCompose(commonExtension: CommonExtension<*, *, *, *, *, *>) {
                 commonExtension.apply {
                     buildFeatures {
                         compose = true
                     }
-                    composeOptions {
-                        kotlinCompilerExtensionVersion = libs.findVersion("composeCompiler").get().toString()
-                    }
+//                    composeOptions {
+//                        kotlinCompilerExtensionVersion = libs.findVersion("composeCompiler").get().toString()
+//                    }
                 }
             }
 
@@ -57,6 +57,12 @@ class AndroidComposeConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.compose.ui.graphics").get())
                 add("implementation", libs.findLibrary("androidx.compose.ui.tooling.preview").get())
                 add("implementation", libs.findLibrary("androidx.compose.material3").get())
+
+
+                // 引入 Icons 对象
+                add("implementation", libs.findLibrary("androidx.compose.material.icons.core").get())
+                // 引入扩展图标 (如 Filled.MoreVert)
+                add("implementation", libs.findLibrary("androidx.compose.material.icons.extended").get())
 
                 add("debugImplementation", libs.findLibrary("androidx.compose.ui.tooling").get())
 

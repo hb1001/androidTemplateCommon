@@ -1,5 +1,6 @@
 package com.template.core.ui.uimodel
 
+import android.annotation.SuppressLint
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -7,12 +8,15 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
 // --- 数据模型 ---
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class Province(val code: String, val name: String)
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class City(val code: String, val name: String, val provinceCode: String)
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class Area(val code: String, val name: String, val cityCode: String, val provinceCode: String)
 

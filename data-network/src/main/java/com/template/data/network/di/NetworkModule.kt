@@ -76,7 +76,7 @@ abstract class NetworkModule {
                 // 1. 安装 WebSockets 插件
                 install(WebSockets) {
                     // 心跳检测，防止连接假死
-                    pingInterval = 20_000 // 20秒
+                    pingIntervalMillis = 20_000
                     maxFrameSize = Long.MAX_VALUE
                 }
 

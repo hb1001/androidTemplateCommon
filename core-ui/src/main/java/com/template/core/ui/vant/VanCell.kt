@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -23,7 +22,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
 // --- 枚举定义 ---
 
 enum class VanCellSize {
@@ -162,7 +160,7 @@ fun VanCell(
                 enabled = isClickable,
                 onClick = onClick,
                 interactionSource = remember { MutableInteractionSource() },
-                indication = if (isClickable) rememberRipple(color = Color.Gray) else null
+//                indication = if (isClickable) rememberRipple(color = Color.Gray) else null
             )
     ) {
         Row(

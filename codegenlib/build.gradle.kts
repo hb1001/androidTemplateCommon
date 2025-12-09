@@ -4,7 +4,7 @@
 //    同时添加 application 插件，以便后续通过命令行执行 main 函数
 plugins {
     alias(libs.plugins.android.library)
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23" // 序列化插件需要版本号
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.2.21" // 序列化插件需要版本号
     alias(libs.plugins.kotlin.android)
 //    id("application")
 }

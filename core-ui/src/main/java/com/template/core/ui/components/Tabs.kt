@@ -52,7 +52,7 @@ fun GenericTabScreen(
         Column(modifier = Modifier.padding(innerPadding)) {
             HorizontalPager(
                 state = pagerState,
-                beyondBoundsPageCount = tabs.size,
+                beyondViewportPageCount = tabs.size,
                 modifier = Modifier.fillMaxSize()
             ) { pageIndex ->
                 // 3. 在这里调用传入的 content 函数

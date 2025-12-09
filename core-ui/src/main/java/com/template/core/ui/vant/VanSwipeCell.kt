@@ -59,12 +59,28 @@ class VanSwipeCellState(
 @Composable
 fun rememberVanSwipeCellState(): VanSwipeCellState {
     val density = LocalDensity.current
+//
+//    val velocityThreshold = with(density) { 100.dp.toPx() }
+//// 定义默认的 snap 动画和 decay 动画
+//    val snapSpec = remember { spring<Float>() } // 用于捕捉的动画
+//    val decaySpec = remember { splineBasedDecay<Float>(density) } // 用于快速滑动的衰减
+//
+//    val pagerState = rememberAnchoredDraggableState(
+//        initialValue = VanSwipeCellSide.Center,
+//        positionalThreshold = { distance: Float -> distance * 0.5f },
+//        velocityThreshold = { velocityThreshold },
+//        snapAnimationSpec = snapSpec,
+//        decayAnimationSpec = decaySpec,
+//        anchors = DraggableAnchors {
+//            VanSwipeCellSide.Center at 0f
+//        }
+//    )
     val anchoredDraggableState = remember {
         AnchoredDraggableState(
             initialValue = VanSwipeCellSide.Center,
-            positionalThreshold = { distance: Float -> distance * 0.5f }, // 滑动超过 50% 触发切换
-            velocityThreshold = { with(density) { 100.dp.toPx() } },
-            animationSpec = TweenSpec(durationMillis = 300),
+//            positionalThreshold = { distance: Float -> distance * 0.5f }, // 滑动超过 50% 触发切换
+//            velocityThreshold = { with(density) { 100.dp.toPx() } },
+//            animationSpec = TweenSpec(durationMillis = 300),
             anchors = DraggableAnchors {
                 // 初始锚点，后续会在 Layout 中动态更新
                 VanSwipeCellSide.Center at 0f

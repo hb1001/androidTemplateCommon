@@ -199,7 +199,7 @@ fun VanButton(
                 enabled = !disabled && !loading,
                 onClick = onClick,
                 interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple()
+//                indication = rememberRipple()
             ),
         contentAlignment = Alignment.Center
     ) {
