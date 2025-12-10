@@ -13,5 +13,9 @@ android {
 dependencies {
     // Timber, Core-KTX, Hilt 已经由插件自动添加
     implementation(libs.kotlinx.coroutines.core)
-    implementation("androidx.exifinterface:exifinterface:1.3.7")
+    implementation(libs.androidx.exifinterface)
+    // 设备兼容框架：https://github.com/getActivity/DeviceCompat
+    implementation(libs.devicecompat)
+// 权限请求框架：https://github.com/getActivity/XXPermissions
+    implementation(libs.xxpermissions)
 }

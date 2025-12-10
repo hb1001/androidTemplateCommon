@@ -53,7 +53,9 @@ data class CoachMarkStep(
 )
 
 // 控制器：管理状态和坐标
-class CoachMarkController {
+class CoachMarkController(
+    val steps: List<CoachMarkStep> = emptyList(),
+) {
     // 存储各个组件的布局信息：Key = ID, Value = 坐标区域
     private val targets = mutableStateMapOf<String, Rect>()
 
@@ -75,9 +77,24 @@ class CoachMarkController {
         }
     }
 
-    // 显示指定步骤
+    // 显示指定步骤：从指定步骤开始显示
     fun show(step: CoachMarkStep) {
         currentStep = step
+    }
+
+    // 从开头开始显示
+    fun start(){
+        if(currentStep == null){
+            show(steps.first())
+            return
+        }
+        // 简单的逻辑：点击空白处切换下一步，或者关闭
+        val index = steps.indexOfFirst { it == currentStep }
+        if(index < steps.size - 1 && index >= 0){
+            show(steps[index + 1])
+        }else{
+            dismiss()
+        }
     }
 
     // 隐藏/结束
@@ -104,19 +121,10 @@ fun Modifier.coachMarkTarget(
 @Composable
 fun CoachMarkOverlay(
     controller: CoachMarkController,
-    steps: List<CoachMarkStep> = emptyList(),
     overlayColor: Color = Color.Black.copy(alpha = 0.7f),
     content: @Composable BoxScope.() -> Unit
 ) {
-    val onSkip = {
-        // 简单的逻辑：点击空白处切换下一步，或者关闭
-        val index = steps.indexOfFirst { it == controller.currentStep }
-        if(index < steps.size - 1 && index >= 0){
-            controller.show(steps[index + 1])
-        }else{
-            controller.dismiss()
-        }
-    }
+
     Box(modifier = Modifier.fillMaxSize()) {
         content()
 
@@ -146,7 +154,9 @@ fun CoachMarkOverlay(
                     .clickable(
                         interactionSource = remember { MutableInteractionSource() },
                         indication = null,
-                        onClick = onSkip
+                        onClick = {
+                            controller.start()
+                        }
                     )
                     .graphicsLayer { alpha = 0.99f }
             ) {
@@ -194,15 +204,6 @@ fun CoachMarkOverlay(
     }
 }
 
-// 辅助函数：Rect 放大
-fun Rect.inflate(delta: Float): Rect {
-    return Rect(
-        left = left - delta,
-        top = top - delta,
-        right = right + delta,
-        bottom = bottom + delta
-    )
-}
 @Composable
 fun Tooltip(
     targetRect: Rect,

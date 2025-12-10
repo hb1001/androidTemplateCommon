@@ -1,4 +1,5 @@
 package com.template.feature.onboarding
+
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,7 +18,6 @@ import com.template.core.ui.components.coachMarkTarget
 
 @Composable
 fun CoachMarkDemoScreen() {
-    val controller = remember { CoachMarkController() }
 
     // 定义引导步骤
     val step1 = CoachMarkStep(
@@ -32,10 +32,10 @@ fun CoachMarkDemoScreen() {
         description = "点击这里提交表单。",
         shape = CoachMarkShape.Rectangle
     )
+    val controller = remember { CoachMarkController(listOf(step1, step2)) }
 
     CoachMarkOverlay(
-        controller = controller,
-        steps = listOf(step1, step2)
+        controller = controller
     ) {
         // 你的实际 UI 内容
         Column(
@@ -63,7 +63,10 @@ fun CoachMarkDemoScreen() {
 
             // 目标 2：按钮
             Button(
-                onClick = { controller.show(step1) },
+                onClick = {
+                    controller.start()
+//                    controller.show(step1)
+                },
                 // 标记 ID
                 modifier = Modifier.coachMarkTarget("button", controller)
             ) {

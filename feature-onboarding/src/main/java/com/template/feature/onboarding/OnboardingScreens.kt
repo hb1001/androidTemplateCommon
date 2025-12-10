@@ -1,5 +1,6 @@
 package com.template.feature.onboarding
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,8 +9,10 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.template.core.common.permission.requestTestPermission
 import com.template.core.ui.vant.VanButton
 import com.template.data.network.update.XUpdateManager
 
@@ -18,7 +21,7 @@ fun OnboardingScreen(
     onFinish: () -> Unit
 ) {
     val pagerState = rememberPagerState(initialPage = 0,pageCount = {4})
-    val context = LocalContext.current
+    val context = LocalActivity.current
     Scaffold(
         topBar = { /* 不需要标题，留空即可 */ },
         bottomBar = {}
@@ -32,26 +35,16 @@ fun OnboardingScreen(
                 when (page) {
                     0 -> Box(modifier = Modifier.fillMaxSize()){
                         Column() {
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
-//                            Text("占位")
                             CoachMarkDemoScreen()
                         }
                     }
                     1 -> Box(modifier = Modifier.fillMaxSize()){
-                        Text("环境11111111111111")
+                        Column(modifier = Modifier.fillMaxSize().align(Alignment.Center)) {
+                            VanButton(text = "申请权限", onClick = {
+                                initPermissionDelegate()
+                                requestTestPermission(context!!)
+                            })
+                        }
                     }
                     2 -> Box(modifier = Modifier.fillMaxSize()){
                         Text("环境222222222222")
