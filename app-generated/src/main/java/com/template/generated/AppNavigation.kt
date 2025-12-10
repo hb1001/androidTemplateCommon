@@ -16,7 +16,9 @@ import com.template.core.navigation.AppRoutes
 import com.template.core.navigation.LocalNavController
 import com.template.feature.ai.navigation.aiScreen
 import com.template.feature.atrust.navigation.loginWithVpnScreen
+import com.template.feature.home.homelist.navigateToHomeList
 import com.template.feature.login.navigation.loginScreen
+import com.template.feature.onboarding.navigation.onboardingScreen
 import com.template.feature.setting.navigation.settingMapScreen
 import com.template.feature.setting.navigation.settingScreen
 import com.template.feature.webview.navigation.webviewScreen
@@ -33,8 +35,10 @@ public fun AppNavigation() {
     CompositionLocalProvider(LocalNavController provides navController) {
         NavHost(
             navController = navController,
+
 //            startDestination = AppRoutes.WEBVIEW_LOCAL, // 启动页面
-            startDestination = AppRoutes.CUSTOM_TEST_VANT_ROUTE, // 启动页面
+//            startDestination = AppRoutes.CUSTOM_TEST_VANT_ROUTE, // 启动页面
+            startDestination = AppRoutes.ONBOARDING_ROUTE,
 
             // 直接禁止入场动画
             enterTransition = { EnterTransition.None },
@@ -68,6 +72,10 @@ fun NavGraphBuilder.existPage(navController: NavController){
 
     settingMapScreen(navController)
     aiScreen()
+    onboardingScreen(onFinish = {
+//        navController.popBackStack()
+        navController.navigate(AppRoutes.CUSTOM_TEST_VANT_ROUTE)
+    })
 }
 
 public fun NavController.navigateToCustom() {

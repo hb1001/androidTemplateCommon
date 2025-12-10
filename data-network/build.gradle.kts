@@ -21,4 +21,8 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.client.logging)
     implementation(libs.ktor.serialization.kotlinx.json)
+
+    implementation("com.github.xuexiangjys:XUpdate:2.1.3")
+    implementation("androidx.appcompat:appcompat:1.7.0")
+
 }

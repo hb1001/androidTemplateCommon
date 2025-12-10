@@ -21,6 +21,9 @@ dependencyResolutionManagement {
 
         google()
         mavenCentral()
+        maven {
+            url = uri("https://jitpack.io")
+        }
     }
 }
 
@@ -47,3 +50,5 @@ include(":feature-login-atrust")
 include(":feature-webview")
 include(":feature-setting")
 include(":feature-ai")
+include(":feature-update")
+include(":feature-onboarding")

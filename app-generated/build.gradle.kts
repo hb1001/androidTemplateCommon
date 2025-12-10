@@ -32,6 +32,8 @@ dependencies {
     implementation(project(":feature-webview"))
     implementation(project(":feature-setting"))
     implementation(project(":feature-ai"))
+    implementation(project(":feature-onboarding"))
+    implementation(project(":feature-update"))
 
     implementation(libs.hilt.navigation.compose)
     implementation(libs.androidx.core.splashscreen)

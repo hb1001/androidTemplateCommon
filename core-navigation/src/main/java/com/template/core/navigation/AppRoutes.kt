@@ -15,6 +15,7 @@ object AppRoutes {
     const val WEBVIEW_SERVER = "server_webview"
     const val WEBVIEW_LOCAL = "local_webview"
     const val AI_TEST_ROUTE = "AI_TEST_ROUTE"
+    const val ONBOARDING_ROUTE = "ONBOARDING_ROUTE"
 
 
     // 单个设置项

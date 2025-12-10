@@ -2,6 +2,7 @@ package com.template.generated
 
 import android.app.Application
 import com.template.core.common.BuildConfig // 假设 core-common 中有
+import com.template.data.network.update.initXUpdate
 import com.template.feature.webview.WebviewApplication
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -19,5 +20,8 @@ class MainApplication : Application() {
         }
         WebviewApplication.initX5(this)
         Timber.d("WebviewApplication initX5")
+
+        initXUpdate( this)
     }
+
 }
