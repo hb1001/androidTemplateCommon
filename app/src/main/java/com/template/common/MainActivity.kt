@@ -28,7 +28,6 @@ import com.template.feature.home.homelist.pagingListScreens
 import com.template.feature.home.navigation.homeScreen
 import com.template.feature.home.navigation.navigateToHome
 import com.template.feature.login.navigation.loginScreen
-import com.template.feature.login.navigation.navigateToLogin
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

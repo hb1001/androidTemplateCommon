@@ -36,7 +36,17 @@ object PermissionConfig {
             category = "隐私权限"
         ),
     )
+    fun getOnSuccess(permission: String) = get( permission)?.let {
+        "成功获取${it.name}权限"
+    } ?: "成功获取权限"
 
+    fun getRequestMessage(permission: String) = get( permission)?.let {
+        "请授予${it.name}权限以${it.desc}"
+    } ?: "为了完整体验App功能，请授予权限"
+
+    fun getDialogMessage(permission: String) = get( permission)?.let {
+        "申请${it.name}权限失败，请手动前往设置中授予权限"
+    } ?: "申请权限失败，请手动前往设置中授予权限"
     /** 通过权限字符串获取中文配置 */
-    fun get(permission: String) = map.getOrElse( permission) { PermissionInfo("", "更好地使用app") }
+    fun get(permission: String) = map[permission]
 }

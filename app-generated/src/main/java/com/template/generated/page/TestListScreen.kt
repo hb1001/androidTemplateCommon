@@ -85,6 +85,22 @@ fun TestListScreen() {
                     navController.navigate(AppRoutes.LOGIN_WITH_VPN_ROUTE)
                 }
             )
+            VanCell(
+                title = "欢迎测试页",
+                isLink = true,
+                onClick = {
+//                    navController.navigateToLoginWithVpn()
+                    navController.navigate(AppRoutes.GUIDE_DEMO_ROUTE)
+                }
+            )
+            VanCell(
+                title = "引导页",
+                isLink = true,
+                onClick = {
+//                    navController.navigateToLoginWithVpn()
+                    navController.navigate(AppRoutes.ONBOARDING_ROUTE)
+                }
+            )
             VanCellGroup(title = "基础组件") {
                 demoCells.forEach { item ->
                     VanCell(

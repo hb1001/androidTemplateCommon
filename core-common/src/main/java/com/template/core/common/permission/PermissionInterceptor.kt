@@ -59,20 +59,31 @@ class PermissionInterceptor : OnPermissionInterceptor {
         if (activity.isFinishing || activity.isDestroyed) {
             return
         }
-        val dialog = AlertDialog.Builder(activity)
-            .setTitle("提示")
-            .setMessage(permissionHint)
-            .setPositiveButton("去授权") { _: DialogInterface?, _: Int ->
-                // 引导用户去授权
+
+        // 弹框
+        PermissionDescription.delegate?.showGoSettingDialog(
+            activity,
+            permissionHint,
+            {
+                // 用户点击确定，引导用户去授权
                 XXPermissions.startPermissionActivity(activity, deniedList)
             }
-            .setNegativeButton("取消") { _: DialogInterface?, _: Int ->
-                // 如果用户取消授权，就回调 OnPermissionCallback 接口
-                if (callback != null) {
-                    callback.onResult(requestList, deniedList)
-                }
-            }
-        dialog.show()
+        )
+
+//        val dialog = AlertDialog.Builder(activity)
+//            .setTitle("提示")
+//            .setMessage(permissionHint)
+//            .setPositiveButton("去授权") { _: DialogInterface?, _: Int ->
+//                // 引导用户去授权
+//                XXPermissions.startPermissionActivity(activity, deniedList)
+//            }
+//            .setNegativeButton("取消") { _: DialogInterface?, _: Int ->
+//                // 如果用户取消授权，就回调 OnPermissionCallback 接口
+//                if (callback != null) {
+//                    callback.onResult(requestList, deniedList)
+//                }
+//            }
+//        dialog.show()
   }
 
     /**
@@ -83,8 +94,6 @@ class PermissionInterceptor : OnPermissionInterceptor {
         deniedList: MutableList<IPermission>,
         doNotAskAgain: Boolean
     ): String {
-
-        val info = PermissionConfig.get(deniedList[0].permissionName)
-        return "申请${info.name}权限失败，请手动前往设置中授予权限"
+        return PermissionConfig.getDialogMessage(deniedList[0].permissionName)
     }
 }

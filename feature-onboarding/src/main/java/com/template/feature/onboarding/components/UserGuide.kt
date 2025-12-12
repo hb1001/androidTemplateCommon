@@ -1,8 +1,8 @@
-package com.template.feature.onboarding
+package com.template.feature.onboarding.components
 
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -52,7 +52,7 @@ fun CoachMarkDemoScreen() {
                     .size(80.dp)
                     // 标记 ID
                     .coachMarkTarget("avatar", controller)
-                    .background(Color.Blue, androidx.compose.foundation.shape.CircleShape)
+                    .background(Color.Blue, CircleShape)
             )
 
             Spacer(modifier = Modifier.height(200.dp))

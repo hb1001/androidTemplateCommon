@@ -37,8 +37,8 @@ public fun AppNavigation() {
             navController = navController,
 
 //            startDestination = AppRoutes.WEBVIEW_LOCAL, // 启动页面
-//            startDestination = AppRoutes.CUSTOM_TEST_VANT_ROUTE, // 启动页面
-            startDestination = AppRoutes.ONBOARDING_ROUTE,
+            startDestination = AppRoutes.CUSTOM_TEST_VANT_ROUTE, // 启动页面
+//            startDestination = AppRoutes.ONBOARDING_ROUTE,
 
             // 直接禁止入场动画
             enterTransition = { EnterTransition.None },

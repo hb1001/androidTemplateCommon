@@ -26,6 +26,9 @@ class PermissionDescription : OnPermissionDescription {
      * 在你的 Application 或初始化代码中设置这个 Delegate
      */
     interface PermissionUiDelegate {
+        fun showGoSettingDialog(activity: Activity, message: String, onConfirm: () -> Unit)
+
+
         /**
          * 显示模态对话框 (Dialog 模式)
          * @param message 权限描述文本
@@ -111,8 +114,9 @@ class PermissionDescription : OnPermissionDescription {
 
     private fun generatePermissionDescription(activity: Activity, requestList: List<IPermission>): String {
         // 尝试调用转换器，如果报错则返回默认文案 (防止类找不到)
-        val info = PermissionConfig.get(requestList.get(0).permissionName)
-        return "请授予${info.name}权限以${info.desc}"
+//        val info = PermissionConfig.get(requestList.get(0).permissionName)
+//        return "请授予${info.name}权限以${info.desc}"
+        return PermissionConfig.getRequestMessage(requestList[0].permissionName)
     }
 
     private fun Context.getPhysicalScreenSize(): Double {

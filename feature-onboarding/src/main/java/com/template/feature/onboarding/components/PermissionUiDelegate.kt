@@ -1,9 +1,10 @@
-package com.template.feature.onboarding
+package com.template.feature.onboarding.components
 // 在你的 Application 初始化 或 MainActivity 中设置
 import android.app.Activity
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -18,9 +19,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.template.core.common.permission.PermissionDescription
+import com.template.core.ui.vant.VanDialog
 import com.template.core.ui.vant.VanPopup
 import com.template.core.ui.vant.VanPopupPosition
 import com.template.core.ui.vant.VanPopupColors
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 // 初始化方法
 fun initPermissionDelegate() {
@@ -58,6 +62,31 @@ fun initPermissionDelegate() {
                 }
             }
         }
+
+        override fun showGoSettingDialog(activity: Activity, message: String, onConfirm: () -> Unit) {
+            showOverlay(activity) { dismissTrigger ->
+                val visible = remember { mutableStateOf(true) }
+                VanDialog(
+                    visible = visible.value,
+                    onDismissRequest = {
+                        dismissTrigger() // 关闭弹窗 View
+                    },
+                    title = "权限使用说明",
+                    showCancelButton = true,
+                    onConfirm = {
+                        dismissTrigger() // 关闭弹窗 View
+                        onConfirm()      // 通知 XXPermissions 继续
+                    },
+                    onCancel = {
+                        dismissTrigger() // 关闭弹窗 View
+                    }
+                ) {
+                    Text(message)
+                }
+
+            }
+        }
+
 
         override fun showPopup(activity: Activity, message: String) {
             showOverlay(activity) {
